@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.ifanr.android.tangzhi.ui.widgets.ScoreTextView
+        android:id="@+id/scoreTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <com.ifanr.android.tangzhi.ui.widgets.RatingBar
+        android:id="@+id/ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/scoreTv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        android:layout_marginStart="12dp"
+        app:ratingBarStarSize="8dp"
+        app:ratingBarStarGap="4dp"
+        />
+
+    <com.ifanr.android.tangzhi.ui.widgets.IndexesTextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@id/ratingbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/ratingbar"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="3dp"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcInformationIconView
+        android:textSize="9sp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/text"
+        app:layout_constraintLeft_toRightOf="@id/text"
+        android:layout_marginLeft="3dp"
+        />
+</merge>

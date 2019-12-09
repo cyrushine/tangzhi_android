@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+        android:id="@+id/bgFirst"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+        android:id="@+id/bgSecond"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bgFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+        android:id="@+id/bgThird"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bgSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+        android:id="@+id/bgFourth"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bgThird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+        android:id="@+id/bgFifth"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bgFourth"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+        app:layout_constraintTop_toTopOf="@id/bgFirst"
+        app:layout_constraintBottom_toBottomOf="@id/bgFirst"
+        app:layout_constraintLeft_toLeftOf="@id/bgFirst"
+        app:layout_constraintRight_toRightOf="@id/bgFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+        app:layout_constraintTop_toTopOf="@id/bgSecond"
+        app:layout_constraintBottom_toBottomOf="@id/bgSecond"
+        app:layout_constraintLeft_toLeftOf="@id/bgSecond"
+        app:layout_constraintRight_toRightOf="@id/bgSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+        app:layout_constraintTop_toTopOf="@id/bgThird"
+        app:layout_constraintBottom_toBottomOf="@id/bgThird"
+        app:layout_constraintLeft_toLeftOf="@id/bgThird"
+        app:layout_constraintRight_toRightOf="@id/bgThird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+        app:layout_constraintTop_toTopOf="@id/bgFourth"
+        app:layout_constraintBottom_toBottomOf="@id/bgFourth"
+        app:layout_constraintLeft_toLeftOf="@id/bgFourth"
+        app:layout_constraintRight_toRightOf="@id/bgFourth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+        app:layout_constraintTop_toTopOf="@id/bgFifth"
+        app:layout_constraintBottom_toBottomOf="@id/bgFifth"
+        app:layout_constraintLeft_toLeftOf="@id/bgFifth"
+        app:layout_constraintRight_toRightOf="@id/bgFifth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</merge>

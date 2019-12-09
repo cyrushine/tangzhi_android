@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/coverIV"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="12dp"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/coverIV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/coverIV"
+        android:layout_marginRight="8dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+
+    <ImageView
+        android:id="@+id/avatarIV"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/coverIV"
+        />
+
+    <TextView
+        android:id="@+id/authorTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#CCFFFFFF"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="@id/coverIV"
+        app:layout_constraintRight_toRightOf="@id/titleTv"
+        app:layout_constraintLeft_toRightOf="@id/avatarIV"
+        android:layout_marginStart="8dp"
+        />
+
+    <com.ifanr.android.tangzhi.ui.product.widgets.ProductTagsGroup
+        android:id="@+id/tagsGroup"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintLeft_toLeftOf="@id/titleTv"
+        app:layout_constraintRight_toRightOf="@id/titleTv"
+        app:layout_constraintBottom_toTopOf="@id/authorTv"
+        app:layout_constraintTop_toBottomOf="@id/titleTv"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1AFFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

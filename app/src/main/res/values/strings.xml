@@ -1,6 +1,14 @@
 <resources>
-    <string name="app_name">tangzhi</string>
+    <string name="app_name">糖纸</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="error_load_product">Oops!网络开小差了，请稍后再试</string>
+    <string name="follow">关注</string>
+    <string name="followed">已关注</string>
+    <string name="indexes">模范指数</string>
+    <string name="product_summary">产品简介</string>
+    <string name="product_param">产品参数</string>
+    <string name="product_posts">评测怎么看</string>
+    <string name="product_posts_total">全部文章 %d</string>
 </resources>

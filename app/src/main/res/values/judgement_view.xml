@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="JudgementView">
+        <attr name="judgementViewStyle" format="enum">
+            <enum name="APPROVE" value="0" />
+            <enum name="OPPOSE" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

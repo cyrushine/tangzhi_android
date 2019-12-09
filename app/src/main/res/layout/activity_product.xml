@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    tools:context=".ui.product.ProductActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ifanr.android.tangzhi.ui.product.CoverImageView
+            android:id="@+id/coverIV"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <com.ifanr.android.tangzhi.ui.product.widgets.FollowingView
+            android:id="@+id/following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/nameTv"
+            app:layout_constraintBottom_toBottomOf="@id/nameTv"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="20dp"
+            />
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/coverIV"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/following"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="30dp"
+            android:textStyle="bold"
+            android:textSize="28sp"
+            android:textColor="@color/white"
+            android:gravity="left"
+            android:breakStrategy="simple"
+            android:layout_marginTop="10dp"
+            />
+
+        <View
+            android:id="@+id/card_indexes"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            app:layout_constraintLeft_toLeftOf="@id/nameTv"
+            app:layout_constraintRight_toRightOf="@id/following"
+            app:layout_constraintTop_toBottomOf="@id/nameTv"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_product_indexes"
+            />
+
+        <com.ifanr.android.tangzhi.ui.product.widgets.IndexesView
+            android:id="@+id/indexes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/card_indexes"
+            app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+            app:layout_constraintLeft_toLeftOf="@id/card_indexes"
+            android:layout_marginLeft="16dp"
+            />
+
+        <com.ifanr.android.tangzhi.ui.widgets.JudgementView
+            android:id="@+id/oppose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:judgementViewStyle="OPPOSE"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@id/card_indexes"
+            app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+            app:layout_constraintRight_toRightOf="@id/card_indexes"
+            android:layout_marginEnd="16dp"
+            />
+
+        <com.ifanr.android.tangzhi.ui.widgets.JudgementView
+            android:id="@+id/approve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:judgementViewStyle="APPROVE"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@id/card_indexes"
+            app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+            app:layout_constraintRight_toLeftOf="@id/oppose"
+            android:layout_marginEnd="32dp"
+            />
+
+        <com.ifanr.android.tangzhi.ui.widgets.ProductSectionText
+            android:id="@+id/summarySection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/nameTv"
+            app:layout_constraintTop_toBottomOf="@id/card_indexes"
+            android:layout_marginTop="40dp"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:text="@string/product_summary"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/summaryTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/nameTv"
+            app:layout_constraintRight_toRightOf="@id/following"
+            app:layout_constraintTop_toBottomOf="@id/summarySection"
+            android:textSize="13sp"
+            android:textColor="#CCFFFFFF"
+            android:breakStrategy="simple"
+            android:maxLines="4"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.1"
+            android:layout_marginTop="16dp"
+            />
+
+        <com.ifanr.android.tangzhi.ui.product.widgets.ProductParameterView
+            android:id="@+id/card_parameter"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            app:layout_constraintLeft_toLeftOf="@id/nameTv"
+            app:layout_constraintRight_toRightOf="@id/following"
+            app:layout_constraintTop_toBottomOf="@id/summaryTv"
+            android:layout_marginTop="11dp"
+            />
+        
+        <com.ifanr.android.tangzhi.ui.product.posts.PostList
+            android:id="@+id/posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/card_parameter"
+            app:layout_constraintLeft_toLeftOf="@id/nameTv"
+            app:layout_constraintRight_toRightOf="@id/following"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
