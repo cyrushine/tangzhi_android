@@ -11,4 +11,10 @@
     <string name="product_param">产品参数</string>
     <string name="product_posts">评测怎么看</string>
     <string name="product_posts_total">全部文章 %d</string>
+    <string name="product_related_product">相关产品</string>
+    <string name="product_related_product_total">全部产品 %d</string>
+    <string name="product_related_product_more">查\n看\n更\n多</string>
+    <string name="product_list_count">全部 %d 个</string>
+    <string name="product_list_title">糖纸清单</string>
+    <string name="product_list_size">全部清单 %d</string>
 </resources>

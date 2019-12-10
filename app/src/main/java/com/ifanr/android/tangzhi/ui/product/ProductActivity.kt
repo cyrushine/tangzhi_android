@@ -49,6 +49,12 @@ class ProductActivity : BaseActivity() {
         viewModel.errorOnLoad.observe(this, Observer {
             toast(R.string.error_load_product)
         })
+        viewModel.relatedProducts.observe(this, Observer {
+            it?.also { relatedProductList.setData(it) }
+        })
+        viewModel.productList.observe(this, Observer {
+            productList.setProductLists(it)
+        })
         viewModel.load(productId)
     }
 

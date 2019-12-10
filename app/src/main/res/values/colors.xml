@@ -8,4 +8,7 @@
     <color name="golden_start">#FEAC2D</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="product_post_tag_bg">#1F000000</color>
+    <color name="following_view_border_color">#d7d7d7</color>
+    <color name="product_related_more_text">#B3FFFFFF</color>
+    <color name="product_related_more_bg">#1F000000</color>
 </resources>

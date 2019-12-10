@@ -9,6 +9,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.children
 import com.ifanr.android.tangzhi.R
 import com.ifanr.android.tangzhi.ext.dp2px
+import com.ifanr.android.tangzhi.ext.getColorCompat
+import com.ifanr.android.tangzhi.ui.widgets.CompleteRoundedRectDrawable
 import kotlin.math.max
 
 /**
@@ -73,12 +75,8 @@ class ProductTagsGroup: ViewGroup {
 
     fun setTags(tags: List<String>) {
         removeAllViews()
-        tags.map { Tag(
-            context
-        ).apply { text = it } }
-            .forEach {
-                addView(it)
-            }
+        tags.map { Tag(context).apply { text = it } }
+            .forEach { addView(it) }
     }
 
     class Tag: AppCompatTextView {
@@ -99,14 +97,12 @@ class ProductTagsGroup: ViewGroup {
 
         init {
             setTextColor(TEXT_COLOR)
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP,
-                TEXT_SIZE
-            )
-            setPadding(context.dp2px(PADDING[0]), context.dp2px(
-                PADDING[1]),
-                context.dp2px(PADDING[2]), context.dp2px(
-                    PADDING[3]))
-            setBackgroundResource(R.drawable.bg_product_tag)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE)
+            setPadding(context.dp2px(PADDING[0]), context.dp2px(PADDING[1]),
+                context.dp2px(PADDING[2]), context.dp2px(PADDING[3]))
+            background = CompleteRoundedRectDrawable().apply {
+                paint.color = context.getColorCompat(R.color.product_post_tag_bg)
+            }
         }
     }
 }

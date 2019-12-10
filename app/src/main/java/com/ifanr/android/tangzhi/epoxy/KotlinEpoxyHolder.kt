@@ -12,6 +12,7 @@ import kotlin.reflect.KProperty
  */
 abstract class KotlinEpoxyHolder : EpoxyHolder() {
     private lateinit var view: View
+    val ctx by lazy { view.context }
 
     override fun bindView(itemView: View) {
         view = itemView

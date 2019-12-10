@@ -1,6 +1,7 @@
 package com.ifanr.android.tangzhi.ui.product.widgets
 
 import android.content.Context
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ifanr.android.tangzhi.R
 import com.ifanr.android.tangzhi.ext.dp2px
+import com.ifanr.android.tangzhi.ext.getColorCompat
+import com.ifanr.android.tangzhi.ui.widgets.CompleteRoundedRectDrawable
 import kotlin.properties.Delegates
 
 /**
@@ -68,9 +71,12 @@ class FollowingView: ConstraintLayout {
         icon = findViewById(R.id.icon)
         followText = findViewById(R.id.followText)
         followedText = findViewById(R.id.followedText)
-        setBackgroundResource(R.drawable.bg_following_view)
-        state =
-            State.UN_FOLLOW
+        state = State.UN_FOLLOW
+        background = CompleteRoundedRectDrawable().apply {
+            paint.color = context.getColorCompat(R.color.following_view_border_color)
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = context.dp2px(1).toFloat()
+        }
     }
 
     @MainThread

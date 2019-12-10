@@ -11,7 +11,7 @@ import com.ifanr.android.tangzhi.epoxy.KotlinEpoxyHolder
 class LoadingModel: EpoxyModelWithView<View>() {
 
     companion object {
-        private val LAYOUT = R.layout.product_related_loading
+        private const val LAYOUT = R.layout.product_related_loading
     }
 
     override fun getViewType(): Int {
@@ -19,8 +19,7 @@ class LoadingModel: EpoxyModelWithView<View>() {
     }
 
     override fun buildView(parent: ViewGroup): View {
-        return LayoutInflater.from(parent.context)
-            .inflate(LAYOUT, parent, false)
+        return LayoutInflater.from(parent.context).inflate(LAYOUT, parent, false)
     }
 
 }

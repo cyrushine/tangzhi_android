@@ -3,8 +3,10 @@ package com.ifanr.android.tangzhi.ui.widgets
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.style.ReplacementSpan
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
@@ -14,6 +16,12 @@ import com.ifanr.android.tangzhi.ext.dp2px
  * 文本开头有个「竖线」
  */
 class ProductSectionText: AppCompatTextView {
+
+    private val filter = InputFilter { source, start, end, dest, dstart, dend ->
+        return@InputFilter SpannableStringBuilder()
+            .append(RectSpan.TEXT, RectSpan(context), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            .append(source, start, end)
+    }
 
     constructor(context: Context?) : super(context) { init() }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init() }
@@ -27,7 +35,10 @@ class ProductSectionText: AppCompatTextView {
         text = SpannableStringBuilder()
             .append(RectSpan.TEXT, RectSpan(context), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             .append(text)
+        filters = arrayOf(filter)
     }
+
+
 }
 
 /**

@@ -3,13 +3,14 @@ package com.ifanr.android.tangzhi.ui.base
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyRecyclerView
 
 /**
- * 把 [EpoxyRecyclerView] 当作 LinearLayout 使用
+ * 把 [EpoxyRecyclerView] 当作水平的 LinearLayout 使用
  * 这里做一些优化
  */
-abstract class BaseFlatEpoxyRecyclerView: EpoxyRecyclerView {
+open class FlatHorizontalEpoxyRV: EpoxyRecyclerView {
 
     constructor(context: Context) : super(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0)
@@ -24,7 +25,7 @@ abstract class BaseFlatEpoxyRecyclerView: EpoxyRecyclerView {
     }
 
     override fun createLayoutManager(): LayoutManager {
-        return FlatLinearLayoutManager(context)
+        return HorizontalLayoutManager(context)
     }
 
     override fun canScrollHorizontally(direction: Int): Boolean {
@@ -35,7 +36,7 @@ abstract class BaseFlatEpoxyRecyclerView: EpoxyRecyclerView {
         return false
     }
 
-    class FlatLinearLayoutManager: LinearLayoutManager {
+    class HorizontalLayoutManager: LinearLayoutManager {
 
         constructor(context: Context?) : super(context)
         constructor(context: Context?, orientation: Int, reverseLayout: Boolean) : super(
@@ -51,12 +52,16 @@ abstract class BaseFlatEpoxyRecyclerView: EpoxyRecyclerView {
             defStyleRes: Int
         ) : super(context, attrs, defStyleAttr, defStyleRes)
 
+        init {
+            orientation = RecyclerView.HORIZONTAL
+        }
+
         override fun canScrollVertically(): Boolean {
             return false
         }
 
         override fun canScrollHorizontally(): Boolean {
-            return false
+            return true
         }
     }
 }
