@@ -10,7 +10,7 @@ import com.airbnb.epoxy.EpoxyRecyclerView
  * 把 [EpoxyRecyclerView] 当作水平的 LinearLayout 使用
  * 这里做一些优化
  */
-open class FlatHorizontalEpoxyRV: EpoxyRecyclerView {
+open class FlatHorizontalEpoxyRV: AppEpoxyRV {
 
     constructor(context: Context) : super(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0)

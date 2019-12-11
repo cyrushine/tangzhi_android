@@ -9,19 +9,38 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ReplacementSpan
 import android.util.AttributeSet
+import android.util.Log
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
 import com.ifanr.android.tangzhi.ext.dp2px
 
 /**
  * 文本开头有个「竖线」
  */
-class ProductSectionText: AppCompatTextView {
+open class IndicatorTextView: AppCompatTextView {
 
-    private val filter = InputFilter { source, start, end, dest, dstart, dend ->
+    companion object {
+        private const val TAG = "ProductSectionText"
+    }
+
+    private val filter = InputFilter { source, start, end, _, _, _ ->
         return@InputFilter SpannableStringBuilder()
-            .append(RectSpan.TEXT, RectSpan(context), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            .append(RectSpan.TEXT, RectSpan(context, color = indicatorColor),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             .append(source, start, end)
     }
+
+    /**
+     * 更改指示器的颜色
+     */
+    var indicatorColor: Int? = null
+        set(value) {
+            field = value
+            (text as? Spanned)?.also { spanned ->
+                spanned.getSpans(0, spanned.length, RectSpan::class.java)?.forEach { it.color = value }
+            }
+        }
+
 
     constructor(context: Context?) : super(context) { init() }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init() }
@@ -33,7 +52,8 @@ class ProductSectionText: AppCompatTextView {
 
     private fun init() {
         text = SpannableStringBuilder()
-            .append(RectSpan.TEXT, RectSpan(context), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            .append(RectSpan.TEXT, RectSpan(context, color = indicatorColor),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             .append(text)
         filters = arrayOf(filter)
     }
@@ -44,7 +64,10 @@ class ProductSectionText: AppCompatTextView {
 /**
  * 绘制一个矩形
  */
-private class RectSpan(ctx: Context): ReplacementSpan() {
+private class RectSpan(
+    ctx: Context,
+    @ColorInt var color: Int? = null
+): ReplacementSpan() {
 
     companion object {
         const val TEXT = "RectSpan"
@@ -77,6 +100,7 @@ private class RectSpan(ctx: Context): ReplacementSpan() {
         val fm = paint.fontMetrics
         val ascent = fm.ascent + y
         val descent = fm.descent + y
-        canvas.drawRect(x, ascent, rectWidth.toFloat(), descent, paint)
+        val p = color?.let { Paint(paint).apply { color = it } } ?: paint
+        canvas.drawRect(x, ascent, rectWidth.toFloat(), descent, p)
     }
 }

@@ -17,4 +17,9 @@
     <string name="product_list_count">全部 %d 个</string>
     <string name="product_list_title">糖纸清单</string>
     <string name="product_list_size">全部清单 %d</string>
+    <string name="proodict_indexes_dialog_title">糖纸模范指数详情</string>
+    <string name="proodict_indexes_dialog_rule">模范指数=用户评分*0.5+机构评分*0.5</string>
+    <string name="proodict_indexes_dialog_user">用户评分</string>
+    <string name="proodict_indexes_dialog_org">机构评分</string>
+    <string name="proodict_indexes_dialog_third_party">其他评分</string>
 </resources>

@@ -11,4 +11,8 @@
     <color name="following_view_border_color">#d7d7d7</color>
     <color name="product_related_more_text">#B3FFFFFF</color>
     <color name="product_related_more_bg">#1F000000</color>
+    <color name="base_d8">#D8D8D8</color>
+    <color name="base_12">#121212</color>
+    <color name="base_3a">#3A3A3A</color>
+    <color name="base_f9">#F9F9F9</color>
 </resources>

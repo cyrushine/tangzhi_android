@@ -1,10 +1,13 @@
 package com.ifanr.android.tangzhi.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.annotation.ColorInt
 import com.google.gson.JsonObject
 import com.ifanr.android.tangzhi.Const
 import com.ifanr.android.tangzhi.ext.*
 import com.minapp.android.sdk.database.Record
+import com.minapp.android.sdk.database.Table
 import java.math.RoundingMode
 import java.text.NumberFormat
 
@@ -13,9 +16,11 @@ import java.text.NumberFormat
  */
 class Product: Record {
 
-    constructor(base: Record): super(base._getTable(), base._getJson())
+    constructor(record: Record) : super(record._getTable(), record._getJson())
+    constructor() : super()
 
     companion object {
+
         const val TYPE_HARDWARE = "hardware"    // 硬件
         const val TYPE_FEATURE = "feature"      // 专题
 
@@ -77,25 +82,22 @@ class Product: Record {
     /**
      * 名称，eg："Home Pod"
      */
-    var name: String?
-        get() = getString(COL_NAME)
-        set(value) { put(COL_NAME, value) }
+    val name: String
+        get() = getString(COL_NAME) ?: ""
 
     /**
      * 类型，eg："hardware"
      * @see TYPE_FEATURE
      * @see TYPE_HARDWARE
      */
-    var type: String?
+    val type: String?
         get() = getString(COL_TYPE)
-        set(value) { put(COL_TYPE, value) }
 
     /**
      * 分类，eg：["苹果", "音响"]
      */
-    var category: List<String>?
-        get() = getArray(COL_CATEGORY, String::class.java)
-        set(value) { put(COL_CATEGORY, value) }
+    val category: List<String>
+        get() = getArray(COL_CATEGORY, String::class.java) ?: emptyList()
 
     /**
      * 标签（有延迟，5 min 更新一次），eg：
@@ -105,30 +107,26 @@ class Product: Record {
      *   }
      * ]
      */
-    var tag: List<JsonObject>?
-        get() = getArray(COL_TAG, JsonObject::class.java)
-        set(value) { put(COL_TAG, value) }
+    val tag: List<JsonObject>
+        get() = getArray(COL_TAG, JsonObject::class.java) ?: emptyList()
 
     /**
      * 产品主图，eg："https://ifanr.com/logo.jpg"
      */
-    var coverImage: String?
+    val coverImage: String?
         get() = getString(COL_COVER_IMAGE)
-        set(value) { put(COL_COVER_IMAGE, value) }
 
     /**
      * 产品图标（指产品的无背景抠图），eg："https://ifanr.com/logo.jpg"
      */
-    var icon: String?
+    val icon: String?
         get() = getString(COL_ICON)
-        set(value) { put(COL_ICON, value) }
 
     /**
      * 产品图片列表，eg：["https://ifanr.com/logo.jpg", "https://ifanr.com/logo.jpg"]
      */
-    var image: List<String>?
-        get() = getArray(COL_IMAGE, String::class.java)
-        set(value) { put(COL_IMAGE, value) }
+    val image: List<String>
+        get() = getArray(COL_IMAGE, String::class.java) ?: emptyList()
 
     /**
      * 编辑从用户评论中选取的照片，eg：
@@ -141,23 +139,20 @@ class Product: Record {
      *   }
      * ]
      */
-    var recommendedImage: List<JsonObject>?
-        get() = getArray(COL_RECOMMENDED_IMAGE, JsonObject::class.java)
-        set(value) { put(COL_RECOMMENDED_IMAGE, value) }
+    val recommendedImage: List<JsonObject>
+        get() = getArray(COL_RECOMMENDED_IMAGE, JsonObject::class.java) ?: emptyList()
 
     /**
      * 一句话简介，eg："你的手机能拍月亮吗？"
      */
-    var brief: String?
+    val brief: String?
         get() = getString(COL_BRIEF)
-        set(value) { put(COL_BRIEF, value) }
 
     /**
      * 产品描述，eg："这里是产品的描述"
      */
-    var description: String?
+    val description: String?
         get() = getString(COL_DESCRIPTION)
-        set(value) { put(COL_DESCRIPTION, value) }
 
     /**
      * 状态
@@ -166,103 +161,92 @@ class Product: Record {
      * @see STATUS_DRAFT
      * @see STATUS_DELETED
      */
-    var status: String?
+    val status: String?
         get() = getString(COL_STATUS)
-        set(value) { put(COL_STATUS, value) }
 
     /**
      * 关注人数，eg：129099
      */
-    var followerCount: Long?
-        get() = getLong(COL_FOLLOWER_COUNT)
-        set(value) { put(COL_FOLLOWER_COUNT, value) }
+    val followerCount: Long
+        get() = getLong(COL_FOLLOWER_COUNT) ?: 0L
 
 
     /**
      * 关注人数偏置值，eg：1000
      */
-    var followerCountOffset: Long?
-        get() = getLong(COL_FOLLOWER_COUNT_OFFSET)
-        set(value) { put(COL_FOLLOWER_COUNT_OFFSET, value) }
+    val followerCountOffset: Long?
+        get() = getLong(COL_FOLLOWER_COUNT_OFFSET) ?: 0L
 
 
     /**
      * 解锁条件（关注人数达到解锁条件则安排产品上线），eg：1000
      */
-    var condition: Long?
-        get() = getLong(COL_CONDITION)
-        set(value) { put(COL_CONDITION, value) }
+    val condition: Long
+        get() = getLong(COL_CONDITION) ?: 0L
 
 
     /**
      * 关联文章的数量，eg：1
      */
-    var postCount: Long
+    val postCount: Long
         get() = getLong(COL_POST_COUNT) ?: 0L
-        set(value) { put(COL_POST_COUNT, value) }
 
 
     /**
      * 点评数量
      */
-    var reviewCount: Long?
-        get() = getLong(COL_REVIEW_COUNT)
-        set(value) { put(COL_REVIEW_COUNT, value) }
+    val reviewCount: Long
+        get() = getLong(COL_REVIEW_COUNT) ?: 0L
 
 
     /**
      * 提问数
      */
-    var questionCount: Long?
-        get() = getLong(COL_QUESTION_COUNT)
-        set(value) { put(COL_QUESTION_COUNT, value) }
+    val questionCount: Long
+        get() = getLong(COL_QUESTION_COUNT) ?: 0L
 
 
     /**
      * 回答数
      */
-    var answerCount: Long?
-        get() = getLong(COL_ANSWER_COUNT)
-        set(value) { put(COL_ANSWER_COUNT, value) }
+    val answerCount: Long
+        get() = getLong(COL_ANSWER_COUNT) ?: 0L
 
 
     /**
      * 固定位置，例如： 1 代表在产品列表中，该产品的位置恒定固定在第 1 位
      */
-    var displayPosition: Long?
+    val displayPosition: Long?
         get() = getLong(COL_DISPLAY_POSITION)
-        set(value) { put(COL_DISPLAY_POSITION, value) }
 
 
     /**
      * 评分
      */
-    var rating: Float
+    val rating: Float
         get() = getFloat(COL_RATING) ?: 0f
-        set(value) { put(COL_RATING, value) }
 
 
     /**
      * 机构评分
      */
-    val orgRating: List<ThirdPartyRating>?
+    val orgRating: List<ThirdPartyRating>
         get() = getArray(COL_ORG_RATING, JsonObject::class.java)?.map { ThirdPartyRating(it) }
+            ?: emptyList()
 
 
     /**
      * 用户评分
      */
-    var userRating: Long?
-        get() = getLong(COL_USER_RATING)
-        set(value) { put(COL_USER_RATING, value) }
+    val userRating: Float
+        get() = getFloat(COL_USER_RATING) ?: 0f
 
 
     /**
      * 产品主题颜色，用作前端显示时，界面背景色，eg："#456744"
      */
-    var theme: String?
+    val theme: String?
         get() = getString(COL_THEME)
-        set(value) { put(COL_THEME, value) }
 
     /**
      * 转化成 int 的主题颜色
@@ -275,49 +259,43 @@ class Product: Record {
      * 最近参与者的头像，最大长度为 5，eg：
      * ["https://ifanr.com/logo.jpg", "https://ifanr.com/logo.jpg"]
      */
-    var participant: List<String>?
-        get() = getArray(COL_PARTICIPANT, String::class.java)
-        set(value) { put(COL_PARTICIPANT, value) }
+    val participant: List<String>
+        get() = getArray(COL_PARTICIPANT, String::class.java) ?: emptyList()
 
 
     /**
      * 历史参与人数
      */
-    var participantCount: Long?
-        get() = getLong(COL_PARTICIPANT_COUNT)
-        set(value) { put(COL_PARTICIPANT_COUNT, value) }
+    val participantCount: Long
+        get() = getLong(COL_PARTICIPANT_COUNT) ?: 0L
 
 
     /**
      * 最近参与者的 id，eg：[32268035, 32268036]
      */
-    var participantId: List<Long>?
-        get() = getArray(COL_PARTICIPANT_ID, Long::class.java)
-        set(value) { put(COL_PARTICIPANT_ID, value) }
+    val participantId: List<Long>
+        get() = getArray(COL_PARTICIPANT_ID, Long::class.java) ?: emptyList()
 
 
     /**
      * 是否已发送产品发布通知（注意：默认是已发送的）
      */
-    var notified: Boolean?
+    val notified: Boolean?
         get() = getBoolean(COL_NOTIFIED)
-        set(value) { put(COL_NOTIFIED, value) }
 
 
     /**
      * 是否需要重新计算产品的分数
      */
-    var ratingNeedUpdate: Boolean?
+    val ratingNeedUpdate: Boolean?
         get() = getBoolean(COL_RATING_NEED_UPDATE)
-        set(value) { put(COL_RATING_NEED_UPDATE, value) }
 
 
     /**
      * 产品发布时间，可不填，表示发布时间未知，eg：1566715331
      */
-    var releasedAt: Long?
+    val releasedAt: Long?
         get() = getLong(COL_RELEASED_AT)
-        set(value) { put(COL_RELEASED_AT, value) }
 
 
     /**
@@ -325,78 +303,73 @@ class Product: Record {
      * true : 发布时间已确定，前端展示具体的发布日期
      * false：发布时间未确定，前端展示上旬、中旬、下旬等形式
      */
-    var releasedConfirmed: Boolean?
+    val releasedConfirmed: Boolean?
         get() = getBoolean(COL_RELEASED_COONFIRMED)
-        set(value) { put(COL_RELEASED_COONFIRMED, value) }
 
 
     /**
      * 产品优先级，数字越大，优先级越高，目前用于新品的排序
      */
-    var priority: Long?
-        get() = getLong(COL_PRIORITY)
-        set(value) { put(COL_PRIORITY, value) }
+    val priority: Long
+        get() = getLong(COL_PRIORITY) ?: 0L
 
 
     /**
      * 产品的基础参数 ID
      */
-    var paramId: Long?
+    val paramId: Long?
         get() = getLong(COL_PARAM_ID)
-        set(value) { put(COL_PARAM_ID, value) }
 
 
     /**
      * 表示产品的参数是否被抓取过
      */
-    var paramCrawled: Boolean?
+    val paramCrawled: Boolean?
         get() = getBoolean(COL_PARAM_CRAWLED)
-        set(value) { put(COL_PARAM_CRAWLED, value) }
 
 
     /**
      * 基础参数是否可见
      */
-    var paramVisible: Boolean?
+    val paramVisible: Boolean?
         get() = getBoolean(COL_PARAM_VISIBLE)
-        set(value) { put(COL_PARAM_VISIBLE, value) }
 
 
     /**
      * 亮点参数
      */
-    var highlightParam: List<HighlightParam>?
+    val highlightParam: List<HighlightParam>
         get() = getArray(COL_HIGHLIGHT_PARAM, JsonObject::class.java)?.map { HighlightParam(it) }
-        set(value) { put(COL_HIGHLIGHT_PARAM, value) }
+            ?: emptyList()
 
 
     /**
      * 亮点参数是否可见
      */
-    var highlightParamVisible: Boolean?
+    val highlightParamVisible: Boolean?
         get() = getBoolean(COL_HIGHLIGHT_PARAM_VISIBLE)
-        set(value) { put(COL_HIGHLIGHT_PARAM_VISIBLE, value) }
 
 
     /**
      * 讨论数量
      */
-    var discussionCount: Long?
-        get() = getLong(COL_DISCUSSION_COUNT)
-        set(value) { put(COL_DISCUSSION_COUNT, value) }
+    val discussionCount: Long
+        get() = getLong(COL_DISCUSSION_COUNT) ?: 0L
 
 
     /**
      * 第三方评分，第三方评分不计入模范指数，只做前端展示
      */
-    val thirdPartyRating: List<ThirdPartyRating>?
+    val thirdPartyRating: List<ThirdPartyRating>
         get() = getArray(COL_THIRD_PARTY_RATING, JsonObject::class.java)?.map { ThirdPartyRating(it) }
+            ?: emptyList()
 
     /**
      * 缓存主站的文章摘要信息，用于小程序首页精选产品列表关联文章卡片的显示
      */
-    val cachedPost: List<CachedPost>?
+    val cachedPost: List<CachedPost>
         get() = getArray(COL_CACHED_POST, JsonObject::class.java)?.map { CachedPost(it) }
+            ?: emptyList()
 
     /**
      * 同类产品，用于产品详情页推荐产品的相关产品，eg：
@@ -413,14 +386,14 @@ class Product: Record {
         /**
          * 机构名称
          */
-        val name: String?
-            get() = data.getAsString("name")
+        val name: String
+            get() = data.getAsString("name") ?: ""
 
         /**
          * 机构打分
          */
-        val rating: Float?
-            get() = data.getAsFloat("rating")
+        val rating: Float
+            get() = data.getAsFloat("rating") ?: 0f
     }
 
     class HighlightParam (
@@ -430,14 +403,14 @@ class Product: Record {
         /**
          * 参数名称
          */
-        val key: String?
-            get() = data.getAsString("key")
+        val key: String
+            get() = data.getAsString("key") ?: ""
 
         /**
          * 参数值描述
          */
-        val value: String?
-            get() = data.getAsString("value")
+        val value: String
+            get() = data.getAsString("value") ?: ""
     }
 
     class CachedPost (

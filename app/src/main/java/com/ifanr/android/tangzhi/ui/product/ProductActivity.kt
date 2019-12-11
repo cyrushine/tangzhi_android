@@ -18,6 +18,7 @@ import com.ifanr.android.tangzhi.ext.*
 import com.ifanr.android.tangzhi.model.Product
 import com.ifanr.android.tangzhi.repository.product.ProductRepository
 import com.ifanr.android.tangzhi.ui.base.BaseActivity
+import com.ifanr.android.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.android.tangzhi.ui.product.posts.PostController
 import com.ifanr.android.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_product.*
@@ -47,6 +48,7 @@ class ProductActivity : BaseActivity() {
             it?.also { invalidate(it) }
         })
         viewModel.errorOnLoad.observe(this, Observer {
+            Log.e(TAG, it.message, it)
             toast(R.string.error_load_product)
         })
         viewModel.relatedProducts.observe(this, Observer {
@@ -66,9 +68,13 @@ class ProductActivity : BaseActivity() {
         following.setOnClickListener { following.toggleState() }
         nameTv.text = product.name
 
-        indexes.setScore(product.rating ?: 0f)
+        indexes.setScore(product.rating)
         summaryTv.text = product.description
 
-        posts.setPosts(product.cachedPost ?: emptyList(), product.postCount)
+        posts.setPosts(product.cachedPost, product.postCount)
+
+        indexes.setOnClickListener {
+            IndexesDialogFragment.show(product, supportFragmentManager)
+        }
     }
 }
