@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcLeftArrowGrey
+    <com.ifanr.android.tangzhi.ui.icons.IcRightArrowGrey
         android:id="@+id/leftArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

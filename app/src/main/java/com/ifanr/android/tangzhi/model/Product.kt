@@ -317,8 +317,8 @@ class Product: Record {
     /**
      * 产品的基础参数 ID
      */
-    val paramId: Long?
-        get() = getLong(COL_PARAM_ID)
+    val paramId: String
+        get() = getString(COL_PARAM_ID) ?: ""
 
 
     /**
@@ -331,8 +331,8 @@ class Product: Record {
     /**
      * 基础参数是否可见
      */
-    val paramVisible: Boolean?
-        get() = getBoolean(COL_PARAM_VISIBLE)
+    val paramVisible: Boolean
+        get() = getBoolean(COL_PARAM_VISIBLE) == true
 
 
     /**
@@ -346,8 +346,8 @@ class Product: Record {
     /**
      * 亮点参数是否可见
      */
-    val highlightParamVisible: Boolean?
-        get() = getBoolean(COL_HIGHLIGHT_PARAM_VISIBLE)
+    val highlightParamVisible: Boolean
+        get() = getBoolean(COL_HIGHLIGHT_PARAM_VISIBLE) == true
 
 
     /**

@@ -4,11 +4,17 @@ import android.app.LauncherActivity
 import com.ifanr.android.tangzhi.ui.LaunchActivity
 import com.ifanr.android.tangzhi.ui.product.ProductActivity
 import com.ifanr.android.tangzhi.ui.product.ProductModule
+import com.ifanr.android.tangzhi.ui.productparam.ProductParamActivity
+import com.ifanr.android.tangzhi.ui.productparam.ProductParamModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [ProductParamModule::class])
+    abstract fun productParamActivity(): ProductParamActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [ProductModule::class])

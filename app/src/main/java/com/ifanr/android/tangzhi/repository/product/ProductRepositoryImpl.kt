@@ -5,8 +5,10 @@ import com.ifanr.android.tangzhi.ext.query
 import com.ifanr.android.tangzhi.ext.setPageInfo
 import com.ifanr.android.tangzhi.model.Product
 import com.ifanr.android.tangzhi.model.ProductList
+import com.ifanr.android.tangzhi.model.ProductParams
 import com.ifanr.android.tangzhi.repository.itemList
 import com.ifanr.android.tangzhi.repository.product
+import com.ifanr.android.tangzhi.repository.productParam
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.Table
 import com.minapp.android.sdk.database.query.Query
@@ -29,4 +31,7 @@ class ProductRepositoryImpl @Inject constructor(): ProductRepository {
         page,
         pageSize,
         ProductList::class.java)
+
+    override fun getProductParamsById(paramId: String): Single<ProductParams> =
+        productParam.getById(paramId, ProductParams::class.java)
 }

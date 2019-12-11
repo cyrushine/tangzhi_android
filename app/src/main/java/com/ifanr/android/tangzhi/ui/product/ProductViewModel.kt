@@ -56,6 +56,10 @@ class ProductViewModel @Inject constructor (
      */
     val productList = MutableLiveData<PagedList<ProductList>>()
 
+    val paramVisiable: LiveData<Boolean> = Transformations.map(product) { product ->
+        product.highlightParamVisible || product.paramVisible
+    }
+
     init {
         product.observeForever {
             val id = it.id

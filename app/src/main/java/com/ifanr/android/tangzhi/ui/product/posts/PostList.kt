@@ -25,6 +25,6 @@ class PostList: FlatVerticalEpoxyRV {
     }
 
     fun setPosts(posts: List<Product.CachedPost>, total: Long) {
-        controller.setPosts(posts, total)
+        controller.setPosts(posts.take(5), total)
     }
 }

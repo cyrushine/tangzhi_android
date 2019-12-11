@@ -6,4 +6,7 @@ object Routes {
 
     const val product = "/$DEFAULT_GROUP/product"
     const val productId = "product_id"                  // id, String
+
+    const val productParam = "/$DEFAULT_GROUP/product_param"
+    const val productParamId = "product_id"             // product id, String
 }

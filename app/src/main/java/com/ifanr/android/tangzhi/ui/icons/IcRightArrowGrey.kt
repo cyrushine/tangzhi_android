@@ -9,7 +9,7 @@ import com.ifanr.android.tangzhi.R
 /**
  * 灰色的右箭头➡️
  */
-class IcLeftArrowGrey: IconView {
+class IcRightArrowGrey: IconView {
 
     companion object {
         private val GREY = Color.rgb(216, 216, 216)

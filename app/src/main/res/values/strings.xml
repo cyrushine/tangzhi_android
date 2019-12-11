@@ -22,4 +22,6 @@
     <string name="proodict_indexes_dialog_user">用户评分</string>
     <string name="proodict_indexes_dialog_org">机构评分</string>
     <string name="proodict_indexes_dialog_third_party">其他评分</string>
+    <string name="product_param_highlight">亮点参数</string>
+    <string name="product_param_all">全部参数</string>
 </resources>

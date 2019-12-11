@@ -29,7 +29,7 @@ class LaunchActivity : BaseActivity() {
             .autoDispose(this)
             .subscribe {
                 ARouter.getInstance().build(Routes.product)
-                    .withString(Routes.productId, "5cac48ce2691bb27f7fd5869")
+                    .withString(Routes.productId, "5d5520dffb8b2726cdfafe89")
                     .navigation(this)
             }
     }

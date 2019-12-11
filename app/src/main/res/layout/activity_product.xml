@@ -121,7 +121,7 @@
             />
 
         <com.ifanr.android.tangzhi.ui.product.widgets.ProductParameterView
-            android:id="@+id/card_parameter"
+            android:id="@+id/productParam"
             android:layout_width="0dp"
             android:layout_height="44dp"
             app:layout_constraintLeft_toLeftOf="@id/nameTv"
@@ -134,7 +134,7 @@
             android:id="@+id/posts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/card_parameter"
+            app:layout_constraintTop_toBottomOf="@id/productParam"
             app:layout_constraintLeft_toLeftOf="@id/nameTv"
             app:layout_constraintRight_toRightOf="@id/following"
             />
