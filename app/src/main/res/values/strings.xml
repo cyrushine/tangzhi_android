@@ -24,4 +24,10 @@
     <string name="proodict_indexes_dialog_third_party">其他评分</string>
     <string name="product_param_highlight">亮点参数</string>
     <string name="product_param_all">全部参数</string>
+    <string name="slogon">- 糖纸，好产品说明书 -</string>
+    <string name="post_list_count">共 %d 篇文章</string>
+    <string name="post_list_title">全部文章</string>
+    <string name="related_products_title">相关产品</string>
+    <string name="related_products_count">共 %d 个产品</string>
+    <string name="related_products_info">%d 篇文章 · %d 条点评 </string>
 </resources>

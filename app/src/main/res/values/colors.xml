@@ -19,5 +19,7 @@
     <color name="black">#000000</color>
     <color name="base_red">#F13B03</color>
     <color name="base_a8">#A8A8A8</color>
+    <color name="base_7d">#7D7D7D</color>
+    <color name="base_e7">#E7E7E7</color>
     <color name="product_param_border">#39393F</color>
 </resources>

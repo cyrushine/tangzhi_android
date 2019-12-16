@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+    <com.ifanr.tangzhi.ui.icons.IcStarFullGreyView
         android:id="@+id/bgFirst"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+    <com.ifanr.tangzhi.ui.icons.IcStarFullGreyView
         android:id="@+id/bgSecond"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+    <com.ifanr.tangzhi.ui.icons.IcStarFullGreyView
         android:id="@+id/bgThird"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+    <com.ifanr.tangzhi.ui.icons.IcStarFullGreyView
         android:id="@+id/bgFourth"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStarFullGreyView
+    <com.ifanr.tangzhi.ui.icons.IcStarFullGreyView
         android:id="@+id/bgFifth"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+    <com.ifanr.tangzhi.ui.icons.IcStartGoldenView
         app:layout_constraintTop_toTopOf="@id/bgFirst"
         app:layout_constraintBottom_toBottomOf="@id/bgFirst"
         app:layout_constraintLeft_toLeftOf="@id/bgFirst"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+    <com.ifanr.tangzhi.ui.icons.IcStartGoldenView
         app:layout_constraintTop_toTopOf="@id/bgSecond"
         app:layout_constraintBottom_toBottomOf="@id/bgSecond"
         app:layout_constraintLeft_toLeftOf="@id/bgSecond"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+    <com.ifanr.tangzhi.ui.icons.IcStartGoldenView
         app:layout_constraintTop_toTopOf="@id/bgThird"
         app:layout_constraintBottom_toBottomOf="@id/bgThird"
         app:layout_constraintLeft_toLeftOf="@id/bgThird"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+    <com.ifanr.tangzhi.ui.icons.IcStartGoldenView
         app:layout_constraintTop_toTopOf="@id/bgFourth"
         app:layout_constraintBottom_toBottomOf="@id/bgFourth"
         app:layout_constraintLeft_toLeftOf="@id/bgFourth"
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcStartGoldenView
+    <com.ifanr.tangzhi.ui.icons.IcStartGoldenView
         app:layout_constraintTop_toTopOf="@id/bgFifth"
         app:layout_constraintBottom_toBottomOf="@id/bgFifth"
         app:layout_constraintLeft_toLeftOf="@id/bgFifth"

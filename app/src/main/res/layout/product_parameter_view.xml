@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.product.widgets.ProductParameterText
+    <com.ifanr.tangzhi.ui.product.widgets.ProductParameterText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -11,7 +11,7 @@
         android:layout_marginStart="15dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcRightArrowGrey
+    <com.ifanr.tangzhi.ui.icons.IcRightArrowGrey
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

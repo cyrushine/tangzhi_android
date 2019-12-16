@@ -46,3 +46,10 @@
 -keep interface org.parceler.Parcel
 -keep @org.parceler.Parcel class * { *; }
 -keep class **$$Parcelable { *; }
+
+# 致趣广告 sdk 配置
+-keep class com.inad.** {*;}
+-dontwarn com.inad.**
+
+# 保留 Model
+-keep class com.ifanr.tangzhi.model.** { *; }

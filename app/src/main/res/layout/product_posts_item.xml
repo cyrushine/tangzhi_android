@@ -55,7 +55,7 @@
         android:layout_marginStart="8dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.product.widgets.ProductTagsGroup
+    <com.ifanr.tangzhi.ui.product.widgets.ProductTagsGroup
         android:id="@+id/tagsGroup"
         android:layout_width="0dp"
         android:layout_height="30dp"

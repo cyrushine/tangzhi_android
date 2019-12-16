@@ -9,14 +9,15 @@
     android:background="@color/black"
     tools:context=".ui.productparam.ProductParamActivity">
 
-    <com.ifanr.android.tangzhi.ui.widgets.Toolbar
+    <com.ifanr.tangzhi.ui.widgets.AppToolbar
         android:id="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:appToolbarStyle="BLACK"
         />
 
-    <com.ifanr.android.tangzhi.ui.productparam.widgets.ProductParamsList
+    <com.ifanr.tangzhi.ui.productparam.widgets.ProductParamsList
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"

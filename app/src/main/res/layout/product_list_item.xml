@@ -12,7 +12,7 @@
         app:layout_constraintGuide_percent="0.54"
         />
 
-    <com.ifanr.android.tangzhi.ui.widgets.StackImageView
+    <com.ifanr.tangzhi.ui.widgets.StackImageView
         android:id="@+id/coverIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:layout_marginEnd="5dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcRightArrowGrey
+    <com.ifanr.tangzhi.ui.icons.IcRightArrowGrey
         android:id="@+id/leftArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -32,7 +32,7 @@
         android:layout_marginTop="8dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.widgets.ScoreTextView
+    <com.ifanr.tangzhi.ui.widgets.ScoreTextView
         android:id="@+id/scoreTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <com.ifanr.android.tangzhi.ui.widgets.RatingBar
+    <com.ifanr.tangzhi.ui.widgets.RatingBar
         android:id="@+id/ratingbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

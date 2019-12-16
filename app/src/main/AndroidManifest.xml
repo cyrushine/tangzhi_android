@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ifanr.android.tangzhi">
+    package="com.ifanr.tangzhi">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.productparam.ProductParamActivity"></activity>
+        <activity android:name=".ui.relatedproducts.RelatedProductsActivity"></activity>
+        <activity android:name=".ui.postlist.PostListActivity" />
+        <activity android:name=".ui.browser.BrowserActivity" />
+        <activity android:name=".ui.productparam.ProductParamActivity" />
         <activity android:name=".ui.product.ProductActivity" />
         <activity android:name=".ui.LaunchActivity">
             <intent-filter>

@@ -24,17 +24,37 @@ android {
 
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.ifanr.android.tangzhi"
+        applicationId 'com.ifanr.tangzhi'
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            def prop = new Properties();
+            prop.load(new FileInputStream(file("keystore.properties")))
+            keyAlias prop['KEY_ALIAS']
+            keyPassword prop['KEY_PASSWORD']
+            storeFile file(prop['KEYSTORE_FILE'])
+            storePassword prop['KEYSTORE_PASSWORD']
+            v2SigningEnabled true
+            v1SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
 }

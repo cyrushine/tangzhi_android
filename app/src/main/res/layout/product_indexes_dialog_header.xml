@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.product.indexes.IndexesBox
+    <com.ifanr.tangzhi.ui.product.indexes.IndexesBox
         android:id="@+id/score"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/coverIv"
+        android:layout_width="106dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_3a"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/coverIv"
+        android:layout_marginEnd="12dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        android:lineSpacingMultiplier="1.1"
+        />
+
+    <TextView
+        android:id="@+id/authorTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_a8"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="@id/titleTv"
+        app:layout_constraintRight_toRightOf="@id/titleTv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.widgets.IndexesTextView
+    <com.ifanr.tangzhi.ui.widgets.IndexesTextView
         android:id="@+id/indexesTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         />
 
-    <com.ifanr.android.tangzhi.ui.widgets.ScoreTextView
+    <com.ifanr.tangzhi.ui.widgets.ScoreTextView
         android:id="@+id/scoreTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.widgets.RatingBar
+    <com.ifanr.tangzhi.ui.widgets.RatingBar
         android:id="@+id/ratingbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

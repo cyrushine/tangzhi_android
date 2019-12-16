@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppToolbar">
+        <attr name="appToolbarStyle" format="enum">
+            <enum name="WHITE" value="0" />
+            <enum name="BLACK" value="1" />
+        </attr>
+        <attr name="appToolbarTitle" format="string" />
+    </declare-styleable>
+</resources>

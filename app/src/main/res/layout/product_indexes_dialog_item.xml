@@ -9,7 +9,7 @@
     android:layout_marginBottom="4dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.widgets.ScoreTextView
+    <com.ifanr.tangzhi.ui.widgets.ScoreTextView
         android:id="@+id/scoreTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

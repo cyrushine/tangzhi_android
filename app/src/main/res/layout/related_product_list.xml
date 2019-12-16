@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <com.ifanr.android.tangzhi.ui.product.widgets.SectionHeaderView
+    <com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_marginStart="20dp"
         />
 
-    <com.ifanr.android.tangzhi.ui.base.FlatHorizontalEpoxyRV
+    <com.ifanr.tangzhi.ui.base.FlatHorizontalEpoxyRV
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

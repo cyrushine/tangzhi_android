@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.android.tangzhi.ui.base.AppEpoxyRV
+    <com.ifanr.tangzhi.ui.base.AppEpoxyRV
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,7 +17,7 @@
         android:background="@drawable/dialog_product_indexes_list_bg"
         />
 
-    <com.ifanr.android.tangzhi.ui.icons.IcCloseBtn
+    <com.ifanr.tangzhi.ui.icons.IcCloseBtn
         android:id="@+id/close"
         android:textSize="36dp"
         android:textColor="@color/white"
