@@ -56,7 +56,7 @@ class ProductActivity : BaseActivity() {
             it?.also { relatedProductList.setData(it) }
         })
         vm.productList.observe(this, Observer {
-            productList.setProductLists(it)
+            productList.setProductLists(productId, it)
         })
         vm.paramVisiable.observe(this, Observer {
             productParam.visibility = if (it == true) View.VISIBLE else View.GONE

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideBuilder
 import com.ifanr.tangzhi.di.DaggerAppComponent
 import com.ifanr.tangzhi.glide.RoundedBitmapDrawableTranscoder
 import com.minapp.android.sdk.BaaS

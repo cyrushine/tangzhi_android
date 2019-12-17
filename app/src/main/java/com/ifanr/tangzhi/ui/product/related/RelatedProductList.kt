@@ -22,7 +22,6 @@ class RelatedProductList: ConstraintLayout {
     private val list: EpoxyRecyclerView
     private val controller = RelatedProductController()
     private var productId: String = ""
-    private val disposable: Disposable
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -38,7 +37,7 @@ class RelatedProductList: ConstraintLayout {
         list = findViewById(R.id.list)
         list.setController(controller)
         list.addItemDecoration(Decoration())
-        disposable = header.observable.subscribe {
+        header.hotspot.setOnClickListener {
             ARouter.getInstance().build(Routes.relatedProducts)
                 .withString(Routes.relatedProductId, productId)
                 .navigation(context)

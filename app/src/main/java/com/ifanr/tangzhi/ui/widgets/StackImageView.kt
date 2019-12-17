@@ -13,7 +13,7 @@ import com.ifanr.tangzhi.R
 class StackImageView: ConstraintLayout {
 
     val coverIv: ImageView
-    private val bgIv: ImageView
+    val bgIv: ImageView
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

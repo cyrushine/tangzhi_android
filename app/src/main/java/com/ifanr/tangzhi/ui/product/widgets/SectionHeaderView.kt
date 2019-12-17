@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
@@ -24,11 +25,7 @@ class SectionHeaderView: ConstraintLayout {
 
     private val titleTv: TextView
     private val countTv: TextView
-    private val hotspot: View
-
-    private val subject = BehaviorSubject.create<Event>()
-    val observable: Observable<Event>
-        get() = subject
+    val hotspot: View
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -44,7 +41,6 @@ class SectionHeaderView: ConstraintLayout {
         titleTv = findViewById(R.id.titleTv)
         countTv = findViewById(R.id.totalTv)
         hotspot = findViewById(R.id.hotspot)
-        hotspot.setOnClickListener { subject.onNext(Event.OnCountClick) }
     }
 
     @TextProp
@@ -57,23 +53,14 @@ class SectionHeaderView: ConstraintLayout {
         countTv.text = count
     }
 
-    sealed class Event {
-        object OnCountClick: Event()
-    }
-
 }
 
 abstract class SectionHeaderModel<T: View>: EpoxyModel<T>() {
 
-    val observable: Observable<SectionHeaderView.Event>
-        get() = subject
-
-    private val subject =
-        BehaviorSubject.create<SectionHeaderView.Event>()
-    private var disposable: Disposable? = null
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
+    lateinit var listener: View.OnClickListener
 
     override fun bind(view: T) {
-        disposable?.dispose()
-        disposable = (view as? SectionHeaderView)?.observable?.subscribe { subject.onNext(it) }
+        (view as? SectionHeaderView)?.hotspot?.setOnClickListener(listener)
     }
 }

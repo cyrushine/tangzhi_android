@@ -22,4 +22,6 @@
     <color name="base_7d">#7D7D7D</color>
     <color name="base_e7">#E7E7E7</color>
     <color name="product_param_border">#39393F</color>
+    <color name="product_product_list_divider">#1AFFFFFF</color>
+    <color name="product_list_divider">#F4F4F4</color>
 </resources>

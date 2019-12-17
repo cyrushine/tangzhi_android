@@ -7,6 +7,8 @@ import com.ifanr.tangzhi.ui.postlist.PostListActivity
 import com.ifanr.tangzhi.ui.postlist.PostListModule
 import com.ifanr.tangzhi.ui.product.ProductActivity
 import com.ifanr.tangzhi.ui.product.ProductModule
+import com.ifanr.tangzhi.ui.productlist.ProductListActivity
+import com.ifanr.tangzhi.ui.productlist.ProductListModule
 import com.ifanr.tangzhi.ui.productparam.ProductParamActivity
 import com.ifanr.tangzhi.ui.productparam.ProductParamModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsActivity
@@ -17,6 +19,10 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [ProductListModule::class])
+    abstract fun productListActivity(): ProductListActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [RelatedProductsModule::class])

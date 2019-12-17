@@ -34,6 +34,12 @@ fun <T> Table.getByIds(ids: List<String>, clz: Class<T>): Single<List<T>> = Sing
 }
 
 fun <T> Table.query(
+    query: Query,
+    clz: Class<T>
+): Single<PagedList<T>> =
+    Single.fromCallable { query(query).transform { findExplicitConstructor(clz).newInstance(it) } }
+
+fun <T> Table.query(
     where: Where,
     page: Int = 0,
     pageSize: Int = Const.PAGE_SIZE,

@@ -4,6 +4,9 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val productList = "/$DEFAULT_GROUP/product_list"
+    const val productListProductId = "product_id"       // id, String
+
     const val relatedProducts = "/$DEFAULT_GROUP/related_products"
     const val relatedProductId = "product_id"           // id, String
 

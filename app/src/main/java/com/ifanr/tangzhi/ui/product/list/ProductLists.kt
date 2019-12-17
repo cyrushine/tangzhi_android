@@ -2,13 +2,23 @@ package com.ifanr.tangzhi.ui.product.list
 
 import android.content.Context
 import android.util.AttributeSet
+import com.airbnb.epoxy.OnModelClickListener
+import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.ui.base.FlatVerticalEpoxyRV
 import com.minapp.android.sdk.util.PagedList
 
 class ProductLists: FlatVerticalEpoxyRV {
 
-    private val controller = ProductListController()
+    private val controller = ProductListController(OnModelClickListener { _, _, _, _ ->
+        ARouter.getInstance().build(Routes.productList)
+            .withString(Routes.productListProductId, productId)
+            .navigation(context)
+    })
+
+    private var productId: String = ""
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -20,9 +30,12 @@ class ProductLists: FlatVerticalEpoxyRV {
 
     init {
         setController(controller)
+        addItemDecoration(ProductListItemDecoration(
+            R.color.product_product_list_divider, context, firstPaddingTop = 12, lastPaddingBottom = 40))
     }
 
-    fun setProductLists(list: PagedList<ProductList>?) {
+    fun setProductLists(productId: String, list: PagedList<ProductList>?) {
+        this.productId = productId
         controller.setData(list)
     }
 }
