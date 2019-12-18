@@ -36,4 +36,5 @@
 	<string name="ic_unlike_btn">\ue62e</string>
 	<string name="ic_star_full">\ue637</string>
 	<string name="ic_star_left">\ue638</string>
+	<string name="ic_download_btn">\ue628</string>
 </resources>

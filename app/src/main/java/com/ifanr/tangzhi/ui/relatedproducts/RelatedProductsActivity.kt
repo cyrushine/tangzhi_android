@@ -10,19 +10,18 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ext.viewModelOf
 import com.ifanr.tangzhi.ui.base.BaseActivity
+import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_related_products.*
 import javax.inject.Inject
 
 @Route(path = Routes.relatedProducts)
-class RelatedProductsActivity : BaseActivity() {
+class RelatedProductsActivity : BaseViewModelActivity() {
 
     @Autowired(name = Routes.relatedProductId)
     @JvmField
     var productId: String = ""
-
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ class RelatedProductsActivity : BaseActivity() {
         statusBar(whiteText = false)
         toolbar.close.setOnClickListener { finish() }
 
-        val vm: RelatedProductsViewModel = viewModelOf(factory)
+        val vm: RelatedProductsViewModel = viewModel()
         vm.products.observe(this, Observer {
             it?.also { list.setData(it) }
         })

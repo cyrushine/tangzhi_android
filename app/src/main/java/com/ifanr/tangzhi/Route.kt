@@ -4,6 +4,10 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val gallery = "/$DEFAULT_GROUP/gallery"
+    const val galleryImageList = "gallery_image_list"   // string array list
+    const val galleryIndex = "index"                    // int
+
     const val productList = "/$DEFAULT_GROUP/product_list"
     const val productListProductId = "product_id"       // id, String
 

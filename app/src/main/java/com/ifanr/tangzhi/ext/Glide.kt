@@ -28,3 +28,8 @@ fun RequestManager.rounded(): RequestBuilder<RoundedBitmapDrawable> {
 
 fun RequestBuilder<RoundedBitmapDrawable>.into(stackIv: StackImageView) =
     into(stackIv.coverIv)
+
+fun RequestManager.gallery() = asDrawable()
+    .error(R.drawable.translucent)
+    .fallback(R.drawable.translucent)
+    .placeholder(R.drawable.translucent)

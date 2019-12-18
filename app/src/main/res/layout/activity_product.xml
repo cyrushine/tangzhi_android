@@ -12,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.ifanr.tangzhi.ui.product.CoverImageView
-            android:id="@+id/coverIV"
+        <com.ifanr.tangzhi.ui.product.widgets.ProductBanner
+            android:id="@+id/banner"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1.3345"
             />
 
         <com.ifanr.tangzhi.ui.product.widgets.FollowingView
@@ -26,14 +27,14 @@
             app:layout_constraintTop_toTopOf="@id/nameTv"
             app:layout_constraintBottom_toBottomOf="@id/nameTv"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             />
 
         <TextView
             android:id="@+id/nameTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/coverIV"
+            app:layout_constraintTop_toBottomOf="@id/banner"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/following"
             android:layout_marginStart="20dp"
@@ -104,19 +105,13 @@
             android:textStyle="bold"
             />
 
-        <TextView
+        <com.ifanr.tangzhi.ui.product.widgets.DescriptionTextView
             android:id="@+id/summaryTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/nameTv"
             app:layout_constraintRight_toRightOf="@id/following"
             app:layout_constraintTop_toBottomOf="@id/summarySection"
-            android:textSize="13sp"
-            android:textColor="#CCFFFFFF"
-            android:breakStrategy="simple"
-            android:maxLines="4"
-            android:ellipsize="end"
-            android:lineSpacingMultiplier="1.1"
             android:layout_marginTop="16dp"
             />
 

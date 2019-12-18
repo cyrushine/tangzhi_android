@@ -3,6 +3,9 @@ package com.ifanr.tangzhi.di
 import com.ifanr.tangzhi.ui.LaunchActivity
 import com.ifanr.tangzhi.ui.browser.BrowserActivity
 import com.ifanr.tangzhi.ui.browser.BrowserModule
+import com.ifanr.tangzhi.ui.gallery.GalleryActivity
+import com.ifanr.tangzhi.ui.gallery.GalleryModule
+import com.ifanr.tangzhi.ui.gallery.GalleryViewModel
 import com.ifanr.tangzhi.ui.postlist.PostListActivity
 import com.ifanr.tangzhi.ui.postlist.PostListModule
 import com.ifanr.tangzhi.ui.product.ProductActivity
@@ -19,6 +22,10 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [GalleryModule::class])
+    abstract fun galleryActivity(): GalleryActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [ProductListModule::class])

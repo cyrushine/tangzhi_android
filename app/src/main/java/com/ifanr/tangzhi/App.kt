@@ -10,6 +10,7 @@ import com.ifanr.tangzhi.glide.RoundedBitmapDrawableTranscoder
 import com.minapp.android.sdk.BaaS
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import io.reactivex.plugins.RxJavaPlugins
 
 class App: DaggerApplication() {
 
@@ -22,6 +23,7 @@ class App: DaggerApplication() {
         BaaS.init(Const.BAAS_ID, this)
         initARouter()
         initGlide()
+        initRxJava()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -41,5 +43,10 @@ class App: DaggerApplication() {
         val glide = Glide.get(this)
         glide.registry.register(Bitmap::class.java, RoundedBitmapDrawable::class.java,
             RoundedBitmapDrawableTranscoder(this, glide.bitmapPool))
+    }
+
+    private fun initRxJava() {
+        RxJavaPlugins.initIoScheduler(workerSchedulerCallable)
+        RxJavaPlugins.initComputationScheduler(workerSchedulerCallable)
     }
 }

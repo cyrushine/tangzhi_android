@@ -10,19 +10,18 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ext.viewModelOf
 import com.ifanr.tangzhi.ui.base.BaseActivity
+import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_post_list.*
 import javax.inject.Inject
 
 @Route(path = Routes.postList)
-class PostListActivity : BaseActivity() {
+class PostListActivity : BaseViewModelActivity() {
 
     @Autowired(name = Routes.postListProductId)
     @JvmField
     var productId: String = ""
-
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ class PostListActivity : BaseActivity() {
         statusBar(whiteText = false)
         toolbar.close.setOnClickListener { finish() }
 
-        val vm: PostListViewModel = viewModelOf(factory)
+        val vm: PostListViewModel = viewModel()
         vm.list.observe(this, Observer {
             it?.also { list.setData(it) }
         })

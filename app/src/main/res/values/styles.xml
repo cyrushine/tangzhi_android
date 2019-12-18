@@ -7,4 +7,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.GalleryActivity">
+        <item name="android:windowAnimationStyle">@style/AppAnimation.GalleryActivity</item>
+    </style>
+
+    <style name="AppAnimation" parent="@android:style/Animation" />
+    <style name="AppAnimation.GalleryActivity">
+        <item name="android:activityOpenEnterAnimation">@anim/gallery_activity_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseExitAnimation">@anim/gallery_activity_exit</item>
+    </style>
 </resources>

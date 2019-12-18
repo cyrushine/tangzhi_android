@@ -11,19 +11,18 @@ import com.ifanr.tangzhi.ext.pagedList
 import com.ifanr.tangzhi.ext.viewModelOf
 import com.ifanr.tangzhi.repository.ProductListDataSource
 import com.ifanr.tangzhi.ui.base.BaseActivity
+import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_product_list.*
 import javax.inject.Inject
 
 @Route(path = Routes.productList)
-class ProductListActivity : BaseActivity() {
+class ProductListActivity : BaseViewModelActivity() {
 
     @JvmField
     @Autowired(name = Routes.productListProductId)
     var productId: String = ""
-
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,7 @@ class ProductListActivity : BaseActivity() {
 
         toolbar.close.setOnClickListener { finish() }
 
-        val vm: ProductLIstViewModel = viewModelOf(factory)
+        val vm: ProductLIstViewModel = viewModel()
         vm.list.observe(this, Observer {
             it?.also { list.submitList(it) }
         })

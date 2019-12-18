@@ -10,6 +10,8 @@ import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ext.appLabelString
 import com.ifanr.tangzhi.ext.viewModelOf
 import com.ifanr.tangzhi.ui.base.BaseActivity
+import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.statusBar
 import com.ifanr.tangzhi.ui.widgets.AppWebView
 import com.uber.autodispose.android.lifecycle.autoDispose
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_product_param.toolbar
 import javax.inject.Inject
 
 @Route(path = Routes.browser)
-class BrowserActivity : BaseActivity() {
+class BrowserActivity : BaseViewModelActivity() {
 
     @Autowired(name = Routes.browserUrl)
     @JvmField
@@ -28,16 +30,13 @@ class BrowserActivity : BaseActivity() {
     @JvmField
     var title = ""
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         title = appLabelString()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
         statusBar(whiteText = false)
 
-        val vm: BrowserViewModel = viewModelOf(factory)
+        val vm: BrowserViewModel = viewModel()
         vm.title.observe(this, Observer {
             toolbar.titleTv.text = it
         })

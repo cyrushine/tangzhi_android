@@ -1,9 +1,9 @@
 {
   "id": "1523849",
-  "name": "糖纸app",
+  "name": "tangzhi-app",
   "font_family": "iconfont",
   "css_prefix_text": "icon",
-  "description": "糖纸app内的iconfont",
+  "description": "tangzhi-app-iconfont",
   "glyphs": [
     {
       "icon_id": "11966709",
@@ -249,6 +249,13 @@
       "font_class": "star-left",
       "unicode": "e638",
       "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "12402571",
+      "name": "download-btn",
+      "font_class": "download-btn",
+      "unicode": "e628",
+      "unicode_decimal": 58920
     }
   ]
 }

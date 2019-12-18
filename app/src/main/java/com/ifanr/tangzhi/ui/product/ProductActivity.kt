@@ -14,20 +14,19 @@ import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.BaseActivity
+import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_product.*
 import javax.inject.Inject
 
 @Route(path = Routes.product)
-class ProductActivity : BaseActivity() {
+class ProductActivity : BaseViewModelActivity() {
 
     companion object {
         private const val TAG = "ProductActivity"
     }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @JvmField
     @Autowired(name = Routes.productId)
@@ -44,7 +43,7 @@ class ProductActivity : BaseActivity() {
                 .navigation(this)
         }
 
-        val vm: ProductViewModel = viewModelOf(viewModelFactory)
+        val vm: ProductViewModel = viewModel()
         vm.product.observe(this, Observer {
             it?.also { invalidate(it) }
         })
@@ -66,14 +65,13 @@ class ProductActivity : BaseActivity() {
 
     private fun invalidate(product: Product) {
         val themeColor = product.themeColor
-        Glide.with(this).default().load(product.coverImage).into(coverIV)
-        coverIV.setThemeColor(themeColor)
+        banner.setThemeColor(themeColor)
+        banner.setImages(product.image)
         root.setBackgroundColor(themeColor)
         following.setOnClickListener { following.toggleState() }
         nameTv.text = product.name
 
         indexes.setScore(product.rating)
-        summaryTv.text = product.description
 
         posts.setData(product.id, product.cachedPost, product.postCount.toInt())
 
