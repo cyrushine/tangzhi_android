@@ -5,6 +5,10 @@ import androidx.paging.PagedList
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.repository.product.ProductRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
+import com.ifanr.tangzhi.ui.base.autoDispose
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ProductLIstViewModel @Inject constructor(
@@ -14,7 +18,11 @@ class ProductLIstViewModel @Inject constructor(
     val list = MutableLiveData<PagedList<ProductList>>()
 
     fun load(productId: String) {
-        list.value = repository.productList(productId)
+        repository.productList(productId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this)
+            .subscribe(Consumer { list.value = it })
     }
 
 }

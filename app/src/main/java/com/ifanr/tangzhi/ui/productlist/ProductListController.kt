@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.ui.productlist
 
+import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyModel
 import com.ifanr.tangzhi.R
@@ -11,6 +12,10 @@ import com.ifanr.tangzhi.ui.product.list.productList
 
 class ProductListController: BasePagedListController<ProductList>() {
 
+    companion object {
+        private const val TAG = "ProductListController"
+    }
+
     @AutoModel
     lateinit var header: ListHeaderCountModel_
 
@@ -18,6 +23,7 @@ class ProductListController: BasePagedListController<ProductList>() {
     lateinit var end: ListEndSlogonModel_
 
     override fun buildItemModel(currentPosition: Int, item: ProductList?): EpoxyModel<*> {
+        Log.d(TAG, "${currentPosition}, ${item?.name}")
         return if (item != null)
             ProductListModel_().apply {
                 id(item.id)

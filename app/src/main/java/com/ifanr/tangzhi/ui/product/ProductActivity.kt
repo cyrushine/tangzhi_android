@@ -17,6 +17,7 @@ import com.ifanr.tangzhi.ui.base.BaseActivity
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
+import com.ifanr.tangzhi.ui.product.widgets.FollowingView
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_product.*
 import javax.inject.Inject
@@ -60,6 +61,12 @@ class ProductActivity : BaseViewModelActivity() {
         vm.paramVisiable.observe(this, Observer {
             productParam.visibility = if (it == true) View.VISIBLE else View.GONE
         })
+        vm.isFavorite.observe(this, Observer {
+            following.state = if (it == true)
+                FollowingView.State.FOLLOWED
+            else
+                FollowingView.State.UN_FOLLOW
+        })
         vm.load(productId)
     }
 
@@ -78,5 +85,6 @@ class ProductActivity : BaseViewModelActivity() {
         indexes.setOnClickListener {
             IndexesDialogFragment.show(product, supportFragmentManager)
         }
+        summaryTv.text = product.description
     }
 }

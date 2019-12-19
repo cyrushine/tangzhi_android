@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SpringTextView">
+        <attr name="springTextViewSize" format="dimension" />
+        <attr name="springTextViewColor" format="color" />
+        <attr name="springTextViewLineSpacingMultiplier" format="float" />
+    </declare-styleable>
+</resources>

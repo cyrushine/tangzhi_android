@@ -61,6 +61,8 @@ class ProductViewModel @Inject constructor (
         product.highlightParamVisible || product.paramVisible
     }
 
+    val isFavorite = MutableLiveData<Boolean>()
+
     init {
         product.observeForever {
             val id = it.id
@@ -70,6 +72,10 @@ class ProductViewModel @Inject constructor (
                     .autoDispose(this)
                     .subscribe(Consumer { productList.postValue(it) })
             }
+        }
+
+        product.observeForever {
+            val
         }
     }
 

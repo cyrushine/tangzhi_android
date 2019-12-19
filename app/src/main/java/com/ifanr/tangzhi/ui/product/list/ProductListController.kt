@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.ui.product.list
 
+import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.OnModelClickListener
 import com.ifanr.tangzhi.R
@@ -17,6 +18,10 @@ import io.reactivex.subjects.BehaviorSubject
 class ProductListController (
     val onHeaderClickListener: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView>
 ): BaseTypedController<PagedList<ProductList>>() {
+
+    companion object {
+        private const val TAG = "ProductListController"
+    }
 
     @AutoModel
     lateinit var header: SectionHeaderViewModel_

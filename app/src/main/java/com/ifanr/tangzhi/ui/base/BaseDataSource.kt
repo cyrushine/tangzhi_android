@@ -26,17 +26,11 @@ abstract class BaseDataSource<T> (
 
     private val query = Query()
     private var total = 0
-    private val observers = CopyOnWriteArraySet<CompletableObserver>()
 
     init {
         initQuery.invoke(query)
-        addInvalidatedCallback {
-            observers.forEach { it.onComplete() }
-            observers.clear()
-        }
     }
 
-    @SuppressLint("CheckResult")
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, T>
@@ -45,47 +39,25 @@ abstract class BaseDataSource<T> (
         query.offset(0)
         query.limit(params.requestedLoadSize)
 
-        itemList.query(query, clz)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe(Consumer {
-                total = it.totalCount?.toInt() ?: 0
-                val list = it.objects ?: emptyList()
-                val nextPage = if (total > list.size) list.size else null
-                callback.onResult(list, 0, total, null, nextPage)
-            })
+        val response = itemList.query(query, clz).blockingGet()
+        total = response.totalCount?.toInt() ?: 0
+        val list = response.objects ?: emptyList()
+        val nextPage = if (total > list.size) list.size else null
+        callback.onResult(list, 0, total, null, nextPage)
     }
 
-    @SuppressLint("CheckResult")
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
         query.returnTotalCount(false)
         query.offset(params.key)
         query.limit(params.requestedLoadSize)
 
-        itemList.query(query, clz)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe(Consumer {
-                val list = it.objects ?: emptyList()
-                val nextPageOffset = params.key + list.size
-                callback.onResult(list, if (total > nextPageOffset) nextPageOffset else null)
-            })
+        val response = itemList.query(query, clz).blockingGet()
+        val list = response.objects ?: emptyList()
+        val nextPageOffset = params.key + list.size
+        callback.onResult(list, if (total > nextPageOffset) nextPageOffset else null)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
         callback.onResult(emptyList(), null)
     }
-
-    class DataSourceScopeCompletable (
-        private val dataSource: BaseDataSource<*>
-    ): Completable() {
-        override fun subscribeActual(observer: CompletableObserver) {
-            dataSource.observers.add(observer)
-        }
-    }
 }
-
-fun <T> Single<T>.autoDispose(dataSource: BaseDataSource<*>) =
-    autoDispose(BaseDataSource.DataSourceScopeCompletable(dataSource))

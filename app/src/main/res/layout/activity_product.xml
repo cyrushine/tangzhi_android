@@ -105,7 +105,7 @@
             android:textStyle="bold"
             />
 
-        <com.ifanr.tangzhi.ui.product.widgets.DescriptionTextView
+        <com.ifanr.tangzhi.ui.widgets.SpringTextView
             android:id="@+id/summaryTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -113,6 +113,9 @@
             app:layout_constraintRight_toRightOf="@id/following"
             app:layout_constraintTop_toBottomOf="@id/summarySection"
             android:layout_marginTop="16dp"
+            app:springTextViewSize="13.5dp"
+            app:springTextViewColor="#CCFFFFFF"
+            app:springTextViewLineSpacingMultiplier="1.2"
             />
 
         <com.ifanr.tangzhi.ui.product.widgets.ProductParameterView
