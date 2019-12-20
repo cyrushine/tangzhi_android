@@ -35,4 +35,7 @@
     <string name="product_description_expand">[展开]</string>
     <string name="gallery_download_fail">Oops!下载出错了，请稍后再试...</string>
     <string name="gallery_download_success">图片存储在：%s</string>
+    <string name="cancel">取消</string>
+    <string name="share_wechat">微信好友</string>
+    <string name="share_save_card">保存分享卡片</string>
 </resources>

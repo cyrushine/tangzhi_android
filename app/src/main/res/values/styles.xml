@@ -11,11 +11,24 @@
         <item name="android:windowAnimationStyle">@style/AppAnimation.GalleryActivity</item>
     </style>
 
+    <style name="AppTheme.ShareActivity">
+        <item name="android:windowAnimationStyle">@style/AppAnimation.ShareActivity</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
     <style name="AppAnimation" parent="@android:style/Animation" />
     <style name="AppAnimation.GalleryActivity">
         <item name="android:activityOpenEnterAnimation">@anim/gallery_activity_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/no_animation</item>
         <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>
         <item name="android:activityCloseExitAnimation">@anim/gallery_activity_exit</item>
+    </style>
+
+    <style name="AppAnimation.ShareActivity">
+        <item name="android:activityOpenEnterAnimation">@anim/no_animation</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseExitAnimation">@anim/no_animation</item>
     </style>
 </resources>

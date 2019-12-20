@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.share.ShareActivity">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#40000000"
+        android:alpha="0"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/share_activity_bg"
+        app:behavior_hideable="true"
+        android:elevation="6dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/base_a8"
+            android:textStyle="bold"
+            android:text="@string/cancel"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/base_e7"
+            app:layout_constraintBottom_toTopOf="@id/cancel"
+            />
+
+        <com.ifanr.tangzhi.ui.widgets.ShareButton
+            android:id="@+id/wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shareButtonIcon="@string/ic_wechat_share_btn"
+            app:shareButtonColor="@color/wechat"
+            app:shareButtonText="@string/share_wechat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/card"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            />
+
+        <com.ifanr.tangzhi.ui.widgets.ShareButton
+            android:id="@+id/card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shareButtonIcon="@string/ic_card_share_btn"
+            app:shareButtonColor="@color/card_share_btn"
+            app:shareButtonText="@string/share_save_card"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/wechat"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

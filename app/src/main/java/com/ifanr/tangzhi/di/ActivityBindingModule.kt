@@ -17,11 +17,16 @@ import com.ifanr.tangzhi.ui.productparam.ProductParamModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsActivity
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsViewModel
+import com.ifanr.tangzhi.ui.share.ShareActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun shareActivity(): ShareActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [GalleryModule::class])

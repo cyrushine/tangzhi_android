@@ -24,4 +24,6 @@
     <color name="product_param_border">#39393F</color>
     <color name="product_product_list_divider">#1AFFFFFF</color>
     <color name="product_list_divider">#F4F4F4</color>
+    <color name="wechat">#2DC037</color>
+    <color name="card_share_btn">#F13B03</color>
 </resources>

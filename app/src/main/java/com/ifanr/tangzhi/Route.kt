@@ -4,6 +4,8 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val share = "/$DEFAULT_GROUP/share"
+
     const val gallery = "/$DEFAULT_GROUP/gallery"
     const val galleryImageList = "gallery_image_list"   // string array list
     const val galleryIndex = "index"                    // int

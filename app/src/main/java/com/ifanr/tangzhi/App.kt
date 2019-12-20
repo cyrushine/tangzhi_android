@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
@@ -10,6 +11,7 @@ import com.ifanr.tangzhi.glide.RoundedBitmapDrawableTranscoder
 import com.minapp.android.sdk.BaaS
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
 
 class App: DaggerApplication() {
@@ -48,5 +50,12 @@ class App: DaggerApplication() {
     private fun initRxJava() {
         RxJavaPlugins.initIoScheduler(workerSchedulerCallable)
         RxJavaPlugins.initComputationScheduler(workerSchedulerCallable)
+        RxJavaPlugins.setErrorHandler(SimpleErrorHandler())
+    }
+}
+
+private class SimpleErrorHandler: Consumer<Throwable> {
+    override fun accept(t: Throwable?) {
+        t?.also { Log.e("SimpleErrorHandler", it.message, it) }
     }
 }

@@ -65,8 +65,8 @@ class ProductViewModel @Inject constructor (
 
     init {
         product.observeForever {
-            val id = it.id
-            if (id.isNotEmpty()) {
+            val id = it?.id
+            if (!id.isNullOrEmpty()) {
                 repository.getProductListByProductId(id, pageSize = PRODUCT_LIST_MAX)
                     .subscribeOn(Schedulers.io())
                     .autoDispose(this)
@@ -75,7 +75,14 @@ class ProductViewModel @Inject constructor (
         }
 
         product.observeForever {
-            val
+            val productId = it?.id
+            if (!productId.isNullOrEmpty()) {
+                repository.isProductFavorite(productId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(this)
+                    .subscribe(Consumer { isFavorite.value = it  })
+            }
         }
     }
 

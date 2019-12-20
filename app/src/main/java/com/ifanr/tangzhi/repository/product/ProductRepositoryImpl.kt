@@ -9,6 +9,9 @@ import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.model.ProductParams
 import com.ifanr.tangzhi.repository.*
+import com.minapp.android.sdk.auth.Auth
+import com.minapp.android.sdk.database.Record
+import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
 import com.minapp.android.sdk.util.PagedList
 import io.reactivex.Completable
@@ -25,11 +28,14 @@ class ProductRepositoryImpl @Inject constructor(): ProductRepository {
     }
 
     override fun unfavoriteProduct(productId: String): Completable = Completable.fromCallable {
-
+        favorite.fetchWithoutData(productId).delete()
     }
 
     override fun isProductFavorite(productId: String): Single<Boolean> = Single.fromCallable {
-
+        favorite.query(Query().put(Where()
+            .equalTo(Favorite.COL_SUBJECT_ID, productId)
+            .equalTo(Record.CREATED_BY, Auth.currentUserWithoutData()?.userId)
+        )).totalCount > 0
     }
 
     override fun productList(productId: String): Single<androidx.paging.PagedList<ProductList>> =
