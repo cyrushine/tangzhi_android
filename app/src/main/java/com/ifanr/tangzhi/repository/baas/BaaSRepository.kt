@@ -1,15 +1,11 @@
-package com.ifanr.tangzhi.repository.product
+package com.ifanr.tangzhi.repository.baas
 
 import com.ifanr.tangzhi.Const
-import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.model.ProductParams
-import com.ifanr.tangzhi.ui.productlist.ProductLIstViewModel
-import com.minapp.android.sdk.util.PagedList
+import com.ifanr.tangzhi.model.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface ProductRepository {
+interface BaaSRepository {
 
     fun getProductById(id: String): Single<Product>
 
@@ -24,7 +20,7 @@ interface ProductRepository {
         productId: String,
         page: Int = 0,
         pageSize: Int = Const.PAGE_SIZE
-    ): Single<PagedList<ProductList>>
+    ): Single<Page<ProductList>>
 
     fun productList(productId: String): Single<androidx.paging.PagedList<ProductList>>
 
@@ -42,4 +38,13 @@ interface ProductRepository {
      * 查询是否有收藏
      */
     fun isProductFavorite(productId: String): Single<Boolean>
+
+    /**
+     * 点评列表
+     */
+    fun loadPagedReviews(
+        productId: String,
+        page: Int = 0,
+        pageSize: Int = Const.PAGE_SIZE
+    ): Single<Page<Comment>>
 }

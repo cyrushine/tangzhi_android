@@ -79,10 +79,10 @@ data class Product (
 
     /**
      * 状态
-     * @see STATUS_APPROVED
-     * @see STATUS_PENDING
-     * @see STATUS_DRAFT
-     * @see STATUS_DELETED
+     * @see BaseModel.STATUS_APPROVED
+     * @see BaseModel.STATUS_PENDING
+     * @see BaseModel.STATUS_DRAFT
+     * @see BaseModel.STATUS_DELETED
      */
     val status: String = "",
 
@@ -311,11 +311,6 @@ data class Product (
 
         const val TYPE_HARDWARE = "hardware"    // 硬件
         const val TYPE_FEATURE = "feature"      // 专题
-
-        const val STATUS_APPROVED = "approved"  // 已发布
-        const val STATUS_PENDING = "pending"    // 未发布
-        const val STATUS_DRAFT = "draft"        // 草稿
-        const val STATUS_DELETED = "deleted"    // 已删除
 
         const val COL_NAME = "name"
         const val COL_TYPE = "type"

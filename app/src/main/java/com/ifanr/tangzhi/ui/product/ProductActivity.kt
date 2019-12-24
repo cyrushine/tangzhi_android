@@ -4,23 +4,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseActivity
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
+import com.ifanr.tangzhi.ui.product.comments.ProductReviewController
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.product.widgets.FollowingView
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_product.*
-import javax.inject.Inject
 
 @Route(path = Routes.product)
 class ProductActivity : BaseViewModelActivity() {
@@ -66,6 +65,11 @@ class ProductActivity : BaseViewModelActivity() {
                 FollowingView.State.FOLLOWED
             else
                 FollowingView.State.UN_FOLLOW
+        })
+        vm.reviews.observe(this, Observer {
+            it?.also {
+                reviews.setReviewList(it)
+            }
         })
         vm.load(productId)
     }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reviewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@android:color/holo_red_light"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reviewToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/holo_blue_bright"
+        />
+
+    <com.ifanr.tangzhi.ui.base.AppEpoxyRV
+        android:id="@+id/reviewList"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</merge>

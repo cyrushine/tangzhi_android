@@ -3,21 +3,21 @@ package com.ifanr.tangzhi.ui.product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.ifanr.tangzhi.Const
+import com.ifanr.tangzhi.model.Comment
+import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.repository.product.ProductRepository
+import com.ifanr.tangzhi.repository.baas.BaaSRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.minapp.android.sdk.util.PagedList
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ProductViewModel @Inject constructor (
-    private val repository: ProductRepository
+    private val repository: BaaSRepository
 ): BaseViewModel() {
 
     companion object {
@@ -55,7 +55,7 @@ class ProductViewModel @Inject constructor (
      * 产品清单列表
      *
      */
-    val productList = MutableLiveData<PagedList<ProductList>>()
+    val productList = MutableLiveData<Page<ProductList>>()
 
     val paramVisiable: LiveData<Boolean> = Transformations.map(product) { product ->
         product.highlightParamVisible || product.paramVisible
@@ -63,7 +63,14 @@ class ProductViewModel @Inject constructor (
 
     val isFavorite = MutableLiveData<Boolean>()
 
+    // 点评列表
+    val reviews = MutableLiveData<List<Comment>>()
+    val reviewCount = MutableLiveData<Int>()
+    private var reviewPage = 0
+
     init {
+
+        // 清单
         product.observeForever {
             val id = it?.id
             if (!id.isNullOrEmpty()) {
@@ -74,6 +81,7 @@ class ProductViewModel @Inject constructor (
             }
         }
 
+        // 是否收藏
         product.observeForever {
             val productId = it?.id
             if (!productId.isNullOrEmpty()) {
@@ -82,6 +90,22 @@ class ProductViewModel @Inject constructor (
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(this)
                     .subscribe(Consumer { isFavorite.value = it  })
+            }
+        }
+
+        // 点评列表
+        product.observeForever {
+            val productId = it?.id
+            if (!productId.isNullOrEmpty()) {
+                repository.loadPagedReviews(productId = productId, page = reviewPage, pageSize = 30)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(this)
+                    .subscribe(Consumer { it?.also {
+                        reviewCount.value = it.total
+                        reviewPage = it.page
+                        reviews.value = it.data
+                    } })
             }
         }
     }

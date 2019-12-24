@@ -39,9 +39,9 @@ abstract class BaseDataSource<T> (
         query.offset(0)
         query.limit(params.requestedLoadSize)
 
-        val response = itemList.query(query, clz).blockingGet()
-        total = response.totalCount?.toInt() ?: 0
-        val list = response.objects ?: emptyList()
+        val response = itemList.query(clz, query = query).blockingGet()
+        total = response.total
+        val list = response.data
         val nextPage = if (total > list.size) list.size else null
         callback.onResult(list, 0, total, null, nextPage)
     }
@@ -51,8 +51,8 @@ abstract class BaseDataSource<T> (
         query.offset(params.key)
         query.limit(params.requestedLoadSize)
 
-        val response = itemList.query(query, clz).blockingGet()
-        val list = response.objects ?: emptyList()
+        val response = itemList.query(clz, query = query).blockingGet()
+        val list = response.data
         val nextPageOffset = params.key + list.size
         callback.onResult(list, if (total > nextPageOffset) nextPageOffset else null)
     }

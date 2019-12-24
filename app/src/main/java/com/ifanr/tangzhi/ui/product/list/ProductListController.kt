@@ -4,6 +4,7 @@ import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.OnModelClickListener
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.ui.base.BaseEpoxyController
 import com.ifanr.tangzhi.ui.base.BaseTypedController
@@ -17,7 +18,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 class ProductListController (
     val onHeaderClickListener: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView>
-): BaseTypedController<PagedList<ProductList>>() {
+): BaseTypedController<Page<ProductList>>() {
 
     companion object {
         private const val TAG = "ProductListController"
@@ -26,9 +27,9 @@ class ProductListController (
     @AutoModel
     lateinit var header: SectionHeaderViewModel_
 
-    override fun buildModels(data: PagedList<ProductList>?) {
-        val total = data?.totalCount ?: 0L
-        val list = data?.objects ?: emptyList()
+    override fun buildModels(data: Page<ProductList>?) {
+        val total = data?.total ?: 0
+        val list = data?.data ?: emptyList()
 
         if (list.isNotEmpty() && total > 0) {
             with(header) {

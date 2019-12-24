@@ -47,3 +47,6 @@ fun Record.getSafeBoolean(prop: String): Boolean =
     getBoolean(prop) ?: false
 
 fun Record.getSafeId(): String = id ?: ""
+
+fun Record.getSafeInt(prop: String): Int =
+    getInt(prop) ?: 0

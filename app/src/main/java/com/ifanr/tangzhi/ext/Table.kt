@@ -1,8 +1,10 @@
 package com.ifanr.tangzhi.ext
 
+import android.util.Log
 import com.google.android.material.tabs.TabLayout
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.exceptions.NotFoundException
+import com.ifanr.tangzhi.model.Page
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.Table
 import com.minapp.android.sdk.database.query.Query
@@ -15,7 +17,7 @@ import java.lang.reflect.Constructor
 private val CONSTRUCTORS: MutableMap<Class<*>, Constructor<*>> = hashMapOf()
 
 @Suppress("UNCHECKED_CAST")
-private fun <T> findExplicitConstructor(clz: Class<T>): Constructor<T> {
+fun <T> findExplicitConstructor(clz: Class<T>): Constructor<T> {
     return synchronized(CONSTRUCTORS) {
         CONSTRUCTORS.getOrPut(clz) { clz.getDeclaredConstructor(Record::class.java) } as? Constructor<T>
             ?: throw IllegalStateException("explicit constructor of ${clz.canonicalName} not found")
@@ -23,30 +25,61 @@ private fun <T> findExplicitConstructor(clz: Class<T>): Constructor<T> {
 }
 
 
-fun <T> Table.getById(id: String, clz: Class<T>): Single<T> = Single.fromCallable {
+inline fun <reified T> Table.getById(id: String): Single<T> = Single.fromCallable {
     query(Query().put(Where().equalTo(Record.ID, id))).objects?.firstOrNull()
-        ?.let { findExplicitConstructor(clz).newInstance(it) } ?: throw NotFoundException()
+        ?.let { findExplicitConstructor(T::class.java).newInstance(it) } ?: throw NotFoundException()
 }
 
-fun <T> Table.getByIds(ids: List<String>, clz: Class<T>): Single<List<T>> = Single.fromCallable {
+inline fun <reified T> Table.getByIds(ids: List<String>): Single<List<T>> = Single.fromCallable {
     query(Query().put(Where().containedIn(Record.ID, ids))).objects
-        ?.map { findExplicitConstructor(clz).newInstance(it) } ?: emptyList()
+        ?.map { findExplicitConstructor(T::class.java).newInstance(it) } ?: emptyList()
 }
 
 fun <T> Table.query(
-    query: Query,
-    clz: Class<T>
-): Single<PagedList<T>> =
-    Single.fromCallable { query(query).transform { findExplicitConstructor(clz).newInstance(it) } }
-
-fun <T> Table.query(
-    where: Where,
+    clz: Class<T>,
     page: Int = 0,
     pageSize: Int = Const.PAGE_SIZE,
-    clz: Class<T>
-): Single<PagedList<T>> {
-    return Single.fromCallable {
-        query(Query().put(where).setPageInfo(page, pageSize).returnTotalCount(page == 0))
-            .transform { findExplicitConstructor(clz).newInstance(it) }
+    where: Where? = null,
+    query: Query? = null
+): Single<Page<T>> = Single.fromCallable {
+    val q = query ?: Query()
+    if (where != null)
+        q.put(where)
+    if (page >= 0 && pageSize > 0) {
+        q.limit(pageSize)
+        q.offset(page * pageSize)
+    }
+    q.returnTotalCount(page == 0)
+    this.query(q).transform { findExplicitConstructor(clz).newInstance(it) }.let {
+        Page (
+            total = it.totalCount?.toInt() ?: 0,
+            page = page,
+            pageSize = pageSize,
+            data = it.objects ?: emptyList()
+        )
+    }
+}
+
+inline fun <reified T> Table.query (
+    page: Int = 0,
+    pageSize: Int = Const.PAGE_SIZE,
+    where: Where? = null,
+    query: Query? = null
+): Single<Page<T>> = Single.fromCallable {
+    val q = query ?: Query()
+    if (where != null)
+        q.put(where)
+    if (page >= 0 && pageSize > 0) {
+        q.limit(pageSize)
+        q.offset(page * pageSize)
+    }
+    q.returnTotalCount(page == 0)
+    this.query(q).transform { findExplicitConstructor(T::class.java).newInstance(it) }.let {
+        Page (
+            total = it.totalCount?.toInt() ?: 0,
+            page = page,
+            pageSize = pageSize,
+            data = it.objects ?: emptyList()
+        )
     }
 }

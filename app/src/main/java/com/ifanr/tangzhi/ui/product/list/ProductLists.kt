@@ -6,6 +6,7 @@ import com.airbnb.epoxy.OnModelClickListener
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.ui.base.FlatVerticalEpoxyRV
 import com.minapp.android.sdk.util.PagedList
@@ -34,7 +35,7 @@ class ProductLists: FlatVerticalEpoxyRV {
             R.color.product_product_list_divider, context, firstPaddingTop = 12, lastPaddingBottom = 40))
     }
 
-    fun setProductLists(productId: String, list: PagedList<ProductList>?) {
+    fun setProductLists(productId: String, list: Page<ProductList>?) {
         this.productId = productId
         controller.setData(list)
     }

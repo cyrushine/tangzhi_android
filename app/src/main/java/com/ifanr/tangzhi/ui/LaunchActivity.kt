@@ -28,9 +28,9 @@ class LaunchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
 
-        /*ARouter.getInstance().build(Routes.product)
-            .withString(Routes.productId, "5d5520dffb8b2726cdfafe89")
-            .navigation(this)*/
+        ARouter.getInstance().build(Routes.product)
+            .withString(Routes.productId, "5db8518a6f40dd69b311ffc1")
+            .navigation(this)
 
         alloc.setOnClickListener {
             ARouter.getInstance().build(Routes.share)

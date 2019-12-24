@@ -3,10 +3,6 @@ package com.ifanr.tangzhi.model
 import com.ifanr.tangzhi.ext.getSafeId
 import com.ifanr.tangzhi.ext.getSafeString
 import com.ifanr.tangzhi.ext.getSafeStringArray
-import com.ifanr.tangzhi.model.Product.Companion.STATUS_APPROVED
-import com.ifanr.tangzhi.model.Product.Companion.STATUS_DELETED
-import com.ifanr.tangzhi.model.Product.Companion.STATUS_DRAFT
-import com.ifanr.tangzhi.model.Product.Companion.STATUS_PENDING
 import com.ifanr.tangzhi.repository.itemList
 import com.minapp.android.sdk.database.Record
 
@@ -73,10 +69,10 @@ data class ProductList (
 
     /**
      * 清单的状态
-     * @see STATUS_APPROVED
-     * @see STATUS_PENDING
-     * @see STATUS_DRAFT
-     * @see STATUS_DELETED
+     * @see BaseModel.STATUS_APPROVED
+     * @see BaseModel.STATUS_PENDING
+     * @see BaseModel.STATUS_DRAFT
+     * @see BaseModel.STATUS_DELETED
      */
     val status: String = ""
     ): BaseModel {
@@ -98,11 +94,6 @@ data class ProductList (
     companion object {
         const val SOURCE_SYSTEM = "system"  // 后台录入
         const val SOURCE_USER = "user"      // 用户录入
-
-        const val STATUS_APPROVED = "approved"  // 已发布
-        const val STATUS_PENDING = "pending"    // 未发布
-        const val STATUS_DRAFT = "draft"        // 草稿
-        const val STATUS_DELETED = "deleted"    // 已删除
 
         const val COL_TYPE = "type"
         const val COL_NAME = "name"

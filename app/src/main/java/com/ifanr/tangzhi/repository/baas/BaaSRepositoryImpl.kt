@@ -1,24 +1,50 @@
-package com.ifanr.tangzhi.repository.product
+package com.ifanr.tangzhi.repository.baas
 
-import com.ifanr.tangzhi.ext.getById
-import com.ifanr.tangzhi.ext.getByIds
-import com.ifanr.tangzhi.ext.pagedList
-import com.ifanr.tangzhi.ext.query
-import com.ifanr.tangzhi.model.Favorite
-import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.model.ProductParams
+import com.ifanr.tangzhi.ext.*
+import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.repository.*
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
-import com.minapp.android.sdk.util.PagedList
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ProductRepositoryImpl @Inject constructor(): ProductRepository {
+class BaaSRepositoryImpl @Inject constructor(): BaaSRepository {
+
+    override fun loadPagedReviews(
+        productId: String,
+        page: Int,
+        pageSize: Int
+    ): Single<Page<Comment>> =
+        loadPagedComments(
+            productId = productId,
+            type = Comment.TYPE_REVIEW,
+            page = page,
+            pageSize = pageSize,
+            query = Query().apply {
+                expand(Record.CREATED_BY)
+            }
+        )
+
+
+    private fun loadPagedComments (
+        productId: String,
+        type: String,
+        page: Int = 0,
+        pageSize: Int = 0,
+        query: Query? = null
+    ): Single<Page<Comment>> = productComment.query(
+        page = page,
+        pageSize = pageSize,
+        where = Where().apply {
+            equalTo(Comment.COL_PRODUCT, productId)
+            equalTo(Comment.COL_TYPE, type)
+            equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+        },
+        query = query
+    )
 
     override fun favoriteProduct(productId: String): Completable = Completable.fromCallable {
         favorite.createRecord().apply {
@@ -42,22 +68,24 @@ class ProductRepositoryImpl @Inject constructor(): ProductRepository {
         Single.fromCallable { pagedList(dataSource = ProductListDataSource(productId)) }
 
     override fun getProductsByIds(ids: List<String>): Single<List<Product>> =
-        product.getByIds(ids, Product::class.java)
+        product.getByIds(ids)
 
     override fun getProductById(id: String): Single<Product> =
-        product.getById(id, Product::class.java)
+        product.getById(id)
 
     override fun getProductListByProductId(
         productId: String,
         page: Int,
         pageSize: Int
-    ): Single<PagedList<ProductList>> = itemList.query (
-        Where().containedIn(ProductList.COL_ITEMS, listOf(productId))
-            .equalTo(ProductList.COL_STATUS, ProductList.STATUS_APPROVED),
-        page,
-        pageSize,
-        ProductList::class.java)
+    ): Single<Page<ProductList>> = itemList.query (
+        clz = ProductList::class.java,
+        page = page,
+        pageSize = pageSize,
+        where = Where().apply {
+            containedIn(ProductList.COL_ITEMS, listOf(productId))
+            equalTo(ProductList.COL_STATUS, BaseModel.STATUS_APPROVED)
+        })
 
     override fun getProductParamsById(paramId: String): Single<ProductParams> =
-        productParam.getById(paramId, ProductParams::class.java)
+        productParam.getById(paramId)
 }
