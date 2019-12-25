@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <com.ifanr.tangzhi.ui.icons.IconView
-        android:id="@+id/icon"
+    <com.ifanr.tangzhi.ui.icons.IcShareBlack
+        android:id="@+id/share_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="54dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
         />
 
     <TextView
-        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:textColor="@color/base_3a"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@id/icon"
-        android:layout_marginTop="5dp"
+        android:textSize="13sp"
+        android:textColor="@color/base_12"
+        android:textStyle="bold"
+        android:text="@string/share"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/share_icon"
+        android:layout_marginStart="3dp"
         />
-
 </merge>

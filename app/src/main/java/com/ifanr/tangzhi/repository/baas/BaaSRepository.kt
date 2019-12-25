@@ -47,4 +47,9 @@ interface BaaSRepository {
         page: Int = 0,
         pageSize: Int = Const.PAGE_SIZE
     ): Single<Page<Comment>>
+
+    /**
+     * 产品的标签列表
+     */
+    fun loadAllTags(productId: String): Single<List<Comment>>
 }

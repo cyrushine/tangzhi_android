@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.product.comments
+package com.ifanr.tangzhi.ui.product.comments.review
 
 import android.view.View
 import android.widget.ImageView

@@ -11,7 +11,7 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#40000000"
+        android:background="#59000000"
         android:alpha="0"
         />
 
@@ -49,13 +49,13 @@
             app:layout_constraintBottom_toTopOf="@id/cancel"
             />
 
-        <com.ifanr.tangzhi.ui.widgets.ShareButton
+        <com.ifanr.tangzhi.ui.widgets.CommonShareButton
             android:id="@+id/wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shareButtonIcon="@string/ic_wechat_share_btn"
-            app:shareButtonColor="@color/wechat"
-            app:shareButtonText="@string/share_wechat"
+            app:commonShareButtonIcon="@string/ic_wechat_share_btn"
+            app:commonShareButtonColor="@color/wechat"
+            app:commonShareButtonText="@string/share_wechat"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/card"
@@ -63,13 +63,13 @@
             app:layout_constraintHorizontal_chainStyle="spread"
             />
 
-        <com.ifanr.tangzhi.ui.widgets.ShareButton
+        <com.ifanr.tangzhi.ui.widgets.CommonShareButton
             android:id="@+id/card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shareButtonIcon="@string/ic_card_share_btn"
-            app:shareButtonColor="@color/card_share_btn"
-            app:shareButtonText="@string/share_save_card"
+            app:commonShareButtonIcon="@string/ic_card_share_btn"
+            app:commonShareButtonColor="@color/card_share_btn"
+            app:commonShareButtonText="@string/share_save_card"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/wechat"
             app:layout_constraintRight_toRightOf="parent"

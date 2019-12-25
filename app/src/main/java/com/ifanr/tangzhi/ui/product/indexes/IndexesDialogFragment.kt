@@ -14,6 +14,9 @@ import com.ifanr.tangzhi.ui.base.BaseDialog
 import com.ifanr.tangzhi.ui.base.BaseDialogFragment
 import org.parceler.Parcels
 
+/**
+ * 模范指数弹窗
+ */
 class IndexesDialogFragment: BaseDialogFragment() {
 
     companion object {

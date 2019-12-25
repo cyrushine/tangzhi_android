@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.product.comments
+package com.ifanr.tangzhi.ui.product.comments.review.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,29 +10,33 @@ import androidx.core.view.NestedScrollingChild3
 import androidx.core.view.NestedScrollingChildHelper
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.epoxy.EpoxyRecyclerView
-import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.ext.inflateInto
-import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.util.axesToString
 import com.ifanr.tangzhi.util.typeToString
 import kotlin.math.abs
 import kotlin.math.min
 
-class ProductReviewList: ViewGroup, NestedScrollingParent3, NestedScrollingChild3 {
+/**
+ * 第一个 child 是 header
+ * 第二个 child 是 toolBar
+ * 第三个 child 是 list
+ */
+class ProductReviewContainer: ViewGroup, NestedScrollingParent3, NestedScrollingChild3 {
 
     companion object {
         private const val TAG = "ProductReviewList"
     }
 
-    private val header: View
-    private val toolBar: View
-    private val list: EpoxyRecyclerView
-    private val controller: ProductReviewController
     private val scroller: OverScroller
     private val scrollingChildHelper = NestedScrollingChildHelper(this)
+
+    private val header: View
+        get() = getChildAt(0)
+
+    private val toolBar: View
+        get() = getChildAt(1)
+
+    private val list: View
+        get() = getChildAt(2)
 
     /**
      * 可以往上/往下滚动的高度（> 0）
@@ -57,13 +61,6 @@ class ProductReviewList: ViewGroup, NestedScrollingParent3, NestedScrollingChild
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        inflateInto(R.layout.product_review_list)
-        header = findViewById(R.id.reviewHeader)
-        toolBar = findViewById(R.id.reviewToolBar)
-        list = findViewById(R.id.reviewList)
-        controller = ProductReviewController()
-        list.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        list.setController(controller)
         scroller = OverScroller(context)
         scrollingChildHelper.isNestedScrollingEnabled = true
     }
@@ -108,8 +105,6 @@ class ProductReviewList: ViewGroup, NestedScrollingParent3, NestedScrollingChild
         super.onDetachedFromWindow()
         scrollingChildHelper.onDetachedFromWindow()
     }
-
-
 
 
 
@@ -174,7 +169,8 @@ class ProductReviewList: ViewGroup, NestedScrollingParent3, NestedScrollingChild
                 consumed[1] += parentConsumed[1]
             }
         }
-        Log.d(TAG, "onNestedScroll, $dyConsumed, $dyUnconsumed, " +
+        Log.d(
+            TAG, "onNestedScroll, $dyConsumed, $dyUnconsumed, " +
                 "${consumed.joinToString()}, ${typeToString(type)}")
     }
 
@@ -281,13 +277,4 @@ class ProductReviewList: ViewGroup, NestedScrollingParent3, NestedScrollingChild
 
     /*************************** NestedScrollingChild3 start *********************************/
 
-
-
-
-
-
-
-    fun setReviewList(data: List<Comment>) {
-        controller.setData(data)
-    }
 }

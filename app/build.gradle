@@ -89,6 +89,11 @@ dependencies {
     implementation "com.uber.autodispose:autodispose-android-archcomponents:$autodispose_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:$jetpack_architecture_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$jetpack_architecture_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation "com.airbnb.android:epoxy:$epoxy_version"
     implementation "com.airbnb.android:epoxy-paging:$epoxy_version"
@@ -103,6 +108,7 @@ dependencies {
     implementation "org.parceler:parceler-api:$parceler_version"
     kapt "org.parceler:parceler:$parceler_version"
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
+    implementation "com.google.android:flexbox:$flexboxlayout_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

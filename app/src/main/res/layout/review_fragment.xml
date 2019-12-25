@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ifanr.tangzhi.ui.product.comments.review.widget.ProductReviewContainer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.product.comments.review.ReviewFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reviewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_f9"
+        android:padding="20dp"
+        >
+
+        <com.ifanr.tangzhi.ui.product.comments.review.widget.IndexesCard
+            android:id="@+id/reviewIndexesCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/reviewIndexesCard"
+            android:layout_marginStart="12dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@drawable/product_review_tag_bg"
+            android:padding="12dp"
+            >
+
+            <TextView
+                android:id="@+id/reviewTagTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/base_3a"
+                android:text="@string/product_review_tag_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.ifanr.tangzhi.ui.icons.IcRightArrowGrey
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/reviewTagTitleTv"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:flexDirection="row"
+                app:flexWrap="wrap"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="大 "
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="大发水淀粉 "
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="淀粉_ "
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大发水淀粉"
+                    />
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reviewToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/holo_blue_bright"
+        >
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.ifanr.tangzhi.ui.base.AppEpoxyRV
+        android:id="@+id/reviewList"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</com.ifanr.tangzhi.ui.product.comments.review.widget.ProductReviewContainer>

@@ -1,7 +1,6 @@
-package com.ifanr.tangzhi.ui.product.comments
+package com.ifanr.tangzhi.ui.product.comments.review
 
 import com.ifanr.tangzhi.model.Comment
-import com.ifanr.tangzhi.ui.base.BaseEpoxyController
 import com.ifanr.tangzhi.ui.base.BaseTypedController
 
 class ProductReviewController: BaseTypedController<List<Comment>>() {

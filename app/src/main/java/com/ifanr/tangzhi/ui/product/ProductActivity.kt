@@ -3,9 +3,9 @@ package com.ifanr.tangzhi.ui.product
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -15,7 +15,7 @@ import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
-import com.ifanr.tangzhi.ui.product.comments.ProductReviewController
+import com.ifanr.tangzhi.ui.product.comments.review.ReviewFragment
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.product.widgets.FollowingView
 import com.ifanr.tangzhi.ui.statusBar
@@ -67,11 +67,19 @@ class ProductActivity : BaseViewModelActivity() {
                 FollowingView.State.UN_FOLLOW
         })
         vm.reviews.observe(this, Observer {
-            it?.also {
-                reviews.setReviewList(it)
-            }
+
         })
         vm.load(productId)
+
+        commentVP.adapter = object: FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            override fun getItem(position: Int): Fragment {
+                return ReviewFragment()
+            }
+
+            override fun getCount(): Int {
+                return 1
+            }
+        }
     }
 
     private fun invalidate(product: Product) {
@@ -90,5 +98,13 @@ class ProductActivity : BaseViewModelActivity() {
             IndexesDialogFragment.show(product, supportFragmentManager)
         }
         summaryTv.text = product.description
+
+        root.addBottomPanelDraggedListener {
+            commentIndicator.setRotatePercent(it)
+        }
+        shareButton.setOnClickListener {
+            ARouter.getInstance().build(Routes.share)
+                .navigation(this)
+        }
     }
 }

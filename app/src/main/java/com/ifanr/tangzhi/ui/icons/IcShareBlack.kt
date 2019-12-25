@@ -1,14 +1,14 @@
-package com.ifanr.tangzhi.ui.widgets
+package com.ifanr.tangzhi.ui.icons
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.ext.inflateInto
-import com.ifanr.tangzhi.ext.setPadding
+import com.ifanr.tangzhi.ext.getColorCompat
 
-class ShareButton: ConstraintLayout {
-
+/**
+ * 黑色的分享按钮
+ */
+class IcShareBlack: IconView {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -17,10 +17,8 @@ class ShareButton: ConstraintLayout {
         defStyleAttr
     )
 
-
     init {
-        setPadding(intArrayOf(18, 6, 18, 6))
-        inflateInto(R.layout.share_button)
-        setBackgroundResource(R.drawable.share_button_bg)
+        setText(R.string.ic_share_black)
+        setTextColor(context.getColorCompat(R.color.base_12))
     }
 }

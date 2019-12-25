@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ShareButton">
-        <attr name="shareButtonIcon" format="string" />
-        <attr name="shareButtonColor" format="color" />
-        <attr name="shareButtonText" format="string" />
+    <declare-styleable name="CommonShareButton">
+        <attr name="commonShareButtonIcon" format="string" />
+        <attr name="commonShareButtonColor" format="color" />
+        <attr name="commonShareButtonText" format="string" />
     </declare-styleable>
 </resources>

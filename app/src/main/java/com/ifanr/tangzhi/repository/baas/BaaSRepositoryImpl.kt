@@ -13,6 +13,12 @@ import javax.inject.Inject
 
 class BaaSRepositoryImpl @Inject constructor(): BaaSRepository {
 
+    override fun loadAllTags(productId: String): Single<List<Comment>> = loadPagedComments(
+        productId = productId,
+        type = Comment.TYPE_TAG,
+        pageSize = 999
+    ).map { it.data }
+
     override fun loadPagedReviews(
         productId: String,
         page: Int,

@@ -38,4 +38,8 @@
     <string name="cancel">取消</string>
     <string name="share_wechat">微信好友</string>
     <string name="share_save_card">保存分享卡片</string>
+    <string name="share">分享</string>
+    <string name="product_review_indexes_org_count">%d评测机构</string>
+    <string name="product_review_indexes_user_count">%s用户</string>
+    <string name="product_review_tag_title">大家都说</string>
 </resources>

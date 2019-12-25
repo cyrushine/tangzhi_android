@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.NestedScrollingParent3
-import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.customview.widget.ViewDragHelper
 import com.ifanr.tangzhi.ext.canScrollDown
@@ -15,24 +14,30 @@ import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.util.axesToString
 import com.ifanr.tangzhi.util.typeToString
 
+/**
+ * percent: 0f(bottom) - 1f(top)
+ */
+typealias BottomPanelDraggedListener = (percent: Float) -> Unit
+
 class ProductContainer: ViewGroup, NestedScrollingParent3 {
 
-    enum class Status {
-        REVIEW_FOLD,
-        REVIEW_EXPAND,
-        REVIEW_DRAGGING,
-        REVIEW_SETTLING
+    enum class State {
+        FOLD,
+        EXPAND,
+        DRAGGING
     }
 
     companion object {
         private const val TAG = "ProductContainer"
     }
 
-    private lateinit var infoPanel: NestedScrollView
+    private lateinit var infoPanel: View
     private lateinit var reviewsPanel: View
-    private var status = Status.REVIEW_FOLD
+    private var state = State.FOLD
     private var actionDownPointerId = 0
     private var actionLastY = 0f
+    private val bottomPanelDraggedListeners
+            = mutableListOf<BottomPanelDraggedListener>()
 
     // 点评面板露出高度
     private val reviewExposeHeight = context.dp2px(50)
@@ -40,38 +45,59 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     // 点评面板距离 container top 的高度
     private val reviewPaddingTop = context.dp2px(50)
 
+    // 点评面板被 drag 时，top 的上限（底部）
+    private val reviewDraggedTopMax: Int
+        get() = measuredHeight - reviewExposeHeight
+
+    // 点评面板被 drag 时，top 的下限（顶部）
+    private val reviewDraggedTopMin: Int
+        get() = reviewExposeHeight
+
+    // 点评面板可以被 drag 的距离
+    private val reviewDraggedDistance: Int
+        get() = reviewDraggedTopMax - reviewDraggedTopMin
+
     private val dragCallback: ViewDragHelper.Callback = object: ViewDragHelper.Callback() {
+
+        override fun onViewPositionChanged(
+            changedView: View,
+            left: Int,
+            top: Int,
+            dx: Int,
+            dy: Int
+        ) {
+            bottomPanelDraggedListeners.forEach {
+                it.invoke(1f - (top - reviewDraggedTopMin).toFloat().div(reviewDraggedDistance))
+            }
+        }
+
         override fun tryCaptureView(child: View, pointerId: Int): Boolean {
             return child == reviewsPanel
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            return top.coerceIn(reviewPaddingTop, measuredHeight - reviewExposeHeight)
+            return top.coerceIn(reviewDraggedTopMin, reviewDraggedTopMax)
         }
 
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
             // 往上 fling
-            if (yvel < 0 || (yvel == 0f && releasedChild.top <= (measuredHeight - reviewExposeHeight) * 0.7)) {
-                if (dragHelper.settleCapturedViewAt(0, reviewPaddingTop)) {
+            if (yvel < 0 || (yvel == 0f && releasedChild.top <= reviewDraggedTopMax * 0.7)) {
+                if (dragHelper.settleCapturedViewAt(0, reviewDraggedTopMin)) {
                     invalidate()
                 }
             } else {
 
                 // 往下 fling
-                if (dragHelper.settleCapturedViewAt(0, measuredHeight - reviewExposeHeight)) {
+                if (dragHelper.settleCapturedViewAt(0, reviewDraggedTopMax)) {
                     invalidate()
                 }
             }
         }
 
         override fun onViewDragStateChanged(state: Int) {
-            status = when (state) {
-                ViewDragHelper.STATE_SETTLING -> Status.REVIEW_SETTLING
-                ViewDragHelper.STATE_DRAGGING -> Status.REVIEW_DRAGGING
-                else -> if (reviewsPanel.top == reviewPaddingTop)
-                    Status.REVIEW_EXPAND
-                else
-                    Status.REVIEW_FOLD
+            this@ProductContainer.state = when (state) {
+                ViewDragHelper.STATE_SETTLING, ViewDragHelper.STATE_DRAGGING -> State.DRAGGING
+                else -> if (reviewsPanel.top == reviewDraggedTopMin) State.EXPAND else State.FOLD
             }
         }
     }
@@ -128,50 +154,66 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         val action = ev.actionMasked
-        val actionIndex = ev.actionIndex
-        when (action) {
-            MotionEvent.ACTION_DOWN -> {
-                actionDownPointerId = ev.getPointerId(actionIndex)
-                actionLastY = ev.y
-                dragHelper.shouldInterceptTouchEvent(ev)
-            }
-        }
+        val pointerId = ev.getPointerId(ev.actionIndex)
 
         // review 收起的时候，通过露出部分拉起来
-        val condition1 = status == Status.REVIEW_FOLD
-                && dragHelper.shouldInterceptTouchEvent(ev)
+        if (state == State.FOLD && dragHelper.shouldInterceptTouchEvent(ev))
+            return true
 
         // review 展开的时候，通过 drag 露出部分的高度收起来
-        val hotSpot = (reviewsPanel.top.toFloat() ..
-                (reviewsPanel.top + reviewExposeHeight).toFloat())
-        val condition2 = status == Status.REVIEW_EXPAND &&
-                reviewsPanel.scrollY == 0 &&
-                hotSpot.contains(ev.y)
+        if (state == State.EXPAND) {
+            val hotSpot = (reviewsPanel.top.toFloat() ..
+                    (reviewsPanel.top + reviewExposeHeight).toFloat())
+            if (hotSpot.contains(ev.y))
+                return true
+        }
 
         // review 展开的时候，滚动到顶部继续往下拉，可以把 review 收起来
-        var condition3 = false
-        if (status == Status.REVIEW_EXPAND && reviewsPanel.scrollY == 0 &&
-            action == MotionEvent.ACTION_MOVE && ev.getPointerId(actionIndex) == actionDownPointerId) {
-            val distance = ev.y - actionLastY
-            if (distance >= dragHelper.touchSlop) {
-                dragHelper.shouldInterceptTouchEvent(ev)
-                dragHelper.captureChildView(reviewsPanel, actionDownPointerId)
-                condition3 = true
+        if (state == State.EXPAND && reviewsPanel.scrollY <= 2) {
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    actionDownPointerId = pointerId
+                    actionLastY = ev.y
+                    dragHelper.shouldInterceptTouchEvent(ev)
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    if (pointerId == actionDownPointerId) {
+                        val distance = ev.y - actionLastY
+                        if (distance >= dragHelper.touchSlop) {
+                            dragHelper.shouldInterceptTouchEvent(ev)
+                            dragHelper.captureChildView(reviewsPanel, actionDownPointerId)
+                            return true
+                        }
+                    }
+                }
             }
         }
 
-        var condition4 = false
-        if (status == Status.REVIEW_FOLD && !infoPanel.canScrollDown() &&
-            action == MotionEvent.ACTION_MOVE && ev.getPointerId(actionIndex) == actionDownPointerId) {
-            val distance = actionLastY - ev.y
-            if (distance >= dragHelper.touchSlop) {
-                dragHelper.shouldInterceptTouchEvent(ev)
-                dragHelper.captureChildView(reviewsPanel, actionDownPointerId)
-                condition4 = true
+
+        // review 面板收起时，info 面板滚动到底部，继续往下拉可以拉起 review 面板
+        if (state == State.FOLD && (infoPanel as? NestedScrollView)?.canScrollDown() == false) {
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    actionDownPointerId = pointerId
+                    actionLastY = ev.y
+                    dragHelper.shouldInterceptTouchEvent(ev)
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    if (pointerId == actionDownPointerId) {
+                        val distance = actionLastY - ev.y
+                        if (distance >= dragHelper.touchSlop) {
+                            dragHelper.shouldInterceptTouchEvent(ev)
+                            dragHelper.captureChildView(reviewsPanel, actionDownPointerId)
+                            return true
+                        }
+                    }
+                }
             }
         }
 
-        return condition1 || condition2 || condition3 || condition4 || super.onInterceptTouchEvent(ev)
+        return super.onInterceptTouchEvent(ev)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -263,7 +305,13 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     /************************** NestedScrollingParent3 end ******************************/
 
 
+    fun addBottomPanelDraggedListener(l: BottomPanelDraggedListener) {
+        bottomPanelDraggedListeners.add(l)
+    }
 
+    fun removeBottomPanelDraggedListener(l: BottomPanelDraggedListener) {
+        bottomPanelDraggedListeners.remove(l)
+    }
 
 
 }

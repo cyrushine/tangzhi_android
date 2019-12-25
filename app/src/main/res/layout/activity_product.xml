@@ -163,10 +163,56 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.ifanr.tangzhi.ui.base.AppScrollView>
 
-    <com.ifanr.tangzhi.ui.product.comments.ProductReviewList
-        android:id="@+id/reviews"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:background="@drawable/product_comment_panel_bg"
+        >
+        
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/commentGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="50dp"
+            />
+
+        <com.ifanr.tangzhi.ui.widgets.DraggableIndicator
+            android:id="@+id/commentIndicator"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            />
+
+        <com.ifanr.tangzhi.ui.widgets.ShareButton
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/commentGuideline"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/base_e7"
+            app:layout_constraintTop_toBottomOf="@id/commentGuideline"
+            />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/commentVP"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/commentGuideline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.ifanr.tangzhi.ui.product.widgets.ProductContainer>

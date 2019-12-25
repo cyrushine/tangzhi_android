@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ifanr.tangzhi.ui.widgets.IndexesTextView
+        android:id="@+id/nameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_3a"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.ifanr.tangzhi.ui.icons.IcInformationIconView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#BBBBBB"
+        app:layout_constraintBottom_toBottomOf="@id/nameTv"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.ScoreTextView
+        android:id="@+id/scoreTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/base_3a"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameTv"
+        android:layout_marginTop="16dp"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.RatingBar
+        android:id="@+id/ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ratingBarStarSize="10dp"
+        app:ratingBarStarGap="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scoreTv"
+        android:layout_marginTop="2dp"
+        />
+
+    <com.ifanr.tangzhi.ui.product.comments.review.widget.UserCountTextView
+        android:id="@+id/userCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingbar"
+        android:layout_marginTop="19dp"
+        android:textSize="11sp"
+        android:textColor="@color/base_7d"
+        />
+
+    <TextView
+        android:id="@+id/orgCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/base_7d"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/userCountTv"
+        app:layout_constraintLeft_toRightOf="@id/userCountTv"
+        android:layout_marginStart="15dp"
+        />
+</merge>
