@@ -31,4 +31,15 @@
         <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>
         <item name="android:activityCloseExitAnimation">@anim/no_animation</item>
     </style>
+
+    <style name="AppTextAppearance" />
+    <style name="AppTextAppearance.ProductTagCount">
+        <item name="android:textColor">@color/base_a8</item>
+        <item name="android:textSize">7dp</item>
+    </style>
+
+    <style name="AppTextAppearance.ProductTagCount.Voted">
+        <item name="android:textColor">@color/base_red</item>
+        <item name="android:textSize">7dp</item>
+    </style>
 </resources>

@@ -42,4 +42,6 @@
     <string name="product_review_indexes_org_count">%d评测机构</string>
     <string name="product_review_indexes_user_count">%s用户</string>
     <string name="product_review_tag_title">大家都说</string>
+    <string name="product_tag_dialog_add">添加标签</string>
+    <string name="tag_hint">请输入标签...</string>
 </resources>

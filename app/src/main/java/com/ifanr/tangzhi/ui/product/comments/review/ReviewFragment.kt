@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.ui.product.comments.review
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import com.ifanr.tangzhi.ui.base.BaseViewModelFragment
 import com.ifanr.tangzhi.ui.base.viewModelOf
 import com.ifanr.tangzhi.ui.product.ProductViewModel
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
+import com.ifanr.tangzhi.ui.widgets.ProductTag
 import kotlinx.android.synthetic.main.review_fragment.*
 
 /**
@@ -51,7 +53,13 @@ class ReviewFragment : BaseViewModelFragment() {
         productViewModel.product.observe(this, Observer { vm.product.value = it })
 
         vm.tags.observe(this, Observer {
-            Log.d(TAG, "${it?.map { it.content }?.joinToString()}")
+            it?.map { ProductTag(content = it.content, count = it.upvote, bgColor = it.theme) }
+                ?.also {
+                    tagCard.setData(it)
+                    tagCard.openTagDialog = {
+                        ProductTagDialogFragment().show(childFragmentManager, null)
+                    }
+                }
         })
     }
 

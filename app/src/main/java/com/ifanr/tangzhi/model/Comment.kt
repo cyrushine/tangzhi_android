@@ -1,6 +1,8 @@
 package com.ifanr.tangzhi.model
 
 import android.util.Log
+import androidx.core.graphics.toColorInt
+import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.database.Record
 
@@ -13,7 +15,7 @@ class Comment {
     var replyCount: Int = 0
     var recommended: Boolean = false
     var images: List<String> = emptyList()
-    var theme: String = ""
+    var theme: Int = Const.DEFAULT_PRODUCT_THEME
     var description: String = ""
 
     constructor(record: Record) {
@@ -24,9 +26,8 @@ class Comment {
         replyCount = record.getSafeInt(COL_REPLY_COUNT)
         recommended = record.getSafeBoolean(COL_RECOMMENDED)
         images = record.getSafeStringArray(COL_IMAGE)
-        theme = record.getSafeString(COL_THEME)
+        theme = record.getSafeString(COL_THEME).toSafeColorInt()
         description = record.getSafeString(COL_DESCRIPTION)
-        Log.d(TAG, "$record")
 
     }
 

@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.repository.baas
 
+import android.util.Log
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.repository.*
