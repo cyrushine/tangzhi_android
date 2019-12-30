@@ -33,3 +33,12 @@ fun RequestManager.gallery() = asDrawable()
     .error(R.drawable.translucent)
     .fallback(R.drawable.translucent)
     .placeholder(R.drawable.translucent)
+
+fun RequestManager.avatar(): RequestBuilder<RoundedBitmapDrawable> {
+    val builder = `as`(RoundedBitmapDrawable::class.java)
+        .error(R.drawable.avatar_default)
+        .fallback(R.drawable.avatar_default)
+        .placeholder(R.drawable.avatar_default)
+    builder.options[OPTION_RADIUS] = Int.MAX_VALUE.toFloat()
+    return builder
+}

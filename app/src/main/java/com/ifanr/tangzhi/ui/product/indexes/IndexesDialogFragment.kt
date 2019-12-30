@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseDialog
-import com.ifanr.tangzhi.ui.base.BaseDialogFragment
+import com.ifanr.tangzhi.ui.base.dialog.BaseDialog
+import com.ifanr.tangzhi.ui.base.dialog.BaseDialogFragment
 import org.parceler.Parcels
 
 /**

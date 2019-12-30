@@ -3,17 +3,18 @@ package com.ifanr.tangzhi.ui.product.comments.review.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.OverScroller
-import androidx.core.view.NestedScrollingChild3
-import androidx.core.view.NestedScrollingChildHelper
-import androidx.core.view.NestedScrollingParent3
-import androidx.core.view.ViewCompat
+import androidx.core.view.*
+import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.util.axesToString
 import com.ifanr.tangzhi.util.typeToString
 import kotlin.math.abs
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 /**
  * 第一个 child 是 header
@@ -28,6 +29,9 @@ class ProductReviewContainer: ViewGroup, NestedScrollingParent3, NestedScrolling
 
     private val scroller: OverScroller
     private val scrollingChildHelper = NestedScrollingChildHelper(this)
+    private var pointerId = 0
+    private var lastY = 0f
+    private val touchSlop by lazy { ViewConfiguration.get(context).scaledTouchSlop }
 
     private val header: View
         get() = getChildAt(0)
@@ -68,18 +72,22 @@ class ProductReviewContainer: ViewGroup, NestedScrollingParent3, NestedScrolling
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        measureChild(header, MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+        measureChild(header,
+            MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
 
-        measureChild(toolBar, MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+        measureChild(toolBar,
+            MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
 
-        measureChild(list, MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
-            MeasureSpec.makeMeasureSpec(measuredHeight - toolBar.measuredHeight, MeasureSpec.EXACTLY))
+        measureChild(list,
+            MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(
+                measuredHeight - toolBar.measuredHeight, MeasureSpec.EXACTLY))
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        val left = 0
+        var left = 0
         var top = 0
         val right = measuredWidth
         var bottom = header.measuredHeight
@@ -106,6 +114,14 @@ class ProductReviewContainer: ViewGroup, NestedScrollingParent3, NestedScrolling
         scrollingChildHelper.onDetachedFromWindow()
     }
 
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return super.onTouchEvent(event)
+    }
 
 
 

@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.dialog
 
 import android.content.Context
 import android.content.DialogInterface
@@ -7,9 +7,17 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDialog
 import com.ifanr.tangzhi.ext.dp2px
+import com.uber.autodispose.autoDispose
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
+import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.roundToInt
 
 abstract class BaseDialog: AppCompatDialog {
+
+    val observers = CopyOnWriteArrayList<CompletableObserver>()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, theme: Int) : super(context, theme)
@@ -33,4 +41,22 @@ abstract class BaseDialog: AppCompatDialog {
             w.attributes = lp
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        observers.forEach { it.onComplete() }
+        observers.clear()
+    }
 }
+
+class BaseDialogScopeCompletable (
+    private val dialog: BaseDialog
+): Completable() {
+    override fun subscribeActual(observer: CompletableObserver) {
+        dialog.observers.add(observer)
+    }
+}
+
+fun <T> Single<T>.autoDispose(dialog: BaseDialog) =
+    autoDispose(BaseDialogScopeCompletable(dialog))
+

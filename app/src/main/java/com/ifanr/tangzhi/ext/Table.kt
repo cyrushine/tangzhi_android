@@ -25,8 +25,11 @@ fun <T> findExplicitConstructor(clz: Class<T>): Constructor<T> {
 }
 
 
-inline fun <reified T> Table.getById(id: String): Single<T> = Single.fromCallable {
-    query(Query().put(Where().equalTo(Record.ID, id))).objects?.firstOrNull()
+inline fun <reified T> Table.getById (
+    id: String,
+    expand: List<String>? = null
+): Single<T> = Single.fromCallable {
+    query(Query().put(Where().equalTo(Record.ID, id)).expand(expand)).objects?.firstOrNull()
         ?.let { findExplicitConstructor(T::class.java).newInstance(it) } ?: throw NotFoundException()
 }
 

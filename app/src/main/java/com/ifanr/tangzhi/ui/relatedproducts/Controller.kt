@@ -1,14 +1,11 @@
 package com.ifanr.tangzhi.ui.relatedproducts
 
-import android.view.View
 import com.airbnb.epoxy.AutoModel
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseTypedController
-import com.ifanr.tangzhi.ui.base.ListEndSlogonModel_
-import com.ifanr.tangzhi.ui.base.ListHeaderCountModel_
-import com.ifanr.tangzhi.ui.product.related.relatedProduct
+import com.ifanr.tangzhi.ui.base.model.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.ListEndSlogonModel_
+import com.ifanr.tangzhi.ui.base.model.ListHeaderCountModel_
 
 class Controller: BaseTypedController<List<Product>>() {
 

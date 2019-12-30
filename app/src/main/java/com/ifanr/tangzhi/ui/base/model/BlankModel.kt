@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.model
 
 import android.view.View
 import android.view.ViewGroup

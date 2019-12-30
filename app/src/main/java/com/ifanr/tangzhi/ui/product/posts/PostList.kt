@@ -2,15 +2,11 @@ package com.ifanr.tangzhi.ui.product.posts
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import com.airbnb.epoxy.OnModelClickListener
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.FlatVerticalEpoxyRV
-import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
-import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderViewModel_
-import io.reactivex.functions.Consumer
+import com.ifanr.tangzhi.ui.base.widget.FlatVerticalEpoxyRV
 
 /**
  * 评测怎么看

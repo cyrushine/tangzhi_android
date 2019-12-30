@@ -2,6 +2,7 @@ package com.ifanr.tangzhi.repository.baas
 
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
+import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -44,6 +45,33 @@ interface BaaSRepository {
      */
     fun loadPagedReviews(
         productId: String,
+        page: Int = 0,
+        pageSize: Int = Const.PAGE_SIZE,
+        orderBy: CommentSwitch.Type?
+    ): Single<Page<Comment>>
+
+    /**
+     * 获取单个点评
+     */
+    fun getReviewById(reviewId: String): Single<Comment>
+
+    /**
+     * 分页的评论列表
+     */
+    fun loadPagedComment (
+        productId: String,
+        reviewId: String,
+        page: Int = 0,
+        pageSize: Int = Const.PAGE_SIZE
+    ): Single<Page<Comment>>
+
+    /**
+     * 分页的二级评论列表
+     */
+    fun loadPagedChildComment (
+        productId: String,
+        reviewId: String,
+        parentId: String,
         page: Int = 0,
         pageSize: Int = Const.PAGE_SIZE
     ): Single<Page<Comment>>

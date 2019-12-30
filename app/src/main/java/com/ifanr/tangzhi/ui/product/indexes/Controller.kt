@@ -1,9 +1,7 @@
 package com.ifanr.tangzhi.ui.product.indexes
 
 import com.airbnb.epoxy.AutoModel
-import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseEpoxyController
-import com.ifanr.tangzhi.ui.base.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.BaseTypedController
 import com.ifanr.tangzhi.util.uuid
 
 class Controller: BaseTypedController<ProductRating>() {

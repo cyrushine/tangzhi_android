@@ -19,6 +19,7 @@ buildscript {
         parceler_version = '1.1.12'
         viewpager2_version = "1.0.0"
         flexboxlayout_version = "2.0.0"
+        matisse_version = "0.5.3-beta3"
     }
 
     repositories {

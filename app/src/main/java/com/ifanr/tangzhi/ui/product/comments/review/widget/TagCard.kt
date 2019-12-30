@@ -2,6 +2,8 @@ package com.ifanr.tangzhi.ui.product.comments.review.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ifanr.tangzhi.R
@@ -13,6 +15,10 @@ import com.ifanr.tangzhi.ui.widgets.ProductTagList
  * 「大家都说」卡片
  */
 class TagCard: ConstraintLayout {
+
+    companion object {
+        private const val TAG = "TagCard"
+    }
 
     var openTagDialog: () -> Unit = {}
 
@@ -35,5 +41,15 @@ class TagCard: ConstraintLayout {
 
     fun setData(data: List<ProductTag>) {
         list.setData(data)
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        Log.d(TAG, "onInterceptTouchEvent ${ev.actionMasked}")
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        Log.d(TAG, "onTouchEvent ${event.actionMasked}")
+        return super.onTouchEvent(event)
     }
 }

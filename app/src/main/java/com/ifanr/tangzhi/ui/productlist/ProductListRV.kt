@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.paging.PagedList
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.ui.base.AppEpoxyRV
+import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 import com.ifanr.tangzhi.ui.product.list.ProductListItemDecoration
 
 class ProductListRV: AppEpoxyRV {

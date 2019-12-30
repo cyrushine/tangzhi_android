@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.ui.product.widgets
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -94,10 +95,14 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
             }
         }
 
-        override fun onViewDragStateChanged(state: Int) {
-            this@ProductContainer.state = when (state) {
+        override fun onViewDragStateChanged(s: Int) {
+            state = when (s) {
                 ViewDragHelper.STATE_SETTLING, ViewDragHelper.STATE_DRAGGING -> State.DRAGGING
                 else -> if (reviewsPanel.top == reviewDraggedTopMin) State.EXPAND else State.FOLD
+            }
+
+            if (s == ViewDragHelper.STATE_IDLE) {
+                requestLayout()
             }
         }
     }
@@ -125,6 +130,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        Log.d(TAG, "onMeasure")
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         measureChild(
@@ -140,16 +146,28 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        Log.d(TAG, "onLayout")
         var left = 0
         var top = 0
         var right = infoPanel.measuredWidth
         var bottom = infoPanel.measuredHeight
         infoPanel.layout(left, top, right, bottom)
 
-        top = measuredHeight - reviewExposeHeight
-        right = reviewsPanel.measuredWidth
-        bottom = top + reviewsPanel.measuredHeight
+        if (state == State.FOLD) {
+            top = measuredHeight - reviewExposeHeight
+            right = reviewsPanel.measuredWidth
+            bottom = top + reviewsPanel.measuredHeight
+        } else {
+            top = reviewsPanel.top
+            right = reviewsPanel.right
+            bottom = reviewsPanel.bottom
+        }
         reviewsPanel.layout(left, top, right, bottom)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        Log.d(TAG, "onDraw")
+        super.onDraw(canvas)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
@@ -164,12 +182,12 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         if (state == State.EXPAND) {
             val hotSpot = (reviewsPanel.top.toFloat() ..
                     (reviewsPanel.top + reviewExposeHeight).toFloat())
-            if (hotSpot.contains(ev.y))
+            if (hotSpot.contains(ev.y) && dragHelper.shouldInterceptTouchEvent(ev))
                 return true
         }
 
         // review 展开的时候，滚动到顶部继续往下拉，可以把 review 收起来
-        if (state == State.EXPAND && reviewsPanel.scrollY <= 2) {
+        /*if (state == State.EXPAND && reviewsPanel.scrollY <= 2) {
             when (action) {
                 MotionEvent.ACTION_DOWN -> {
                     actionDownPointerId = pointerId
@@ -188,7 +206,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
                     }
                 }
             }
-        }
+        }*/
 
 
         // review 面板收起时，info 面板滚动到底部，继续往下拉可以拉起 review 面板

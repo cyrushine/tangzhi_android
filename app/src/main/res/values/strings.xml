@@ -43,5 +43,26 @@
     <string name="product_review_indexes_user_count">%s用户</string>
     <string name="product_review_tag_title">大家都说</string>
     <string name="product_tag_dialog_add">添加标签</string>
-    <string name="tag_hint">请输入标签...</string>
+    <string name="comment_type_editor_choice">精选</string>
+    <string name="comment_type_hottest">最热</string>
+    <string name="comment_type_latest">最新</string>
+    <string name="review_all">全部点评</string>
+    <string name="reply">回复</string>
+    <string name="object_up">有用</string>
+    <string name="send_review">发表</string>
+    <string-array name="ratingbar_text">
+        <item>轻点星星来评分</item>
+        <item>很差</item>
+        <item>比较差</item>
+        <item>一般般</item>
+        <item>还不错</item>
+        <item>值得推荐</item>
+    </string-array>
+    <string name="send_review_hint">说说你对「%s」的评价...</string>
+    <string name="send_review_button">写点评</string>
+    <string name="send_review_image_selected">你已选过这张图片啦...</string>
+    <string name="loading">载入中...</string>
+    <string name="send_comment_hint">回复内容...</string>
+    <string name="comment_review_title">评论详情</string>
+    <string name="comment_all_title">全部回复</string>
 </resources>

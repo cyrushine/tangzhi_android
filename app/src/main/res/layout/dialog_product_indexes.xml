@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ifanr.tangzhi.ui.base.AppEpoxyRV
+    <com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"

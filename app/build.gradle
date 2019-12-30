@@ -109,6 +109,7 @@ dependencies {
     kapt "org.parceler:parceler:$parceler_version"
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
     implementation "com.google.android:flexbox:$flexboxlayout_version"
+    implementation "com.zhihu.android:matisse:$matisse_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

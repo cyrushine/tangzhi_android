@@ -5,6 +5,7 @@ import androidx.core.graphics.toColorInt
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.database.Record
+import com.minapp.android.sdk.user.User
 
 class Comment {
 
@@ -17,6 +18,14 @@ class Comment {
     var images: List<String> = emptyList()
     var theme: Int = Const.DEFAULT_PRODUCT_THEME
     var description: String = ""
+    var createdById: Long = 0
+    var createdByName: String = ""
+    var createdByAvatar: String = ""
+    var rating: Float = 0f
+    var children: List<Comment> = emptyList()
+    var rootId: String = ""
+    var parentId: String = ""
+    var replyId: String = ""
 
     constructor(record: Record) {
         id = record.getSafeId()
@@ -28,7 +37,15 @@ class Comment {
         images = record.getSafeStringArray(COL_IMAGE)
         theme = record.getSafeString(COL_THEME).toSafeColorInt()
         description = record.getSafeString(COL_DESCRIPTION)
-
+        record.getJsonObject(Record.CREATED_BY)?.also {
+            createdById = it.getSafeLong(User.ID)
+            createdByAvatar = it.getSafeString(User.AVATAR)
+            createdByName = it.getSafeString(User.NICKNAME)
+        }
+        rating = record.getSafeFloat(COL_RATING)
+        rootId = record.getSafeString(COL_ROOT_ID)
+        parentId = record.getSafeString(COL_PARENT_ID)
+        replyId = record.getSafeString(COL_REPLY_ID)
     }
 
     companion object {

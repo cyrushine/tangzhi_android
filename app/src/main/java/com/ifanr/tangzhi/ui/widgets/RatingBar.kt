@@ -33,6 +33,7 @@ class RatingBar: ConstraintLayout {
 
     private lateinit var goldenStars: List<IcStartGoldenView>
     var editMode = false
+    var onProgressChanged: (progress: Int) -> Unit = {}
 
     constructor(context: Context?) : super(context) { init(null) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs) }
@@ -51,6 +52,7 @@ class RatingBar: ConstraintLayout {
                 context.dp2px(STAR_SIZE))
             starGap = ta.getDimensionPixelSize(R.styleable.RatingBar_ratingBarStarGap,
                 context.dp2px(GAP))
+            editMode = ta.getBoolean(R.styleable.RatingBar_ratingBarEditMode, editMode)
             ta.recycle()
         }
 
@@ -82,6 +84,7 @@ class RatingBar: ConstraintLayout {
             goldenStars[star].starSize =
                 if (rem <= STEP.div(2)) IcStartGoldenView.Size.LEFT else IcStartGoldenView.Size.FULL
         }
+        onProgressChanged.invoke(safeProgress)
     }
 
     fun setProgress(@FloatRange(from = 0.0, to = 10.0) progress: Float) {

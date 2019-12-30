@@ -10,6 +10,9 @@ import com.ifanr.tangzhi.ext.setPadding
 import com.ifanr.tangzhi.ui.widgets.RatingBar
 import com.ifanr.tangzhi.ui.widgets.ScoreTextView
 
+/**
+ * 模范指数卡片
+ */
 class IndexesCard: ConstraintLayout {
 
     private val scoreTv: ScoreTextView

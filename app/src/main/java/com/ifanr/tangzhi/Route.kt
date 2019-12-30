@@ -4,6 +4,20 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val comment = "/$DEFAULT_GROUP/comment"
+    const val commentProductId = "product_id"        // striing
+    const val commentProductName = "product_name"   // string
+    const val commentReviewId = "review_id"         // string
+
+    const val sendComment = "/$DEFAULT_GROUP/send_comment"
+    const val sendCommentProductId = "product_id"       // string
+    const val sendCommentProductName = "product_name"   // string
+    const val sendCommentParentId = "parent_id"         // string
+
+    const val sendReview = "/$DEFAULT_GROUP/send_review"
+    const val sendReviewProductId = "product_id"        // string
+    const val sendReviewProductName = "product_name"    // string
+
     const val share = "/$DEFAULT_GROUP/share"
 
     const val gallery = "/$DEFAULT_GROUP/gallery"

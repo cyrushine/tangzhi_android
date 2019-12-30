@@ -42,4 +42,29 @@
         <item name="android:textColor">@color/base_red</item>
         <item name="android:textSize">7dp</item>
     </style>
+
+    <style name="Matisse.TangZhi" parent="Matisse.Zhihu">
+        <item name="colorPrimary">@color/base_12</item>
+        <item name="colorPrimaryDark">@color/base_12</item>
+        <item name="toolbar">@style/Matisse.TangZhi.Toolbar</item>
+        <item name="album.dropdown.title.color">@color/zhihu_album_dropdown_title_text</item>
+        <item name="album.dropdown.count.color">@color/zhihu_album_dropdown_count_text</item>
+        <item name="album.element.color">@android:color/white</item>
+        <item name="album.thumbnail.placeholder">@color/zhihu_album_dropdown_thumbnail_placeholder</item>
+        <item name="album.emptyView">@drawable/ic_empty_zhihu</item>
+        <item name="album.emptyView.textColor">@color/zhihu_album_empty_view</item>
+        <item name="item.placeholder">@color/zhihu_item_placeholder</item>
+        <item name="item.checkCircle.backgroundColor">@color/base_12</item>
+        <item name="item.checkCircle.borderColor">@color/zhihu_item_checkCircle_borderColor</item>
+        <item name="page.bg">@color/zhihu_page_bg</item>
+        <item name="bottomToolbar.bg">@color/base_12</item>
+        <item name="bottomToolbar.preview.textColor">@color/white</item>
+        <item name="bottomToolbar.apply.textColor">@color/white</item>
+        <item name="preview.bottomToolbar.back.textColor">@color/white</item>
+        <item name="preview.bottomToolbar.apply.textColor">@color/white</item>
+        <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
+        <item name="capture.textColor">@color/zhihu_capture</item>
+    </style>
+
+    <style name="Matisse.TangZhi.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar" />
 </resources>

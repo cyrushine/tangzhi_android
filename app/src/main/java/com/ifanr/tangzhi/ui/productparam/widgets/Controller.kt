@@ -1,7 +1,7 @@
 package com.ifanr.tangzhi.ui.productparam.widgets
 
 import com.airbnb.epoxy.AutoModel
-import com.ifanr.tangzhi.ui.base.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.BaseTypedController
 import com.ifanr.tangzhi.ui.productparam.*
 import com.ifanr.tangzhi.util.uuid
 

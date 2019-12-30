@@ -53,3 +53,6 @@
 
 # 保留 Model
 -keep class com.ifanr.tangzhi.model.** { *; }
+
+# matisse
+-dontwarn com.squareup.picasso.**

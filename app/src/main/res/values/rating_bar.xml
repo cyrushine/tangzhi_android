@@ -3,5 +3,6 @@
     <declare-styleable name="RatingBar">
         <attr name="ratingBarStarSize" format="dimension" />
         <attr name="ratingBarStarGap" format="dimension" />
+        <attr name="ratingBarEditMode" format="boolean" />
     </declare-styleable>
 </resources>

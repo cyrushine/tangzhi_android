@@ -20,6 +20,7 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.ext.setPadding
+import com.ifanr.tangzhi.model.Comment
 import kotlin.math.max
 
 /**
@@ -199,7 +200,13 @@ data class ProductTag (
     @ColorInt val bgColor: Int,
     // 点赞后会标红
     val voted: Boolean = false
-)
+) {
+    constructor(source: Comment): this(
+        content = source.content,
+        count = source.upvote,
+        bgColor = source.theme
+    )
+}
 
 private data class LayoutInfo (
     val row: Int,

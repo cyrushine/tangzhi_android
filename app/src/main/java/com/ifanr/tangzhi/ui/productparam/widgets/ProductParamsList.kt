@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.getColorCompat
-import com.ifanr.tangzhi.ui.base.AppEpoxyRV
+import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 
 class ProductParamsList: AppEpoxyRV {
 

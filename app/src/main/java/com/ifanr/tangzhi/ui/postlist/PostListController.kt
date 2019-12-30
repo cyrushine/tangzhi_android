@@ -3,11 +3,9 @@ package com.ifanr.tangzhi.ui.postlist
 import com.airbnb.epoxy.AutoModel
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseEpoxyController
-import com.ifanr.tangzhi.ui.base.BaseTypedController
-import com.ifanr.tangzhi.ui.base.ListEndSlogonModel_
-import com.ifanr.tangzhi.ui.base.ListHeaderCountModel_
-import kotlin.properties.Delegates
+import com.ifanr.tangzhi.ui.base.model.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.ListEndSlogonModel_
+import com.ifanr.tangzhi.ui.base.model.ListHeaderCountModel_
 
 class PostListController: BaseTypedController<List<Product.CachedPost>>() {
 

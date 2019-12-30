@@ -3,7 +3,7 @@ package com.ifanr.tangzhi.ui.product.related
 import com.airbnb.epoxy.AutoModel
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseTyped3Controller
+import com.ifanr.tangzhi.ui.base.model.BaseTyped3Controller
 
 class RelatedProductController: BaseTyped3Controller<List<Product>, Int, String>() {
 

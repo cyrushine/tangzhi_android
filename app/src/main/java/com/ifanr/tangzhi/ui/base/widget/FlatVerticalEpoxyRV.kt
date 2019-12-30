@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -24,7 +24,9 @@ abstract class FlatVerticalEpoxyRV: AppEpoxyRV {
     }
 
     override fun createLayoutManager(): LayoutManager {
-        return VerticalLayoutManager(context)
+        return VerticalLayoutManager(
+            context
+        )
     }
 
     override fun canScrollHorizontally(direction: Int): Boolean {

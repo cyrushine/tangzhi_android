@@ -1,14 +1,14 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.airbnb.epoxy.EpoxyRecyclerView
+import androidx.core.widget.NestedScrollView
 
-open class AppEpoxyRV: EpoxyRecyclerView {
+open class AppScrollView: NestedScrollView {
 
-    constructor(context: Context) : super(context, null, 0)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,

@@ -66,9 +66,6 @@ class ProductActivity : BaseViewModelActivity() {
             else
                 FollowingView.State.UN_FOLLOW
         })
-        vm.reviews.observe(this, Observer {
-
-        })
         vm.load(productId)
 
         commentVP.adapter = object: FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

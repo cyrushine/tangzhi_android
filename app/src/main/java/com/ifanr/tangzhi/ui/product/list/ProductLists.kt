@@ -8,8 +8,7 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.ui.base.FlatVerticalEpoxyRV
-import com.minapp.android.sdk.util.PagedList
+import com.ifanr.tangzhi.ui.base.widget.FlatVerticalEpoxyRV
 
 class ProductLists: FlatVerticalEpoxyRV {
 

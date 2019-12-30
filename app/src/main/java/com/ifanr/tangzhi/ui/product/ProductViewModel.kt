@@ -10,7 +10,6 @@ import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.repository.baas.BaaSRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
-import com.minapp.android.sdk.util.PagedList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
@@ -63,11 +62,6 @@ class ProductViewModel @Inject constructor (
 
     val isFavorite = MutableLiveData<Boolean>()
 
-    // 点评列表
-    val reviews = MutableLiveData<List<Comment>>()
-    val reviewCount = MutableLiveData<Int>()
-    private var reviewPage = 0
-
     init {
 
         // 清单
@@ -90,22 +84,6 @@ class ProductViewModel @Inject constructor (
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(this)
                     .subscribe(Consumer { isFavorite.value = it  })
-            }
-        }
-
-        // 点评列表
-        product.observeForever {
-            val productId = it?.id
-            if (!productId.isNullOrEmpty()) {
-                repository.loadPagedReviews(productId = productId, page = reviewPage, pageSize = 30)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(this)
-                    .subscribe(Consumer { it?.also {
-                        reviewCount.value = it.total
-                        reviewPage = it.page
-                        reviews.value = it.data
-                    } })
             }
         }
     }

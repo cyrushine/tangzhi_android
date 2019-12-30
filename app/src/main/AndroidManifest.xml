@@ -18,11 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.comment.CommentActivity"></activity>
+        <activity
+            android:name=".ui.sendcomment.SendCommentActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity
+            android:name=".ui.sendreview.SendReviewActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".ui.share.ShareActivity"
-            android:theme="@style/AppTheme.ShareActivity"
-            />
+            android:theme="@style/AppTheme.ShareActivity" />
         <activity
             android:name=".ui.gallery.GalleryActivity"
             android:theme="@style/AppTheme.GalleryActivity" />

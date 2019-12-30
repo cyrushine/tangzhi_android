@@ -28,3 +28,7 @@ fun <T> JsonObject.getSafeArrayByConstruct(prop: String, clz: Class<T>): List<T>
         getAsJsonArray(prop).map { findSuitableConstruct(clz).newInstance(it) as T }
     } catch (e: Exception) { emptyList() }
 }
+
+
+fun JsonObject.getSafeLong(key: String) =
+    try { get(key).asLong } catch (e: Exception) { 0L }

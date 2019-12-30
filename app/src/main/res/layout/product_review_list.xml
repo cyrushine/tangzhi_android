@@ -15,7 +15,7 @@
         android:background="@android:color/holo_blue_bright"
         />
 
-    <com.ifanr.tangzhi.ui.base.AppEpoxyRV
+    <com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
         android:id="@+id/reviewList"
         android:background="@color/white"
         android:layout_width="match_parent"

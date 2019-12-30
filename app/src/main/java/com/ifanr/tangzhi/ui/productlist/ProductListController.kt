@@ -5,10 +5,12 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyModel
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.ui.base.*
+import com.ifanr.tangzhi.ui.base.model.BasePagedListController
+import com.ifanr.tangzhi.ui.base.model.BlankModel_
+import com.ifanr.tangzhi.ui.base.model.ListEndSlogonModel_
+import com.ifanr.tangzhi.ui.base.model.ListHeaderCountModel_
 import com.ifanr.tangzhi.ui.product.list.ProductListModel
 import com.ifanr.tangzhi.ui.product.list.ProductListModel_
-import com.ifanr.tangzhi.ui.product.list.productList
 
 class ProductListController: BasePagedListController<ProductList>() {
 

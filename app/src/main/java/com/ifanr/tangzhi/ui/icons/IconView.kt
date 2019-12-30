@@ -122,3 +122,49 @@ class TmSpan(ctx: Context): ReplacementSpan() {
         canvas.drawText(tm, x, offset, p)
     }
 }
+
+/**
+ * 绘制 icon font
+ */
+class IconSpan (ctx: Context): ReplacementSpan() {
+
+    private val p = Paint().apply {
+        typeface = IconHolder.createIcon(ctx)
+    }
+
+    private fun initPaint(source: Paint) {
+        p.textSize = source.textSize
+        p.color = source.color
+    }
+
+    override fun getSize(
+        paint: Paint,
+        text: CharSequence?,
+        start: Int,
+        end: Int,
+        fm: Paint.FontMetricsInt?
+    ): Int {
+        initPaint(paint)
+        return if (text != null) p.measureText(text, start, end).roundToInt() else 0
+    }
+
+    override fun draw(
+        canvas: Canvas,
+        text: CharSequence?,
+        start: Int,
+        end: Int,
+        x: Float,
+        top: Int,
+        y: Int,
+        bottom: Int,
+        paint: Paint
+    ) {
+        initPaint(paint)
+
+        if (text != null) {
+            val fm = p.fontMetrics
+            val height = fm.bottom - fm.top
+            canvas.drawText(text, start, end, x, height, p)
+        }
+    }
+}

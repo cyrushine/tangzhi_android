@@ -3,6 +3,7 @@ package com.ifanr.tangzhi
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import com.airbnb.epoxy.EpoxyController
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
@@ -26,6 +27,7 @@ class App: DaggerApplication() {
         initARouter()
         initGlide()
         initRxJava()
+        initEpoxy()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -51,6 +53,11 @@ class App: DaggerApplication() {
         RxJavaPlugins.initIoScheduler(workerSchedulerCallable)
         RxJavaPlugins.initComputationScheduler(workerSchedulerCallable)
         RxJavaPlugins.setErrorHandler(SimpleErrorHandler())
+    }
+
+    private fun initEpoxy() {
+        EpoxyController.setGlobalDebugLoggingEnabled(BuildConfig.DEBUG)
+        EpoxyController.setGlobalDuplicateFilteringDefault(true)
     }
 }
 

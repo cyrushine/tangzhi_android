@@ -14,7 +14,7 @@
         android:layout_marginStart="20dp"
         />
 
-    <com.ifanr.tangzhi.ui.base.FlatHorizontalEpoxyRV
+    <com.ifanr.tangzhi.ui.base.widget.FlatHorizontalEpoxyRV
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

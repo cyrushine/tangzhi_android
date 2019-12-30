@@ -6,5 +6,6 @@
             <enum name="BLACK" value="1" />
         </attr>
         <attr name="appToolbarTitle" format="string" />
+        <attr name="appToolbarBottomDivider" format="boolean" />
     </declare-styleable>
 </resources>

@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.model
 
 import com.airbnb.epoxy.*
 import com.airbnb.epoxy.paging.PagedListEpoxyController

@@ -1,17 +1,12 @@
 package com.ifanr.tangzhi.ui.product.posts
 
-import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.AutoModel
-import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.EpoxyViewHolder
 import com.airbnb.epoxy.OnModelClickListener
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseTyped2Controller
+import com.ifanr.tangzhi.ui.base.model.BaseTyped2Controller
 import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
 import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderViewModel_
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 
 class PostController (
     val onHeaderClickListener: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView>

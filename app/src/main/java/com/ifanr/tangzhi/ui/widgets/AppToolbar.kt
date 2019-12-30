@@ -3,6 +3,7 @@ package com.ifanr.tangzhi.ui.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +15,7 @@ class AppToolbar: ConstraintLayout {
 
     val titleTv: TextView
     val close: TextView
+    private val bottomDivider: View
 
     constructor(context: Context?) : super(context) { construct(null) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { construct(attrs) }
@@ -27,6 +29,8 @@ class AppToolbar: ConstraintLayout {
         LayoutInflater.from(context).inflate(R.layout.app_toolbar, this, true)
         titleTv = findViewById(R.id.toolbarTitleTv)
         close = findViewById(R.id.toolbarCloseBtn)
+        bottomDivider = findViewById(R.id.toolbarBottomDivider)
+        bottomDivider.visibility = View.GONE
     }
 
     private fun construct(attrs: AttributeSet?) {
@@ -40,6 +44,10 @@ class AppToolbar: ConstraintLayout {
 
             ta.getString(R.styleable.AppToolbar_appToolbarTitle)?.also {
                 titleTv.text = it
+            }
+
+            if (ta.getBoolean(R.styleable.AppToolbar_appToolbarBottomDivider, false)) {
+                bottomDivider.visibility = View.VISIBLE
             }
             ta.recycle()
         }

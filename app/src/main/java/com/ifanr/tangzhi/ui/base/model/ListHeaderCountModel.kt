@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.base
+package com.ifanr.tangzhi.ui.base.model
 
 import android.widget.TextView
 import androidx.annotation.StringRes
