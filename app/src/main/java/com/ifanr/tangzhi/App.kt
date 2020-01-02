@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.ifanr.tangzhi.di.DaggerAppComponent
 import com.ifanr.tangzhi.glide.RoundedBitmapDrawableTranscoder
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.minapp.android.sdk.BaaS
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -28,6 +29,7 @@ class App: DaggerApplication() {
         initGlide()
         initRxJava()
         initEpoxy()
+        AndroidThreeTen.init(this)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

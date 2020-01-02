@@ -1,7 +1,7 @@
 package com.ifanr.tangzhi.di
 
-import com.ifanr.tangzhi.repository.baas.BaaSRepositoryModule
+import com.ifanr.tangzhi.repository.baas.BaasRepositoryModule
 import dagger.Module
 
-@Module(includes = [BaaSRepositoryModule::class])
+@Module(includes = [BaasRepositoryModule::class])
 abstract class RepositoryModule

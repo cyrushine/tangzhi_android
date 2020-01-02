@@ -7,7 +7,7 @@ import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.user.User
 
-class Comment {
+open class Comment {
 
     var id: String = ""
     var content: String = ""
@@ -26,6 +26,8 @@ class Comment {
     var rootId: String = ""
     var parentId: String = ""
     var replyId: String = ""
+    var createdAt: Long = 0
+    var replayToName: String = ""
 
     constructor(record: Record) {
         id = record.getSafeId()
@@ -46,7 +48,14 @@ class Comment {
         rootId = record.getSafeString(COL_ROOT_ID)
         parentId = record.getSafeString(COL_PARENT_ID)
         replyId = record.getSafeString(COL_REPLY_ID)
+        createdAt = record.getSafeLong(Record.CREATED_AT)
+        record.getJsonObject(COL_REPLY_TO)?.also {
+            replayToName = it.getSafeString(User.NICKNAME)
+        }
     }
+
+    constructor()
+
 
     companion object {
 

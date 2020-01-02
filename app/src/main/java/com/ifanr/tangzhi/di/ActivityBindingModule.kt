@@ -8,6 +8,10 @@ import com.ifanr.tangzhi.ui.comment.CommentModule
 import com.ifanr.tangzhi.ui.gallery.GalleryActivity
 import com.ifanr.tangzhi.ui.gallery.GalleryModule
 import com.ifanr.tangzhi.ui.gallery.GalleryViewModel
+import com.ifanr.tangzhi.ui.index.IndexActivity
+import com.ifanr.tangzhi.ui.index.IndexModule
+import com.ifanr.tangzhi.ui.index.home.HomeFragment
+import com.ifanr.tangzhi.ui.index.home.HomeModule
 import com.ifanr.tangzhi.ui.postlist.PostListActivity
 import com.ifanr.tangzhi.ui.postlist.PostListModule
 import com.ifanr.tangzhi.ui.product.ProductActivity
@@ -23,6 +27,8 @@ import com.ifanr.tangzhi.ui.productparam.ProductParamModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsActivity
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsViewModel
+import com.ifanr.tangzhi.ui.search.SearchActivity
+import com.ifanr.tangzhi.ui.search.SearchModule
 import com.ifanr.tangzhi.ui.sendcomment.SendCommentActivity
 import com.ifanr.tangzhi.ui.sendcomment.SendCommentModule
 import com.ifanr.tangzhi.ui.sendreview.SendReviewActivity
@@ -34,6 +40,18 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [SearchModule::class])
+    abstract fun searchActivity(): SearchActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [HomeModule::class])
+    abstract fun homeFragment(): HomeFragment
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [IndexModule::class])
+    abstract fun indexActivity(): IndexActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [CommentModule::class])

@@ -71,7 +71,7 @@ class CommentSwitch: ViewGroup {
 
     init {
         indicator = View(context).apply {
-            background = RoundCapRectDrawable(Color.WHITE)
+            background = RoundedRectDrawable(Color.WHITE)
             addView(this)
         }
         editorChoice = OptionTextView(context).apply {
@@ -91,7 +91,7 @@ class CommentSwitch: ViewGroup {
             setOnClickListener { setValue(Type.LATEST) }
         }
         setPadding(intArrayOf(2, 2, 2, 2))
-        background = RoundCapRectDrawable(context.getColorCompat(R.color.base_f4))
+        background = RoundedRectDrawable(context.getColorCompat(R.color.base_f4))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

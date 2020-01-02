@@ -23,6 +23,17 @@ val workerHandler: Handler by lazy {
     Handler(thread.looper)
 }
 
+val worker: Executor by lazy { HandlerExecutor(workerHandler) }
+
 val mainHandler: Handler by lazy {
     Handler(Looper.getMainLooper())
+}
+
+
+class HandlerExecutor (
+    private val handler: Handler
+): Executor {
+    override fun execute(command: Runnable) {
+        handler.post(command)
+    }
 }

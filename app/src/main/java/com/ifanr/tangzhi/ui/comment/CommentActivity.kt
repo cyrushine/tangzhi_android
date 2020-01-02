@@ -1,6 +1,5 @@
 package com.ifanr.tangzhi.ui.comment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -10,6 +9,7 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
+import com.ifanr.tangzhi.ui.comment.widget.CommentList
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_comment.*
 
@@ -54,5 +54,21 @@ class CommentActivity : BaseViewModelActivity() {
                 .navigation(this)
         }
         toolbar.close.setOnClickListener { finish() }
+        list.setListener(object: CommentList.Listener {
+            override fun onReplyClick(position: Int) {
+                super.onReplyClick(position)
+            }
+
+            override fun onUpClick(position: Int) {
+                super.onUpClick(position)
+            }
+
+            override fun onOptionClick(position: Int) {
+                super.onOptionClick(position)
+            }
+
+            override fun onLoadMore() { vm.tryLoadNextPage() }
+            override fun onChildLoadMoreClick(id: String) { vm.loadChild(id) }
+        })
     }
 }

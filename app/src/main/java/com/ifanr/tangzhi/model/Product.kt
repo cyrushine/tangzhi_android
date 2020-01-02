@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.model
 
+import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.JsonObject
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.ext.*
@@ -308,6 +309,13 @@ data class Product (
     )
 
     companion object {
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Product>() {
+            override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean = true
+        }
 
         const val TYPE_HARDWARE = "hardware"    // 硬件
         const val TYPE_FEATURE = "feature"      // 专题

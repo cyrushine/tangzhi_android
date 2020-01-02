@@ -3,7 +3,7 @@ package com.ifanr.tangzhi.model
 import com.ifanr.tangzhi.ext.getSafeId
 import com.ifanr.tangzhi.ext.getSafeString
 import com.ifanr.tangzhi.ext.getSafeStringArray
-import com.ifanr.tangzhi.repository.itemList
+import com.ifanr.tangzhi.repository.baas.itemList
 import com.minapp.android.sdk.database.Record
 
 /**

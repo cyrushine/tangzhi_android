@@ -3,11 +3,10 @@ package com.ifanr.tangzhi.ui.product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.ProductList
-import com.ifanr.tangzhi.repository.baas.BaaSRepository
+import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ProductViewModel @Inject constructor (
-    private val repository: BaaSRepository
+    private val repository: BaasRepository
 ): BaseViewModel() {
 
     companion object {

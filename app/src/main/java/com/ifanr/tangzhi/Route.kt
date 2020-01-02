@@ -4,6 +4,10 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val search = "/$DEFAULT_GROUP/search"
+
+    const val index = "/$DEFAULT_GROUP/index"
+
     const val comment = "/$DEFAULT_GROUP/comment"
     const val commentProductId = "product_id"        // striing
     const val commentProductName = "product_name"   // string

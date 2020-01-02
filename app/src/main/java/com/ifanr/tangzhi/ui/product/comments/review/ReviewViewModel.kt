@@ -1,10 +1,9 @@
 package com.ifanr.tangzhi.ui.product.comments.review
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.repository.baas.BaaSRepository
+import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
@@ -12,10 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import kotlin.random.Random
 
 class ReviewViewModel @Inject constructor (
-    private val repository: BaaSRepository
+    private val repository: BaasRepository
 ) : BaseViewModel() {
 
     companion object {

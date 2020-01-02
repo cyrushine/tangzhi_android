@@ -8,6 +8,7 @@ import com.airbnb.epoxy.EpoxyViewHolder
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.LoadMoreAwaredController
 import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 import com.ifanr.tangzhi.ui.product.comments.review.productReview
 
@@ -53,9 +54,8 @@ class ReviewList: AppEpoxyRV {
     }
 }
 
-class ProductReviewController: BaseTypedController<List<Comment>>() {
+class ProductReviewController: LoadMoreAwaredController<List<Comment>>() {
 
-    var loadMoreListener: () -> Unit =  {}
     var listener: ReviewList.Listener = object: ReviewList.Listener {}
 
     override fun buildModels(data: List<Comment>?) {
@@ -70,18 +70,6 @@ class ProductReviewController: BaseTypedController<List<Comment>>() {
                     listener.onClick(position)
                 }
             }
-        }
-    }
-
-    override fun onModelBound(
-        holder: EpoxyViewHolder,
-        boundModel: EpoxyModel<*>,
-        position: Int,
-        previouslyBoundModel: EpoxyModel<*>?
-    ) {
-        val count = currentData?.size ?: 0
-        if (count > 0 && position + 1 + Const.PRE_FETCH_DISTANCE > count) {
-            loadMoreListener.invoke()
         }
     }
 }

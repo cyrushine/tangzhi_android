@@ -57,7 +57,7 @@ abstract class ProductReviewModel: EpoxyModelWithHolder<ProductReviewModel.Holde
         holder.reply.setCount(comment.replyCount)
         holder.up.setCount(comment.upvote)
         holder.reply.setOnClickListener(onReplyClick)
-        holder.date.setDatetime(millisecond = System.currentTimeMillis())
+        holder.date.setDatetime(second = comment.createdAt)
         holder.option.visibility = if (optionVisiable) View.VISIBLE else View.GONE
         holder.date.visibility = if (dateVisiable) View.VISIBLE else View.GONE
         holder.view.setOnClickListener(onClick)

@@ -182,8 +182,9 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         if (state == State.EXPAND) {
             val hotSpot = (reviewsPanel.top.toFloat() ..
                     (reviewsPanel.top + reviewExposeHeight).toFloat())
-            if (hotSpot.contains(ev.y) && dragHelper.shouldInterceptTouchEvent(ev))
+            if (hotSpot.contains(ev.y) && dragHelper.shouldInterceptTouchEvent(ev)) {
                 return true
+            }
         }
 
         // review 展开的时候，滚动到顶部继续往下拉，可以把 review 收起来

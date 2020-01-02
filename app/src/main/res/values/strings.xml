@@ -61,8 +61,16 @@
     <string name="send_review_hint">说说你对「%s」的评价...</string>
     <string name="send_review_button">写点评</string>
     <string name="send_review_image_selected">你已选过这张图片啦...</string>
-    <string name="loading">载入中...</string>
+    <string name="loading">载入中 ...</string>
     <string name="send_comment_hint">回复内容...</string>
     <string name="comment_review_title">评论详情</string>
     <string name="comment_all_title">全部回复</string>
+    <string name="comment_child_load_more">点击加载更多 \ue642</string>
+    <string name="home_product_review">正在讨论</string>
+    <string name="home_header_title">最新上线</string>
+    <string name="home_banner_search_hint">搜索你感兴趣的产品…</string>
+    <string name="search_hint">搜索你感兴趣内容</string>
+    <string name="search_item_info">%d 篇文章 · %d 条点评 </string>
+    <string name="search_category_history">搜索历史</string>
+    <string name="search_category_hot">热门推荐</string>
 </resources>
