@@ -73,4 +73,14 @@
     <string name="search_item_info">%d 篇文章 · %d 条点评 </string>
     <string name="search_category_history">搜索历史</string>
     <string name="search_category_hot">热门推荐</string>
+    <string name="index_bottom_home">首页</string>
+    <string name="index_bottom_profile">我的</string>
+    <string name="profile_point_text">糖纸积分&#160;\ue629</string>
+    <string name="profile_my_message">我的消息</string>
+    <string name="profile_my_activities">我的动态</string>
+    <string name="profile_my_follow">我的关注</string>
+    <string name="profile_feedback">问题反馈</string>
+    <string name="profile_about">关于糖纸</string>
+    <string name="profile_name_default">注册登录</string>
+    <string name="profile_motto_default">糖纸，好产品说明书</string>
 </resources>

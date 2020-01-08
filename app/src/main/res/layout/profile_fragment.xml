@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ifanr.tangzhi.ui.base.widget.AppScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.index.profile.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_f4"
+        android:paddingBottom="50dp"
+        >
+
+        <ImageView
+            android:id="@+id/profileBanner"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintDimensionRatio="375:210"
+            android:src="@color/base_gold"
+            />
+
+        <View
+            android:id="@+id/profileBannerMask"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/profileBanner"
+            app:layout_constraintDimensionRatio="375:63"
+            android:background="@drawable/profile_banner_mask"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileCard"
+            app:layout_constraintTop_toTopOf="@id/profileBannerMask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="12dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/index_profile_card_bg"
+            >
+
+            <TextView
+                android:id="@+id/profileUserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textColor="@color/base_12"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="54dp"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/profileUserMotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/base_a8"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@id/profileUserName"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                />
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.PointText
+                android:id="@+id/profilePointText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@id/profileUserMotto"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="25dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/profileAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/profile_avatar_bg"
+            android:padding="1dp"
+            app:layout_constraintTop_toTopOf="@id/profileCard"
+            android:translationY="-40dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileActivitiesCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/profileCard"
+            app:layout_constraintLeft_toLeftOf="@id/profileCard"
+            app:layout_constraintRight_toRightOf="@id/profileCard"
+            android:background="@drawable/index_profile_card_bg"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="12dp"
+            >
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.SettingItemView
+                android:id="@+id/profileMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:settingItemViewText="@string/profile_my_message"
+                app:settingItemViewIcon="@string/ic_inform"
+                />
+            
+            <View
+                style="@style/ProfileItemDivider"
+                app:layout_constraintTop_toBottomOf="@id/profileMessage"
+                tools:ignore="MissingConstraints"
+                />
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.SettingItemView
+                android:id="@+id/profileActivities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/profileMessage"
+                app:settingItemViewText="@string/profile_my_activities"
+                app:settingItemViewIcon="@string/ic_dynamic"
+                />
+
+            <View
+                style="@style/ProfileItemDivider"
+                app:layout_constraintTop_toBottomOf="@id/profileActivities"
+                tools:ignore="MissingConstraints"
+                />
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.SettingItemView
+                android:id="@+id/profileFollow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/profileActivities"
+                app:settingItemViewText="@string/profile_my_follow"
+                app:settingItemViewIcon="@string/ic_like"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileOthersCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/profileActivitiesCard"
+            app:layout_constraintLeft_toLeftOf="@id/profileCard"
+            app:layout_constraintRight_toRightOf="@id/profileCard"
+            android:background="@drawable/index_profile_card_bg"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="12dp"
+            >
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.SettingItemView
+                android:id="@+id/profileFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:settingItemViewText="@string/profile_feedback"
+                app:settingItemViewIcon="@string/ic_suggest"
+                />
+
+            <View
+                style="@style/ProfileItemDivider"
+                app:layout_constraintTop_toBottomOf="@id/profileFeedback"
+                tools:ignore="MissingConstraints"
+                />
+
+            <com.ifanr.tangzhi.ui.index.profile.wdiget.SettingItemView
+                android:id="@+id/profileAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/profileFeedback"
+                app:settingItemViewText="@string/profile_about"
+                app:settingItemViewIcon="@string/ic_sugar"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.ifanr.tangzhi.ui.base.widget.AppScrollView>

@@ -11,11 +11,10 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.ui.base.BaseItemDecoration
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
 
 class SearchHintController: BaseTypedController<List<Product>>() {

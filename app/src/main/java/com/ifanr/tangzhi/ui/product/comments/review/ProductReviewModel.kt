@@ -10,7 +10,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.avatar
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.product.comments.review.widget.ImageTable

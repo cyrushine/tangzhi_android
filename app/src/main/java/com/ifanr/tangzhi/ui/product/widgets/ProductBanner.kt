@@ -1,27 +1,23 @@
 package com.ifanr.tangzhi.ui.product.widgets
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.LayoutInflaterCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.default
 import com.ifanr.tangzhi.ext.inflateInto
-import kotlin.math.roundToInt
 
 /**
  *

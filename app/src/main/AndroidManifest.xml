@@ -18,8 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.search.SearchActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"></activity>
+        <activity android:name=".ui.updateprofile.UpdateProfileActivity"></activity>
+        <activity android:name=".ui.signin.SignInActivity" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".ui.index.IndexActivity" />
         <activity android:name=".ui.comment.CommentActivity" />
         <activity
@@ -50,6 +53,15 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="com.minapp.android.sdk.wechat.WXEntryActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/HyDrogenTranslucent" />
+
+        <activity-alias
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.minapp.android.sdk.wechat.WXEntryActivity" />
     </application>
 
 </manifest>

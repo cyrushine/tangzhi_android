@@ -2,32 +2,24 @@ package com.ifanr.tangzhi.ui.sendreview
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.checkAndRequestPermissions
-import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.ext.permissionGranted
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.sendreview.widget.UploadImageTable
 import com.ifanr.tangzhi.ui.statusBar
-import com.ifanr.tangzhi.ui.widgets.LoadingDialogFragment
 import com.ifanr.tangzhi.ui.widgets.SimpleToolBar
 import com.zhihu.matisse.Matisse
-import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
-import com.zhihu.matisse.filter.Filter
-import com.zhihu.matisse.internal.entity.IncapableCause
-import com.zhihu.matisse.internal.entity.Item
 import kotlinx.android.synthetic.main.activity_send_review.*
 
 @Route(path = Routes.sendReview)

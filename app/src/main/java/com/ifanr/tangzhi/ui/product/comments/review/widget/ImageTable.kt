@@ -12,13 +12,12 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.route.Routes
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.roundedRect
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
 import com.ifanr.tangzhi.ui.base.widget.FlatGridEpoxyRV
-import kotlin.math.roundToInt
 
 /**
  * 评论下的九宫图片

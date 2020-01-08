@@ -4,14 +4,13 @@ import android.graphics.Rect
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.route.Routes
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.roundedRect
 import com.ifanr.tangzhi.model.Product

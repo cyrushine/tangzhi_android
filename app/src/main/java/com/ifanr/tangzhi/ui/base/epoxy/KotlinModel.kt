@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.epoxy
+package com.ifanr.tangzhi.ui.base.epoxy
 
 import android.view.View
 import androidx.annotation.IdRes

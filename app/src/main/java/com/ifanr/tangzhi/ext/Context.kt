@@ -8,6 +8,9 @@ import kotlin.math.roundToInt
 
 fun Context.getColorCompat(@ColorRes res: Int) = ContextCompat.getColor(this, res)
 
+fun Context.getColorStateListCompat(@ColorRes res: Int) =
+    ContextCompat.getColorStateList(this, res)
+
 fun Context.dp2px(dp: Int) = resources.displayMetrics.density.times(dp).roundToInt()
 
 fun Context.dp2px(dp: Float) = resources.displayMetrics.density.times(dp)

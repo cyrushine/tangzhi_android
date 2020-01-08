@@ -10,7 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity

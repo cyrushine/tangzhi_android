@@ -3,14 +3,12 @@ package com.ifanr.tangzhi.ui.product.related
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
-import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.ui.widgets.CompleteRoundedRectDrawable

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.airbnb.epoxy.OnModelClickListener
 import com.alibaba.android.arouter.launcher.ARouter
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.widget.FlatVerticalEpoxyRV
 

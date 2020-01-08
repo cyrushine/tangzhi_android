@@ -8,12 +8,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.NestedScrollingParent3
-import androidx.core.widget.NestedScrollView
 import androidx.customview.widget.ViewDragHelper
 import com.ifanr.tangzhi.ext.canScrollDown
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.util.axesToString
 import com.ifanr.tangzhi.util.typeToString
+import java.lang.Math.abs
+import kotlin.math.min
 
 /**
  * percent: 0f(bottom) - 1f(top)
@@ -32,8 +33,8 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         private const val TAG = "ProductContainer"
     }
 
-    private lateinit var infoPanel: View
-    private lateinit var reviewsPanel: View
+    private lateinit var productView: ProductPanel
+    private lateinit var reviewsView: View
     private var state = State.FOLD
     private var actionDownPointerId = 0
     private var actionLastY = 0f
@@ -73,7 +74,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         }
 
         override fun tryCaptureView(child: View, pointerId: Int): Boolean {
-            return child == reviewsPanel
+            return child == reviewsView
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
@@ -98,11 +99,17 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         override fun onViewDragStateChanged(s: Int) {
             state = when (s) {
                 ViewDragHelper.STATE_SETTLING, ViewDragHelper.STATE_DRAGGING -> State.DRAGGING
-                else -> if (reviewsPanel.top == reviewDraggedTopMin) State.EXPAND else State.FOLD
+                else -> if (reviewsView.top == reviewDraggedTopMin) State.EXPAND else State.FOLD
             }
 
             if (s == ViewDragHelper.STATE_IDLE) {
                 requestLayout()
+            }
+
+            // 只有当点评面板收起时，产品面板才能收到 touch event
+            productView.freeze = when (state) {
+                State.FOLD -> false
+                else -> true
             }
         }
     }
@@ -125,8 +132,8 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        infoPanel = getChildAt(0) as NestedScrollView
-        reviewsPanel = getChildAt(1)
+        productView = getChildAt(0) as ProductPanel
+        reviewsView = getChildAt(1)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -134,12 +141,12 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         measureChild(
-            infoPanel,
+            productView,
             MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(measuredHeight - reviewExposeHeight, MeasureSpec.EXACTLY))
 
         measureChild(
-            reviewsPanel,
+            reviewsView,
             MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(measuredHeight - reviewPaddingTop, MeasureSpec.EXACTLY)
         )
@@ -149,20 +156,20 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         Log.d(TAG, "onLayout")
         var left = 0
         var top = 0
-        var right = infoPanel.measuredWidth
-        var bottom = infoPanel.measuredHeight
-        infoPanel.layout(left, top, right, bottom)
+        var right = productView.measuredWidth
+        var bottom = productView.measuredHeight
+        productView.layout(left, top, right, bottom)
 
         if (state == State.FOLD) {
             top = measuredHeight - reviewExposeHeight
-            right = reviewsPanel.measuredWidth
-            bottom = top + reviewsPanel.measuredHeight
+            right = reviewsView.measuredWidth
+            bottom = top + reviewsView.measuredHeight
         } else {
-            top = reviewsPanel.top
-            right = reviewsPanel.right
-            bottom = reviewsPanel.bottom
+            top = reviewsView.top
+            right = reviewsView.right
+            bottom = reviewsView.bottom
         }
-        reviewsPanel.layout(left, top, right, bottom)
+        reviewsView.layout(left, top, right, bottom)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -173,19 +180,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         val action = ev.actionMasked
         val pointerId = ev.getPointerId(ev.actionIndex)
-
-        // review 收起的时候，通过露出部分拉起来
-        if (state == State.FOLD && dragHelper.shouldInterceptTouchEvent(ev))
-            return true
-
-        // review 展开的时候，通过 drag 露出部分的高度收起来
-        if (state == State.EXPAND) {
-            val hotSpot = (reviewsPanel.top.toFloat() ..
-                    (reviewsPanel.top + reviewExposeHeight).toFloat())
-            if (hotSpot.contains(ev.y) && dragHelper.shouldInterceptTouchEvent(ev)) {
-                return true
-            }
-        }
+        dragHelper.shouldInterceptTouchEvent(ev)
 
         // review 展开的时候，滚动到顶部继续往下拉，可以把 review 收起来
         /*if (state == State.EXPAND && reviewsPanel.scrollY <= 2) {
@@ -209,9 +204,8 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
             }
         }*/
 
-
         // review 面板收起时，info 面板滚动到底部，继续往下拉可以拉起 review 面板
-        if (state == State.FOLD && (infoPanel as? NestedScrollView)?.canScrollDown() == false) {
+        if (state == State.FOLD && !productView.canScrollDown()) {
             when (action) {
                 MotionEvent.ACTION_DOWN -> {
                     actionDownPointerId = pointerId
@@ -224,7 +218,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
                         val distance = actionLastY - ev.y
                         if (distance >= dragHelper.touchSlop) {
                             dragHelper.shouldInterceptTouchEvent(ev)
-                            dragHelper.captureChildView(reviewsPanel, actionDownPointerId)
+                            dragHelper.captureChildView(reviewsView, actionDownPointerId)
                             return true
                         }
                     }
@@ -297,13 +291,13 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
         }*/
 
         // review 往下滚动，review 先消费，container 后消费
-        /*if (target == reviewsPanel && dyUnconsumed < 0 && scrollY > 0) {
+        if (dyUnconsumed < 0 && scrollY > 0) {
             val maxDy = -min(abs(dyUnconsumed), scrollY)
             if (maxDy < 0) {
                 scrollBy(0, maxDy)
                 consumed[1] = maxDy
             }
-        }*/
+        }
 
         Log.d(TAG, "onNestedScroll, $dyConsumed, $dyUnconsumed, " +
                 "${consumed.joinToString()}, ${typeToString(type)}")
@@ -331,6 +325,5 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     fun removeBottomPanelDraggedListener(l: BottomPanelDraggedListener) {
         bottomPanelDraggedListeners.remove(l)
     }
-
 
 }

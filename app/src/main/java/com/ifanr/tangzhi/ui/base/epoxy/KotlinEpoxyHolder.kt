@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.epoxy
+package com.ifanr.tangzhi.ui.base.epoxy
 
 import android.view.View
 import com.airbnb.epoxy.EpoxyHolder
@@ -33,7 +33,8 @@ abstract class KotlinEpoxyHolder : EpoxyHolder() {
     ) : ReadOnlyProperty<KotlinEpoxyHolder, V> {
         private object EMPTY
 
-        private var value: Any? = EMPTY
+        private var value: Any? =
+            EMPTY
 
         override fun getValue(thisRef: KotlinEpoxyHolder, property: KProperty<*>): V {
             if (value == EMPTY) {

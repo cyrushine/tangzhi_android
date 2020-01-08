@@ -1,7 +1,6 @@
 package com.ifanr.tangzhi.ui.gallery
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
@@ -9,7 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.RequestManager
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.checkAndRequestPermissions
 import com.ifanr.tangzhi.ext.permissionGranted
 import com.ifanr.tangzhi.ext.toast

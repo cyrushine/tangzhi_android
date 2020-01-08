@@ -1,8 +1,12 @@
-package com.ifanr.tangzhi
+package com.ifanr.tangzhi.route
 
 object Routes {
 
     private const val DEFAULT_GROUP = "app"
+
+    const val updateProfile = "/$DEFAULT_GROUP/updateprofile"
+
+    const val signIn = "/$DEFAULT_GROUP/signin"
 
     const val search = "/$DEFAULT_GROUP/search"
 

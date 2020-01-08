@@ -6,6 +6,7 @@ import com.bumptech.glide.RequestManager
 import com.ifanr.tangzhi.App
 import com.ifanr.tangzhi.AppConfig
 import com.ifanr.tangzhi.AppConfigImpl
+import com.ifanr.tangzhi.EventBus
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,4 +20,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun bindAppConfig(config: AppConfigImpl): AppConfig
+
+    @Binds
+    abstract fun bindEventBus(bus: EventBus): EventBus
 }

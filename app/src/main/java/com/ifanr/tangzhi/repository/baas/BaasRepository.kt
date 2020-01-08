@@ -10,6 +10,26 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 登出
+     */
+    fun signOut()
+
+    /**
+     * 是否已登录
+     */
+    fun signedIn(): Boolean
+
+    /**
+     * 当前登录的用户信息
+     */
+    fun loadUserProfile(): Single<UserProfile>
+
+    /**
+     * 用户可选 banner 图列表
+     */
+    fun cachedUserBannerList(): Single<List<String>>
+
+    /**
      * 热门搜索列表
      */
     fun searchHotKeys(): Single<List<SearchKey>>

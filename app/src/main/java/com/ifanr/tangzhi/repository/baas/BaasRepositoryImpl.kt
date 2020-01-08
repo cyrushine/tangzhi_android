@@ -2,26 +2,60 @@ package com.ifanr.tangzhi.repository.baas
 
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
+import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.repository.baas.datasource.ProductListDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.SearchDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
-import com.ifanr.tangzhi.util.uuid
-import com.minapp.android.sdk.Global
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.util.concurrent.TimeUnit
+import io.reactivex.subjects.Subject
+import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 
-class BaasRepositoryImpl @Inject constructor(): BaasRepository {
+class BaasRepositoryImpl @Inject constructor(
+): BaasRepository {
+
+    private var cachedUserBanners: List<String>? = null
+    private val cachedUserBannersLock = ReentrantLock(true)
 
     private val searchList = mutableListOf<String>().apply {
         addAll(listOf("手机", "果粉 Boys", "VLog 神器", "iPhone XS", "华为的全面屏超广角手机", "听歌响"))
+    }
+
+    override fun signOut() {
+        Auth.logout()
+    }
+
+    override fun signedIn(): Boolean =
+        Auth.signedIn()
+
+    override fun loadUserProfile(): Single<UserProfile> = Single.fromCallable {
+        val user = Auth.currentUser()
+        if (user != null)
+            UserProfile(user)
+        else
+            null
+    }
+
+    override fun cachedUserBannerList(): Single<List<String>> = Single.fromCallable {
+        if (cachedUserBanners == null) {
+            cachedUserBannersLock.lock()
+            try {
+                if (cachedUserBanners == null) {
+                    cachedUserBanners = setting.getValue<List<String>>(
+                        "user_banner", object: TypeToken<List<String>>(){}.type).blockingGet()
+                }
+            }
+            catch (e: Exception) { throw e }
+            finally { cachedUserBannersLock.unlock() }
+        }
+        cachedUserBanners
     }
 
     override fun searchHotKeys(): Single<List<SearchKey>> =

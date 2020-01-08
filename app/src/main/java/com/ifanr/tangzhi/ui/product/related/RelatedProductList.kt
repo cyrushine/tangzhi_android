@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ui.product.RelatedProducts
 import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
-import io.reactivex.disposables.Disposable
 
 class RelatedProductList: ConstraintLayout {
 

@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.di
 
+import com.ifanr.tangzhi.route.SignInInterceptor
 import com.ifanr.tangzhi.ui.LaunchActivity
 import com.ifanr.tangzhi.ui.browser.BrowserActivity
 import com.ifanr.tangzhi.ui.browser.BrowserModule
@@ -12,6 +13,8 @@ import com.ifanr.tangzhi.ui.index.IndexActivity
 import com.ifanr.tangzhi.ui.index.IndexModule
 import com.ifanr.tangzhi.ui.index.home.HomeFragment
 import com.ifanr.tangzhi.ui.index.home.HomeModule
+import com.ifanr.tangzhi.ui.index.profile.ProfileFragment
+import com.ifanr.tangzhi.ui.index.profile.ProfileModule
 import com.ifanr.tangzhi.ui.postlist.PostListActivity
 import com.ifanr.tangzhi.ui.postlist.PostListModule
 import com.ifanr.tangzhi.ui.product.ProductActivity
@@ -35,11 +38,32 @@ import com.ifanr.tangzhi.ui.sendreview.SendReviewActivity
 import com.ifanr.tangzhi.ui.sendreview.SendReviewModule
 import com.ifanr.tangzhi.ui.sendreview.SendReviewViewModel
 import com.ifanr.tangzhi.ui.share.ShareActivity
+import com.ifanr.tangzhi.ui.signin.SignInActivity
+import com.ifanr.tangzhi.ui.signin.SignInModule
+import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileActivity
+import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun SignInInterceptor(): SignInInterceptor
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [UpdateProfileModule::class])
+    abstract fun updateProfileActivity(): UpdateProfileActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [SignInModule::class])
+    abstract fun signInActivity(): SignInActivity
+
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [ProfileModule::class])
+    abstract fun profileFragment(): ProfileFragment
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [SearchModule::class])
@@ -60,7 +84,6 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [SendCommentModule::class])
     abstract fun sendCommentActivity(): SendCommentActivity
-
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [SendReviewModule::class])

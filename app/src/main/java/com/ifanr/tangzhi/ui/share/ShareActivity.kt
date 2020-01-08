@@ -1,29 +1,17 @@
 package com.ifanr.tangzhi.ui.share
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
-import com.ifanr.tangzhi.ext.colorRGBA
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.delay
 import com.ifanr.tangzhi.ui.base.BaseActivity
 import com.ifanr.tangzhi.ui.statusBar
-import com.uber.autodispose.android.lifecycle.autoDispose
-import com.uber.autodispose.autoDispose
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Action
 import kotlinx.android.synthetic.main.activity_share.*
-import kotlinx.android.synthetic.main.dialog_product_indexes.*
-import java.util.concurrent.TimeUnit
-import kotlin.math.absoluteValue
 
 @Route(path = Routes.share)
 class ShareActivity : BaseActivity() {

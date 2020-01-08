@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelFragment
 import com.ifanr.tangzhi.ui.base.viewModelOf
 import com.ifanr.tangzhi.ui.product.ProductViewModel

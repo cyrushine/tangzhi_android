@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
     // 搜索历史和热门推荐
     val hotAndHistory = MutableLiveData<Pair<List<String>, List<String>>>()
 
-    private val searchHintJob = ArrayList<Disposable>()
+    private var searchHintRequest: Disposable? = null
 
     init {
 
@@ -47,11 +47,19 @@ class SearchViewModel @Inject constructor(
             key.observeForever { it.takeIf { !it.isNullOrEmpty() }?.also { text ->
                 emitter.onNext(text)
             }}}
-            .debounce(400L, TimeUnit.MILLISECONDS)
-            .map { repository.searchHint(it).blockingGet() }
+            .debounce(500L, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(this)
-            .subscribe { it.takeIf { !it.isNullOrEmpty() }?.also { searchHint.postValue(it) } }
-            .also { searchHintJob.add(it) }
+            .subscribe {
+                searchHintRequest?.dispose()
+                searchHintRequest = repository.searchHint(it)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(this)
+                    .subscribe(Consumer { it.takeIf { !it.isNullOrEmpty() }?.also {
+                        searchHint.value = it
+                    }})
+            }
     }
 
     fun loadIndexPage() {
@@ -72,8 +80,8 @@ class SearchViewModel @Inject constructor(
     fun search() {
         val text = key.value
         if (!text.isNullOrEmpty()) {
-            searchHintJob.forEach { it.dispose() }
-            searchHintJob.clear()
+            searchHintRequest?.dispose()
+            searchHintRequest = null
             repository.search(text)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

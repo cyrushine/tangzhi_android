@@ -7,13 +7,10 @@ import android.widget.ImageView
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.roundedRect
-import com.ifanr.tangzhi.ui.base.model.BaseEpoxyController
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
-import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 import com.ifanr.tangzhi.ui.base.widget.FlatGridEpoxyRV
-import com.ifanr.tangzhi.util.uuid
 
 /**
  * 上传图片列表

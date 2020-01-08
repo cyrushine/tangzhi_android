@@ -1,15 +1,19 @@
 package com.ifanr.tangzhi.ui.icons
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.content.res.ColorStateList
+import android.graphics.*
+import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.text.style.ReplacementSpan
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.CompoundButton
-import androidx.annotation.Dimension
+import androidx.annotation.*
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.getColorStateListCompat
 import kotlin.math.roundToInt
 
 private object IconHolder {
@@ -167,4 +171,49 @@ class IconSpan (ctx: Context): ReplacementSpan() {
             canvas.drawText(text, start, end, x, height, p)
         }
     }
+}
+
+class IconDrawable (
+    @StringRes iconRes: Int,
+    ctx: Context
+): Drawable() {
+
+    companion object {
+        private const val TAG = "IconDrawable"
+    }
+
+    private val icon = ctx.getString(iconRes)
+
+    private val paint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+        typeface = IconHolder.createIcon(ctx)
+    }
+
+    private var tintList: ColorStateList? = null
+
+    override fun draw(canvas: Canvas) {
+        paint.color = tintList?.getColorForState(state, paint.color) ?: paint.color
+        paint.textSize = bounds.height().toFloat()
+        canvas.drawText(
+            icon,
+            bounds.left.toFloat(),
+            bounds.bottom - paint.fontMetrics.descent,
+            paint)
+    }
+
+    override fun setAlpha(alpha: Int) {}
+
+    override fun getOpacity(): Int = PixelFormat.UNKNOWN
+
+    override fun setColorFilter(colorFilter: ColorFilter?) {}
+
+    override fun setTintList(tint: ColorStateList?) {
+        tintList = tint
+    }
+
+    override fun onStateChange(state: IntArray?): Boolean {
+        invalidateSelf()
+        return true
+    }
+
+    override fun isStateful(): Boolean = true
 }

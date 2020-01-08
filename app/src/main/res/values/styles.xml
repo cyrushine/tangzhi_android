@@ -76,4 +76,12 @@
     <style name="CommentChildReplay">
         <item name="android:textColor">@color/base_a8</item>
     </style>
+
+    <style name="ProfileItemDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/base_e8</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
 </resources>

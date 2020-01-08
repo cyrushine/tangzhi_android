@@ -5,17 +5,15 @@ import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.Routes
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.route.Routes
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.roundedRect
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.widgets.RatingBar
 import com.ifanr.tangzhi.ui.widgets.ScoreTextView
-import java.text.NumberFormat
 
 @EpoxyModelClass(layout = R.layout.related_products_item)
 abstract class RelatedProductItemModel: EpoxyModelWithHolder<RelatedProductItemModel.Holder>() {

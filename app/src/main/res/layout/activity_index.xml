@@ -8,14 +8,23 @@
     tools:context=".ui.index.IndexActivity"
     >
 
-    <fragment
-        android:id="@+id/content"
+    <com.ifanr.tangzhi.ui.index.widget.IndexBottomMenu
+        android:id="@+id/bottomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/index_bottom_menu"
+        app:itemTextColor="@color/index_bottom_text_color"
+        app:itemIconTint="@color/index_bottom_text_color"
+        />
+
+    <com.ifanr.tangzhi.ui.index.widget.IndexViewPager
+        android:id="@+id/vp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:name="com.ifanr.tangzhi.ui.index.home.HomeFragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomMenu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

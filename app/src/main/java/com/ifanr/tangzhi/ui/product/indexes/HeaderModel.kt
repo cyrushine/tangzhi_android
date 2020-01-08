@@ -5,7 +5,7 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.epoxy.KotlinEpoxyHolder
+import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 
 @EpoxyModelClass(layout = R.layout.product_indexes_dialog_header)
 abstract class HeaderModel: EpoxyModelWithHolder<HeaderModel.Holder>() {

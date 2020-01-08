@@ -24,7 +24,7 @@ class App: DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        BaaS.init(Const.BAAS_ID, this)
+        initBaas()
         initARouter()
         initGlide()
         initRxJava()
@@ -60,6 +60,11 @@ class App: DaggerApplication() {
     private fun initEpoxy() {
         EpoxyController.setGlobalDebugLoggingEnabled(BuildConfig.DEBUG)
         EpoxyController.setGlobalDuplicateFilteringDefault(true)
+    }
+
+    private fun initBaas() {
+        BaaS.init(Const.BAAS_ID, this)
+        BaaS.initWechatComponent(Const.WECHAT_APP_ID, this)
     }
 }
 
