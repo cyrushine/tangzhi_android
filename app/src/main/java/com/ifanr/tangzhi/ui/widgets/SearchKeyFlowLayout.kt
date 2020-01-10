@@ -129,7 +129,7 @@ class SearchKeyTextView: AppCompatTextView {
         setTextColor(context.getColorCompat(R.color.base_12))
         maxLines = 1
         ellipsize = TextUtils.TruncateAt.END
-        setPadding(intArrayOf(16, 9, 16, 9))
+        setPadding(intArrayOf(16, 7, 16, 7))
         background = RoundedRectDrawable(context.getColorCompat(R.color.base_f4))
     }
 }

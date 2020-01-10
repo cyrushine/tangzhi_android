@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
@@ -17,10 +18,13 @@ class SearchBar: ConstraintLayout {
     interface Listener {
         fun onTextChanged(text: String) {}
         fun onSearchClick(text: String) {}
+        fun onClearClick() {}
     }
 
     private val input: EditText
     private val clear: View
+    private val imm by lazy {
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager }
 
     var listener: Listener = object: Listener {}
 
@@ -41,6 +45,8 @@ class SearchBar: ConstraintLayout {
 
         clear.setOnClickListener {
             input.text.clear()
+            input.requestFocus()
+            listener.onClearClick()
         }
 
         input.addTextChangedListener {
@@ -53,6 +59,8 @@ class SearchBar: ConstraintLayout {
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     listener.onSearchClick(input.text.toString())
+                    clearFocus()
+                    imm.hideSoftInputFromWindow(windowToken, 0)
                     true
                 }
                 else -> false
@@ -62,5 +70,6 @@ class SearchBar: ConstraintLayout {
 
     fun setText(text: CharSequence) {
         input.setText(text)
+        clearFocus()
     }
 }

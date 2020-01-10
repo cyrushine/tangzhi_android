@@ -8,7 +8,9 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class EventBus @Inject constructor() {
 
     private val subject: Subject<Event> = PublishSubject.create()
@@ -29,4 +31,5 @@ class EventBus @Inject constructor() {
 sealed class Event {
     object SignIn: Event()
     object SignOut: Event()
+    object ProfileChanged: Event()
 }

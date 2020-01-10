@@ -1,10 +1,12 @@
 package com.ifanr.tangzhi.ui.widgets
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -20,6 +22,20 @@ import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.app_dialog_loading.*
 import java.util.concurrent.TimeUnit
 
+
+private const val TAG = "tangzhi_app_loading"
+
+fun AppCompatActivity.showLoading(delay: Boolean = false) {
+    if (supportFragmentManager.findFragmentByTag(TAG) == null) {
+        LoadingDialogFragment.show(supportFragmentManager, delay = delay, tag = TAG)
+    }
+}
+
+fun AppCompatActivity.dismissLoading() {
+    (supportFragmentManager.findFragmentByTag(TAG) as? LoadingDialogFragment)?.dismiss()
+}
+
+
 /**
  * 通用的 loading
  */
@@ -31,10 +47,10 @@ class LoadingDialogFragment: DialogFragment() {
 
         private const val ARG_DELAY = "ARG_DELAY"
 
-        fun show(fm: FragmentManager, delay: Boolean = false) {
+        fun show(fm: FragmentManager, delay: Boolean = false, tag: String? = null) {
             LoadingDialogFragment().apply {
                 arguments = bundleOf(ARG_DELAY to delay)
-                this.show(fm, null)
+                this.show(fm, tag)
             }
         }
     }

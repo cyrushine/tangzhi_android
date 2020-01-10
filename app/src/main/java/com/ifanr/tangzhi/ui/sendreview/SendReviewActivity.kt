@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.checkAndRequestPermissions
+import com.ifanr.tangzhi.ext.matisse
 import com.ifanr.tangzhi.ext.permissionGranted
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
@@ -100,17 +101,11 @@ class SendReviewActivity : BaseViewModelActivity() {
 
     private fun startImagePicker() {
         if (vm.imageSizeForPick > 0) {
-            Matisse.from(this)
-                .choose(vm.imageMimeTypes)
-                .autoHideToolbarOnSingleTap(true)
-                .capture(false)
-                .countable(true)
-                .imageEngine(GlideEngine())
-                .maxSelectable(vm.imageSizeForPick)
-                .showPreview(false)
-                .theme(R.style.Matisse_TangZhi)
-                .addFilter(vm.imageFilter)
-                .forResult(START_PICKER)
+            matisse (
+                requestCode = START_PICKER,
+                maxSelectable = vm.imageSizeForPick,
+                filter = vm.imageFilter
+            )
         }
     }
 

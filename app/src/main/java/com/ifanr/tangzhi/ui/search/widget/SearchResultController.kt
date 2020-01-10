@@ -20,6 +20,9 @@ import com.ifanr.tangzhi.ui.base.model.ListEndSlogonModel_
 import com.ifanr.tangzhi.ui.widgets.RatingBar
 import com.ifanr.tangzhi.ui.widgets.ScoreTextView
 
+/**
+ * 搜索结果
+ */
 class SearchResultController: BasePagedListController<Product>(
     itemDiffCallback = Product.DIFF_CALLBACK
 ) {

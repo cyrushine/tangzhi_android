@@ -21,8 +21,6 @@ class LaunchActivity : BaseActivity() {
         /*ARouter.getInstance().build(Routes.product)
             .withString(Routes.productId, "5db8518a6f40dd69b311ffc1")
             .navigation(this)*/
-
-        Auth.logout()
         ARouter.getInstance().build(Routes.index).navigation(this)
 
         alloc.setOnClickListener {

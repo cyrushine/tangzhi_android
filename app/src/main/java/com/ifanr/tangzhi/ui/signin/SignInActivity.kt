@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ifanr.tangzhi.Event
+import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.toast
@@ -29,9 +30,14 @@ class SignInActivity : BaseViewModelActivity() {
         private const val TAG = "SignInActivity"
     }
 
+    @Inject
+    lateinit var bus: EventBus
+
     private val wechatCallback = object: WechatSignInCallback {
         override fun onSuccess() {
             toast("微信登录成功")
+            bus.post(Event.SignIn)
+            finish()
         }
 
         override fun onFailure(ex: Exception?) {
@@ -46,7 +52,6 @@ class SignInActivity : BaseViewModelActivity() {
         statusBar(whiteText = false)
 
         wechatBtn.setOnClickListener {
-            Auth.logout()
             WechatComponent.signIn(wechatCallback)
         }
     }

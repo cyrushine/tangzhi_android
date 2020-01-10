@@ -60,8 +60,8 @@ class ProfileFragment : BaseViewModelFragment() {
             }
         }
 
-        profileMessage.setOnClickListener {
-            viewModel.signOut()
+        profilePointText.setOnClickListener {
+            ARouter.getInstance().build(Routes.points).navigation(requireActivity())
         }
     }
 

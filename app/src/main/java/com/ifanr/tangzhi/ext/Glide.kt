@@ -1,6 +1,8 @@
 package com.ifanr.tangzhi.ext
 
+import android.content.Context
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.ifanr.tangzhi.R
@@ -36,9 +38,9 @@ fun RequestManager.gallery() = asDrawable()
 
 fun RequestManager.avatar(): RequestBuilder<RoundedBitmapDrawable> {
     val builder = `as`(RoundedBitmapDrawable::class.java)
-        .error(R.drawable.avatar_default)
-        .fallback(R.drawable.avatar_default)
-        .placeholder(R.drawable.avatar_default)
+        .error(R.drawable.default_avatar)
+        .fallback(R.drawable.default_avatar)
+        .placeholder(R.drawable.default_avatar)
     builder.options[OPTION_RADIUS] = Int.MAX_VALUE.toFloat()
     return builder
 }

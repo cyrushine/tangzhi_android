@@ -1,6 +1,8 @@
 package com.ifanr.tangzhi.di
 
 import android.app.Application
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.ifanr.tangzhi.App
@@ -13,7 +15,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-abstract class AppModule {
+abstract class AppBindModule {
 
     @Binds
     abstract fun bindApplication(app: App): Application
@@ -22,5 +24,5 @@ abstract class AppModule {
     abstract fun bindAppConfig(config: AppConfigImpl): AppConfig
 
     @Binds
-    abstract fun bindEventBus(bus: EventBus): EventBus
+    abstract fun bindContext(app: App): Context
 }

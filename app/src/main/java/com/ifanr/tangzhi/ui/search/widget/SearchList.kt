@@ -2,6 +2,7 @@ package com.ifanr.tangzhi.ui.search.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.inputmethod.InputMethodManager
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ifanr.tangzhi.model.Product
@@ -14,9 +15,42 @@ class SearchList: AppEpoxyRV {
          * 点击智能提示条目
          */
         fun onHintClick(position: Int) {}
+
+        // 清空搜索历史
+        fun onClearHistoryClick() {}
+
+        // 点击搜索历史条目
+        fun onHistoryClick(position: Int) {}
+
+        // 点击热门推荐条目
+        fun onHottestClick(position: Int) {}
     }
 
+    private val imm by lazy {
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
     var listener: Listener = object : Listener {}
+    private val indexCtlListener = object: SearchIndexController.Listener {
+
+        override fun onClearHistoryClick() {
+            listener.onClearHistoryClick()
+        }
+
+        override fun onHistoryClick(position: Int) {
+            imm.hideSoftInputFromWindow(windowToken, 0)
+            listener.onHistoryClick(position)
+        }
+
+        override fun onHottestClick(position: Int) {
+            imm.hideSoftInputFromWindow(windowToken, 0)
+            listener.onHottestClick(position)
+        }
+
+    }
+    private val onHintClick: (Int) -> Unit = {
+        imm.hideSoftInputFromWindow(windowToken, 0)
+        listener.onHintClick(it)
+    }
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -39,21 +73,20 @@ class SearchList: AppEpoxyRV {
     }
 
     fun setSearchHint(list: List<Product>) {
-        val ctl = SearchHintController()
-        ctl.onHintClick = { listener.onHintClick(it) }
+        val ctl = SearchHintController(onHintClick)
         setController(ctl)
         ctl.setData(list)
         clearDecoration()
         addItemDecoration(SearchHintDecoration(context))
     }
 
-    fun setCategory(history: List<String>, hot: List<String>) {
-        val ctl = SearchCategoryController()
+    fun setIndexData(history: List<String>, hottest: List<String>) {
+        val ctl = SearchIndexController(indexCtlListener)
         setController(ctl)
-        ctl.setData(history, hot)
+        ctl.setData(history, hottest)
         clearDecoration()
+        addItemDecoration(SearchIndexDecoration())
     }
-
 
     private fun clearDecoration() {
         val count = itemDecorationCount

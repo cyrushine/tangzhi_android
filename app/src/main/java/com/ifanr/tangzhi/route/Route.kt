@@ -4,6 +4,8 @@ object Routes {
 
     private const val DEFAULT_GROUP = "app"
 
+    const val points = "/$DEFAULT_GROUP/points"
+
     const val updateProfile = "/$DEFAULT_GROUP/updateprofile"
 
     const val signIn = "/$DEFAULT_GROUP/signin"

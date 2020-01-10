@@ -35,3 +35,6 @@ fun <T> Single<T>.autoDispose(vm: BaseViewModel) =
 
 fun <T> Observable<T>.autoDispose(vm: BaseViewModel) =
     autoDispose(ViewModelScopeCompletable(vm))
+
+fun Completable.autoDispose(vm: BaseViewModel) =
+    autoDispose(ViewModelScopeCompletable(vm))

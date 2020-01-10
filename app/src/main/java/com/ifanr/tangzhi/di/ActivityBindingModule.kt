@@ -15,6 +15,8 @@ import com.ifanr.tangzhi.ui.index.home.HomeFragment
 import com.ifanr.tangzhi.ui.index.home.HomeModule
 import com.ifanr.tangzhi.ui.index.profile.ProfileFragment
 import com.ifanr.tangzhi.ui.index.profile.ProfileModule
+import com.ifanr.tangzhi.ui.points.PointsActivity
+import com.ifanr.tangzhi.ui.points.PointsModule
 import com.ifanr.tangzhi.ui.postlist.PostListActivity
 import com.ifanr.tangzhi.ui.postlist.PostListModule
 import com.ifanr.tangzhi.ui.product.ProductActivity
@@ -47,6 +49,10 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [PointsModule::class])
+    abstract fun pointsActivity(): PointsActivity
 
     @ActivityScoped
     @ContributesAndroidInjector

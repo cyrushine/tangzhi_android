@@ -17,9 +17,12 @@ import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
 
-class SearchHintController: BaseTypedController<List<Product>>() {
-
-    var onHintClick: (positon: Int) -> Unit = {}
+/**
+ * 智能提示
+ */
+class SearchHintController (
+    private val onClick: (positon: Int) -> Unit
+): BaseTypedController<List<Product>>() {
 
     override fun buildModels(data: List<Product>?) {
         data?.forEach {
@@ -27,7 +30,7 @@ class SearchHintController: BaseTypedController<List<Product>>() {
                 id(it.id)
                 data(it)
                 onClick { _, _, _, position ->
-                    onHintClick.invoke(position)
+                    onClick.invoke(position)
                 }
             }
         }

@@ -4,10 +4,21 @@ import androidx.paging.PagedList
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.minapp.android.sdk.storage.CloudFile
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface BaasRepository {
+
+    /**
+     * 上传用户自定义的头像
+     */
+    fun uploadUserAvatar(fileName: String, data: ByteArray): Single<CloudFile>
+
+    /**
+     * 更新个人资料
+     */
+    fun updateProfile(update: UserProfile): Completable
 
     /**
      * 登出
@@ -27,7 +38,7 @@ interface BaasRepository {
     /**
      * 用户可选 banner 图列表
      */
-    fun cachedUserBannerList(): Single<List<String>>
+    fun cachedUserBanners(): Single<List<String>>
 
     /**
      * 热门搜索列表
@@ -48,11 +59,6 @@ interface BaasRepository {
      * 加载所有的搜索历史
      */
     fun loadSearchLog(): Single<List<SearchLog>>
-
-    /**
-     * 增加一条搜索历史
-     */
-    fun addSearchLog(key: String): Completable
 
     /**
      * 清空搜索历史

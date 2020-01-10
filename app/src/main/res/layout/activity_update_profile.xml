@@ -4,6 +4,191 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.updateprofile.UpdateProfileActivity">
 
+    <com.ifanr.tangzhi.ui.widgets.AppToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:appToolbarTitle="@string/update_profile_title"
+        />
+
+    <com.ifanr.tangzhi.ui.base.widget.AppScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/avatarItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/avatarKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_avatar" />
+
+                <ImageView
+                    android:id="@+id/avatarValue"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nicknameItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/avatarItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/nicknameKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_nickname" />
+
+                <EditText
+                    android:id="@+id/nicknameValue"
+                    style="@style/UpdateProfileValue"
+                    app:layout_constraintLeft_toRightOf="@id/nicknameKey" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mottoItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/nicknameItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/mottoKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_motto" />
+
+                <EditText
+                    android:id="@+id/mottoValue"
+                    style="@style/UpdateProfileValue"
+                    app:layout_constraintLeft_toRightOf="@id/mottoKey" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/professionItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/mottoItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/professionKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_profession" />
+
+                <EditText
+                    android:id="@+id/professionValue"
+                    style="@style/UpdateProfileValue"
+                    app:layout_constraintLeft_toRightOf="@id/professionKey" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/phoneItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/professionItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/phoneKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_phone" />
+
+                <EditText
+                    android:id="@+id/phoneValue"
+                    style="@style/UpdateProfileValue"
+                    android:enabled="false"
+                    app:layout_constraintLeft_toRightOf="@id/phoneKey" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/addressItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/phoneItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/addressKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_address" />
+
+                <EditText
+                    android:id="@+id/addressValue"
+                    style="@style/UpdateProfileValue"
+                    app:layout_constraintLeft_toRightOf="@id/addressKey" />
+
+                <View style="@style/UpdateProfileDivider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bannerItem"
+                style="@style/UpdateProfileItem"
+                app:layout_constraintTop_toBottomOf="@id/addressItem"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/bannerKey"
+                    style="@style/UpdateProfileKey"
+                    android:text="@string/profile_item_banner" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.ifanr.tangzhi.ui.updateprofile.BannerList
+                android:id="@+id/banners"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bannerItem" />
+
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/update_profile_save_bg"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/save"
+                android:textColor="@color/base_12"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/banners"
+                app:layout_constraintWidth_percent="0.58" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.ifanr.tangzhi.ui.base.widget.AppScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
