@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/point_type_all" android:title="@string/points_record_type_all" />
+    <item android:id="@+id/point_type_content" android:title="@string/points_record_type_content" />
+    <item android:id="@+id/point_type_reply" android:title="@string/points_record_type_reply" />
+    <item android:id="@+id/point_type_testing" android:title="@string/points_record_type_testing" />
+    <item android:id="@+id/point_type_item_list" android:title="@string/points_record_type_item_list" />
+    <item android:id="@+id/point_type_system" android:title="@string/points_record_type_system" />
+    <item android:id="@+id/point_type_revoke" android:title="@string/points_record_type_revoke" />
+</menu>

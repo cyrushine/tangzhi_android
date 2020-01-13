@@ -11,25 +11,15 @@
     <color name="following_view_border_color">#d7d7d7</color>
     <color name="product_related_more_text">#B3FFFFFF</color>
     <color name="product_related_more_bg">#1F000000</color>
-    <color name="base_d8">#D8D8D8</color>
-    <color name="base_db">#DBDBDB</color>
-    <color name="base_12">#121212</color>
-    <color name="base_3a">#3A3A3A</color>
-    <color name="base_f9">#F9F9F9</color>
-    <color name="base_f8">#F8F8F8</color>
-    <color name="base_f7">#F7F7F7</color>
-    <color name="base_f4">#F4F4F4</color>
-    <color name="base_da">#DADADA</color>
     <color name="black">#000000</color>
-    <color name="base_red">#F13B03</color>
-    <color name="base_a8">#A8A8A8</color>
-    <color name="base_7d">#7D7D7D</color>
-    <color name="base_e7">#E7E7E7</color>
     <color name="product_param_border">#39393F</color>
     <color name="product_product_list_divider">#1AFFFFFF</color>
     <color name="product_list_divider">#F4F4F4</color>
     <color name="wechat">#2DC037</color>
     <color name="card_share_btn">#F13B03</color>
+    <color name="ic_select_white">#CCFFFFFF</color>
+
+
     <color name="base_88">#888888</color>
     <color name="base_ab">#ABABAB</color>
     <color name="base_df">#DFDFDF</color>
@@ -39,5 +29,19 @@
     <color name="base_gold">#E2B76D</color>
     <color name="base_e8">#E8E8E8</color>
     <color name="base_23">#232323</color>
-    <color name="ic_select_white">#CCFFFFFF</color>
+    <color name="base_red">#F13B03</color>
+    <color name="base_a8">#A8A8A8</color>
+    <color name="base_7d">#7D7D7D</color>
+    <color name="base_e7">#E7E7E7</color>
+    <color name="base_d8">#D8D8D8</color>
+    <color name="base_db">#DBDBDB</color>
+    <color name="base_12">#121212</color>
+    <color name="base_3a">#3A3A3A</color>
+    <color name="base_f9">#F9F9F9</color>
+    <color name="base_f8">#F8F8F8</color>
+    <color name="base_f7">#F7F7F7</color>
+    <color name="base_f4">#F4F4F4</color>
+    <color name="base_da">#DADADA</color>
+    <color name="base_f6">#F6F6F6</color>
+    <color name="base_9b">#9B9B9B</color>
 </resources>

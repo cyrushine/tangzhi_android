@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.repository.baas.datasource
 
+import androidx.annotation.WorkerThread
 import androidx.paging.PageKeyedDataSource
 import com.ifanr.tangzhi.ext.queryByOffset
 import com.minapp.android.sdk.database.Table
@@ -37,6 +38,7 @@ abstract class BaseDataSource<T> (
 
         val list = response.data
         val nextOffset = if (list.size == response.limit) response.limit else null
+        list.forEach { doOnNext(it) }
         callback.onResult(list, 0, total, null, nextOffset)
     }
 
@@ -52,6 +54,7 @@ abstract class BaseDataSource<T> (
         val list = response.data
         val nextOffset =
             if (list.size == response.limit) response.offset + response.limit else null
+        list.forEach { doOnNext(it) }
         callback.onResult(list, nextOffset)
     }
 
@@ -59,4 +62,10 @@ abstract class BaseDataSource<T> (
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
         callback.onResult(emptyList(), null)
     }
+
+    /**
+     * DataSource 里的每个元素从服务器抓取过来后，加入 List 前，将会被它处理
+     */
+    @WorkerThread
+    open fun doOnNext(elem: T) {}
 }

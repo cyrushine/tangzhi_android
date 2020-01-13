@@ -11,6 +11,16 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 积分记录 PagedList
+     */
+    fun pointLogList(type: String?): Single<PagedList<PointLog>>
+
+    /**
+     * 分页查询积分记录
+     */
+    fun loadPagedPointLog(page: Int = 0, type: String? = null): Single<Page<PointLog>>
+
+    /**
      * 上传用户自定义的头像
      */
     fun uploadUserAvatar(fileName: String, data: ByteArray): Single<CloudFile>

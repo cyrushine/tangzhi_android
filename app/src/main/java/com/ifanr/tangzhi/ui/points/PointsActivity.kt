@@ -1,12 +1,13 @@
 package com.ifanr.tangzhi.ui.points
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.route.Extra
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.statusBar
 import kotlinx.android.synthetic.main.activity_points.*
 
@@ -21,6 +22,13 @@ class PointsActivity : BaseViewModelActivity() {
         setContentView(R.layout.activity_points)
         statusBar(whiteText = false)
 
-        card.setData(1826)
+        val vm: PointsViewModel = viewModel()
+        vm.records.observe(this, Observer { it?.also {
+            list.submit(it)
+        }})
+        vm.userPoints.observe(this, Observer {
+            card.setData(it ?: 0)
+        })
+        filter.onTypeChanged = { vm.type.value = it }
     }
 }

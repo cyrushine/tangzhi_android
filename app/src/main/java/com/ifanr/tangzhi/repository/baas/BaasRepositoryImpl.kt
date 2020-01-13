@@ -1,12 +1,16 @@
 package com.ifanr.tangzhi.repository.baas
 
+import android.content.Context
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
+import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
+import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
+import com.ifanr.tangzhi.repository.baas.datasource.PointLogDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.ProductListDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.SearchDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
@@ -24,7 +28,8 @@ import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 
 class BaasRepositoryImpl @Inject constructor(
-    private val bus: EventBus
+    private val bus: EventBus,
+    private val ctx: Context
 ): BaasRepository {
 
     private var cachedUserBanners: List<String>? = null
@@ -38,6 +43,42 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun pointLogList(type: String?): Single<PagedList<PointLog>> = Single.fromCallable {
+        val userId = currentUserId() ?: throw NeedSignInException()
+        pagedList(dataSource = PointLogDataSource(
+            ctx = ctx,
+            userId = userId,
+            type = type
+        ))
+    }
+
+    override fun loadPagedPointLog(page: Int, type: String?): Single<Page<PointLog>> {
+        val userId = currentUserId()
+        return if (userId == null) {
+            Single.just(Page())
+        } else {
+            pointLog.query(
+                clz = PointLog::class.java,
+                page = page,
+                pageSize = Const.PAGE_SIZE,
+                where = Where().apply {
+                    equalTo(Record.CREATED_BY, userId)
+                    if (type != null) {
+                        equalTo(PointLog.COL_TYPE, type)
+                    }
+                }
+            ).map {
+                it.data.forEach {
+
+
+
+
+                }
+                it
+            }
+        }
+    }
 
     private fun currentUserId(): Long? = Auth.currentUserWithoutData()?.userId
 
@@ -376,7 +417,7 @@ class BaasRepositoryImpl @Inject constructor(
         )).totalCount > 0
     }
 
-    override fun productList(productId: String): Single<androidx.paging.PagedList<ProductList>> =
+    override fun productList(productId: String): Single<PagedList<ProductList>> =
         Single.fromCallable { pagedList(dataSource = ProductListDataSource(
             productId
         )

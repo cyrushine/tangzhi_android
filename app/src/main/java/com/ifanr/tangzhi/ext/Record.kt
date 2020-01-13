@@ -50,3 +50,6 @@ fun Record.getSafeId(): String = id ?: ""
 
 fun Record.getSafeInt(prop: String): Int =
     getInt(prop) ?: 0
+
+fun Record.getSafeJson(prop: String): JsonObject =
+    getJsonObject(prop) ?: JsonObject()

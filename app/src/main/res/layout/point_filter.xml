@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:textSize="14sp"
+        android:textColor="@color/base_3a"
+        android:textStyle="bold"
+        android:text="@string/points_record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        />
+
+    <com.ifanr.tangzhi.ui.icons.IconView
+        android:id="@+id/filterTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/base_9b"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="?attr/selectableItemBackground"
+        />
+</merge>

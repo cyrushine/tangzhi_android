@@ -95,4 +95,14 @@
     <string name="update_profile_success">个人资料已更新</string>
     <string name="operation_error">Oops!网络开小差了，请稍后再试...</string>
     <string name="points_card_title">积分说明 \ue62b</string>
+    <string name="points_title">我的积分</string>
+    <string name="points_record_title">积分记录</string>
+
+    <string name="points_record_type_all">全部</string>
+    <string name="points_record_type_content">发表内容</string>
+    <string name="points_record_type_reply">参与回复</string>
+    <string name="points_record_type_testing">参与众测</string>
+    <string name="points_record_type_item_list">清单奖励</string>
+    <string name="points_record_type_system">系统奖励</string>
+    <string name="points_record_type_revoke">积分回收</string>
 </resources>
