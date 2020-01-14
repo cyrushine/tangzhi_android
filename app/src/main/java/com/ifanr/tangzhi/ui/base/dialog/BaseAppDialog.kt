@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.NestedScrollView
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ui.base.widget.AppScrollView
 
+/**
+ * 糖纸风格的 dialog
+ */
 abstract class BaseAppDialog: BaseDialog {
 
     constructor(context: Context?) : super(context)
@@ -31,15 +36,11 @@ abstract class BaseAppDialog: BaseDialog {
     }
 
     protected fun setContent(@LayoutRes layoutRes: Int) {
-        val content = findViewById<ViewGroup>(R.id.content) as? ConstraintLayout
+        val content = findViewById<ViewGroup>(R.id.content) as? AppScrollView
         if (content != null) {
             val child = layoutInflater.inflate(layoutRes, content, false)
-            content.addView(child, ConstraintLayout.LayoutParams(0, 0).apply {
-                leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID
-                rightToRight = ConstraintLayout.LayoutParams.PARENT_ID
-                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            })
+            content.addView(child, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         }
     }
 }

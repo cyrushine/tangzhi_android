@@ -105,4 +105,11 @@
     <string name="points_record_type_item_list">清单奖励</string>
     <string name="points_record_type_system">系统奖励</string>
     <string name="points_record_type_revoke">积分回收</string>
+    <string name="points_hand_book_title">积分说明</string>
+    <string name="points_hand_book_tip">
+        *注意\n
+        在糖纸完成相应的行为会获得或者减少一定的积分；每日获得积分大于150分，不再积分（精选&amp;置顶除外）。
+    </string>
+    <string name="points_hand_book_table_key">行为</string>
+    <string name="points_hand_book_table_value">积分</string>
 </resources>

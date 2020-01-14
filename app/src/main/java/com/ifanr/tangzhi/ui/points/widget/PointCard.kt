@@ -2,6 +2,7 @@ package com.ifanr.tangzhi.ui.points.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ifanr.tangzhi.R
@@ -18,6 +19,8 @@ class PointCard: ConstraintLayout {
         isGroupingUsed = true
     }}
 
+    var onTitleClick: () -> Unit = {}
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -30,6 +33,7 @@ class PointCard: ConstraintLayout {
         inflateInto(R.layout.point_card)
         setBackgroundResource(R.drawable.points_card_bg)
         count = findViewById(R.id.count)
+        findViewById<View>(R.id.title).setOnClickListener { onTitleClick.invoke() }
     }
 
     fun setData(data: Int) {

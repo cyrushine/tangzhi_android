@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
+import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatDialog
 import com.ifanr.tangzhi.ext.dp2px
 import com.uber.autodispose.autoDispose
@@ -18,6 +19,10 @@ import kotlin.math.roundToInt
 abstract class BaseDialog: AppCompatDialog {
 
     val observers = CopyOnWriteArrayList<CompletableObserver>()
+
+    // 窗口高度的占比（对于屏幕）
+    @FloatRange(from = 0.0, to = 1.0)
+    protected var heightPercent = 0.7f
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, theme: Int) : super(context, theme)
@@ -35,7 +40,7 @@ abstract class BaseDialog: AppCompatDialog {
             val dm = context.resources.displayMetrics
             val lp = w.attributes.apply {
                 width = dm.widthPixels - context.dp2px(25) * 2
-                height = dm.heightPixels.times(0.8).roundToInt()
+                height = dm.heightPixels.times(heightPercent).roundToInt()
                 gravity = Gravity.CENTER
             }
             w.attributes = lp
