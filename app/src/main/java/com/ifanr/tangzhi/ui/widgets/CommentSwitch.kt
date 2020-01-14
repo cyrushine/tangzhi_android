@@ -152,6 +152,30 @@ class CommentSwitch: ViewGroup {
         }
     }
 
+    /**
+     * 强制设值
+     */
+    fun forceValue(v: Type) {
+        indicator.animate()
+            .translationX((findOption(v).left - selectedOptiion.left).toFloat())
+            .setDuration(abs(value.ordinal - v.ordinal) * 80L)
+            .withStartAction { state = State.ANIMATE }
+            .withEndAction {
+                state = State.IDLE
+                indicator.translationX = 0f
+                requestLayout()
+
+                if (value != v) {
+                    value = v
+                } else {
+                    value = v
+                    onValueChanged(value)
+                }
+
+            }
+            .start()
+    }
+
     private fun findOption(value: Type) = when (value) {
         Type.EDITOR_CHOICE -> editorChoice
         Type.HOTTEST -> hottest

@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
-import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
@@ -23,6 +22,7 @@ import com.minapp.android.sdk.storage.Storage
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
@@ -42,6 +42,42 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe()
     }
+
+    override fun sendReview(
+        productId: String,
+        productName: String,
+        content: String,
+        rating: Float,
+        images: List<String>
+    ): Single<Comment> = Single.fromCallable {
+        val imageUrls = images.map {
+            try {
+                uploadCommentImage(it).blockingGet()
+            } catch (e: Exception) {
+                throw Exception("上传图片失败($it)", e)
+            }
+        }
+        productComment.createRecord().apply {
+            put(Comment.COL_TYPE, Comment.TYPE_REVIEW)
+            put(Comment.COL_PRODUCT, productId)
+            put(Comment.COL_TITLE, productName)
+            put(Comment.COL_CONTENT, content)
+            put(Comment.COL_RATING, rating)
+            put(Comment.COL_IMAGE, imageUrls.toTypedArray())
+        }.save().let { Comment(it) }
+    }
+
+
+    /**
+     * 上传评论里的图片
+     * @param path file://...
+     * @return 服务器路径
+     */
+    private fun uploadCommentImage(path: String): Single<String> = Single.fromCallable {
+        val file = File(path)
+        Storage.uploadFile(file.name, "5c80b90a6383972c4a611291", file.readBytes()).path
+    }
+
 
 
     override fun pointLogList(type: String?): Single<PagedList<PointLog>> = Single.fromCallable {
@@ -87,7 +123,6 @@ class BaasRepositoryImpl @Inject constructor(
         Single.fromCallable {
             Storage.uploadFile(fileName, "5dce53687e806526fb8b6c2b", data)
         }
-
 
 
     override fun updateProfile(update: UserProfile): Completable = Completable.fromCallable {

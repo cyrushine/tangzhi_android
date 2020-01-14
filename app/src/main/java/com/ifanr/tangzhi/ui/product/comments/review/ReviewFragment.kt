@@ -26,6 +26,7 @@ class ReviewFragment : BaseViewModelFragment() {
 
     companion object {
         private const val TAG = "ReviewFragment"
+        const val SEND_REVIEW = 34
     }
 
     override fun onCreateView(
@@ -61,7 +62,7 @@ class ReviewFragment : BaseViewModelFragment() {
                 ARouter.getInstance().build(Routes.sendReview)
                     .withString(Routes.sendReviewProductId, it.id)
                     .withString(Routes.sendReviewProductName, it.name)
-                    .navigation(context)
+                    .navigation(requireActivity(), SEND_REVIEW)
             }
         }})
 
@@ -82,6 +83,10 @@ class ReviewFragment : BaseViewModelFragment() {
         // 点评总数
         vm.reviewCount.observe(this, Observer {
             reviewCountTv.text = (it ?: 0).toString()
+        })
+
+        vm.refreshToLatest.observe(this, Observer {
+            reviewSwitch.forceValue(CommentSwitch.Type.LATEST)
         })
 
         reviewSwitch.onValueChanged = { vm.orderBy.value = it }

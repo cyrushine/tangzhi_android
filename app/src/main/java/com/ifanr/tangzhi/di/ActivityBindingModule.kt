@@ -41,6 +41,7 @@ import com.ifanr.tangzhi.ui.sendreview.SendReviewActivity
 import com.ifanr.tangzhi.ui.sendreview.SendReviewModule
 import com.ifanr.tangzhi.ui.sendreview.SendReviewViewModel
 import com.ifanr.tangzhi.ui.share.ShareActivity
+import com.ifanr.tangzhi.ui.share.ShareModule
 import com.ifanr.tangzhi.ui.signin.SignInActivity
 import com.ifanr.tangzhi.ui.signin.SignInModule
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileActivity
@@ -113,7 +114,7 @@ abstract class ActivityBindingModule {
     abstract fun reviewFragment(): ReviewFragment
 
     @ActivityScoped
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [ShareModule::class])
     abstract fun shareActivity(): ShareActivity
 
     @ActivityScoped
@@ -141,7 +142,7 @@ abstract class ActivityBindingModule {
     abstract fun productParamActivity(): ProductParamActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [ProductModule::class])
+    @ContributesAndroidInjector(modules = [ProductModule::class, ProductReviewModule::class])
     abstract fun productActivity(): ProductActivity
 
     @ActivityScoped

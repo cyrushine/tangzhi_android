@@ -1,5 +1,7 @@
 package com.ifanr.tangzhi.ui.product
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,9 +18,12 @@ import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.product.comments.review.ReviewFragment
+import com.ifanr.tangzhi.ui.product.comments.review.ReviewViewModel
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.product.widgets.FollowingView
+import com.ifanr.tangzhi.ui.share.ShareProductReq
 import com.ifanr.tangzhi.ui.statusBar
+import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import kotlinx.android.synthetic.main.activity_product.*
 
 @Route(path = Routes.product)
@@ -101,7 +106,20 @@ class ProductActivity : BaseViewModelActivity() {
         }
         shareButton.setOnClickListener {
             ARouter.getInstance().build(Routes.share)
+                .withParcelable(Routes.shareObject, ShareProductReq(
+                    id = product.id, coverImage = product.coverImage, title = product.name))
                 .navigation(this)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            ReviewFragment.SEND_REVIEW -> {
+                val vm: ReviewViewModel = viewModel()
+                vm.refreshToLatest.value = true
+            }
+
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 }

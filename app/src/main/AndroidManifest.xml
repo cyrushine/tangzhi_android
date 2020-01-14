@@ -31,7 +31,7 @@
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".ui.sendreview.SendReviewActivity"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.share.ShareActivity"
             android:theme="@style/AppTheme.ShareActivity" />

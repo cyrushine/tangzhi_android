@@ -5,14 +5,23 @@ import android.net.Uri
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.model.Comment
+import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
+import com.ifanr.tangzhi.ui.base.autoDispose
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import com.zhihu.matisse.internal.entity.IncapableCause
 import com.zhihu.matisse.internal.entity.Item
+import io.reactivex.Single
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SendReviewViewModel @Inject constructor(): BaseViewModel() {
+class SendReviewViewModel @Inject constructor(
+    private val repository: BaasRepository
+): BaseViewModel() {
 
     val productId = MutableLiveData<String>()
     val productName = MutableLiveData<String>()
@@ -57,8 +66,20 @@ class SendReviewViewModel @Inject constructor(): BaseViewModel() {
     /**
      * 发表点评
      */
-    fun sendReview() {
+    fun sendReview(): Single<Comment>? {
+        return if (sendBtnEnable.value == true) {
+            repository.sendReview(
+                productId = productId.value ?: "",
+                productName = productName.value ?: "",
+                content = comment.value ?: "",
+                rating = rating.value?.div(10f) ?: 0f,
+                images = imagePaths.value ?: emptyList())
 
+                // 太快的话最新点评列表里刷新不出来
+                .delay(2000, TimeUnit.MILLISECONDS)
+        } else {
+            null
+        }
     }
 
     /**

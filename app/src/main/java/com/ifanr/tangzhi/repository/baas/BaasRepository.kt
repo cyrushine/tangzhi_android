@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.repository.baas
 
+import androidx.annotation.FloatRange
 import androidx.paging.PagedList
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
@@ -9,6 +10,18 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface BaasRepository {
+
+    /**
+     * 发表点评
+     * @param images 图片会上传到服务器，然后使用服务器地址
+     */
+    fun sendReview(
+        productId: String,
+        productName: String,
+        content: String,
+        @FloatRange(from = 0.0, to = 10.0) rating: Float,
+        images: List<String>
+    ): Single<Comment>
 
     /**
      * 积分记录 PagedList

@@ -112,4 +112,5 @@
     </string>
     <string name="points_hand_book_table_key">行为</string>
     <string name="points_hand_book_table_value">积分</string>
+    <string name="send_review_success">发表评论成功</string>
 </resources>

@@ -29,6 +29,7 @@ object Routes {
     const val sendReviewProductName = "product_name"    // string
 
     const val share = "/$DEFAULT_GROUP/share"
+    const val shareObject = "share_object"                    // Parcelable
 
     const val gallery = "/$DEFAULT_GROUP/gallery"
     const val galleryImageList = "gallery_image_list"   // string array list

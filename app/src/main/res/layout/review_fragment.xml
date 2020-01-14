@@ -78,7 +78,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/reviewAllTv"
                 android:layout_marginStart="3dp"
-                android:text="24"
                 />
 
             <com.ifanr.tangzhi.ui.widgets.CommentSwitch

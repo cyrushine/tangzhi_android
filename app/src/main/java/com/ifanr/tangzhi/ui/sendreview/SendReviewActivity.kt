@@ -4,24 +4,31 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.route.Routes
-import com.ifanr.tangzhi.ext.checkAndRequestPermissions
-import com.ifanr.tangzhi.ext.matisse
-import com.ifanr.tangzhi.ext.permissionGranted
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
+import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.sendreview.widget.UploadImageTable
 import com.ifanr.tangzhi.ui.statusBar
 import com.ifanr.tangzhi.ui.widgets.SimpleToolBar
+import com.ifanr.tangzhi.ui.widgets.dismissLoading
+import com.ifanr.tangzhi.ui.widgets.showLoading
+import com.uber.autodispose.android.lifecycle.autoDispose
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.engine.impl.GlideEngine
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_send_review.*
+import java.util.concurrent.TimeUnit
 
 @Route(path = Routes.sendReview)
 class SendReviewActivity : BaseViewModelActivity() {
@@ -66,8 +73,30 @@ class SendReviewActivity : BaseViewModelActivity() {
             vm.comment.value = it?.toString()
         }
         toolbar.listener = object: SimpleToolBar.Listener {
-            override fun onCancel() { finish() }
-            override fun onSend() { finish() }
+            override fun onCancel() {
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }
+
+            // 发表评论
+            override fun onSend() {
+                vm.sendReview()
+                    ?.subscribeOn(Schedulers.io())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.doOnSubscribe { showLoading() }
+                    ?.doAfterTerminate { dismissLoading() }
+                    ?.autoDispose(this@SendReviewActivity)
+                    ?.subscribe({
+                        toast(R.string.send_review_success)
+                        delay(500) {
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }
+                    }, {
+                        Log.e(TAG, it.message, it)
+                        toast(it.message ?: "")
+                    })
+            }
         }
         vm.productId.value = productId
         vm.productName.value = productName
