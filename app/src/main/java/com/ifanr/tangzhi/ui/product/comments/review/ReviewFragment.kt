@@ -9,14 +9,20 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.observeToastLiveData
+import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelFragment
 import com.ifanr.tangzhi.ui.base.viewModelOf
 import com.ifanr.tangzhi.ui.product.ProductViewModel
 import com.ifanr.tangzhi.ui.product.comments.review.widget.ReviewList
+import com.ifanr.tangzhi.ui.product.comments.review.widget.TagCard
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.ui.widgets.ProductTag
+import com.ifanr.tangzhi.ui.widgets.dismissLoading
+import com.ifanr.tangzhi.ui.widgets.observeLoadingLiveData
+import com.ifanr.tangzhi.util.LoadingState
 import kotlinx.android.synthetic.main.review_fragment.*
 
 /**
@@ -66,13 +72,23 @@ class ReviewFragment : BaseViewModelFragment() {
             }
         }})
 
-        // 大家都说
+        // 大家说标签
         vm.tags.observe(this, Observer { it?.map { ProductTag(it) }?.also {
             tagCard.setData(it)
-            tagCard.openTagDialog = {
+        }})
+
+        tagCard.listener = object: TagCard.Listener {
+
+            // 打开大家说 dialog
+            override fun openTagDialog() {
                 ProductTagDialogFragment().show(childFragmentManager, null)
             }
-        }})
+
+            // 点击标签
+            override fun onTagClick(position: Int) {
+                vm.onTagClick(position)
+            }
+        }
 
         // 点评列表
         vm.reviews.observe(this, Observer {
@@ -88,6 +104,9 @@ class ReviewFragment : BaseViewModelFragment() {
         vm.refreshToLatest.observe(this, Observer {
             reviewSwitch.forceValue(CommentSwitch.Type.LATEST)
         })
+
+        observeToastLiveData(vm.toast)
+        observeLoadingLiveData(vm.loading)
 
         reviewSwitch.onValueChanged = { vm.orderBy.value = it }
         reviewSwitch.setValue(CommentSwitch.Type.LATEST)

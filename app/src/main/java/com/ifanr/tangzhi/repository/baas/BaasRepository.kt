@@ -12,6 +12,23 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 批量查询是否点赞
+     * @param ids 评论 id 列表
+     * @return 已点赞的评论的记录
+     */
+    fun loadCommentVotes(ids: List<String>): Single<List<VoteLog>>
+
+    /**
+     * 点赞
+     */
+    fun voteForComment(id: String): Completable
+
+    /**
+     * 取消点赞
+     */
+    fun removeVoteForComment(id: String): Completable
+
+    /**
      * 是否有关注产品
      * @return 未登录的话返回 false
      */

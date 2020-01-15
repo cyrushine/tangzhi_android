@@ -43,6 +43,41 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun loadCommentVotes(ids: List<String>): Single<List<VoteLog>> =
+        Single.fromCallable {
+            val userId = userId()
+            if (userId.isNullOrEmpty() || ids.isEmpty())
+                return@fromCallable emptyList<VoteLog>()
+
+            val where = Where().apply {
+                equalTo(Record.CREATED_BY, userId.toLong())
+                equalTo(VoteLog.COL_TYPE, VoteLog.TYPE_COMMENT)
+                equalTo(VoteLog.COL_IS_POSITIVE, true)
+                containedIn(VoteLog.COL_SUBJECT_ID, ids)
+            }
+            voteLog.query(VoteLog::class.java, page = 0, pageSize = ids.size, where = where)
+                .blockingGet().data
+        }
+
+    override fun voteForComment(id: String): Completable = Completable.fromAction {
+        assertSignIn()
+        if (loadCommentVotes(listOf(id)).blockingGet().isEmpty()) {
+            voteLog.createRecord().apply {
+                put(VoteLog.COL_TYPE, VoteLog.TYPE_COMMENT)
+                put(VoteLog.COL_SUBJECT_ID, id)
+                put(VoteLog.COL_IS_POSITIVE, true)
+                put(Record.CREATED_BY, userId()?.toLong())
+            }.save()
+        }
+    }
+
+    override fun removeVoteForComment(id: String): Completable = Completable.fromAction {
+        val voteId = loadCommentVotes(listOf(id)).blockingGet().firstOrNull()?.id
+        if (!voteId.isNullOrEmpty())
+            voteLog.fetchWithoutData(voteId).delete()
+    }
+
     override fun isProductFollowed(productId: String): Single<Boolean> = Single.fromCallable {
         val userId = userId()
         if (userId.isNullOrEmpty()) {
@@ -424,9 +459,18 @@ class BaasRepositoryImpl @Inject constructor(
         type = Comment.TYPE_TAG,
         pageSize = 999,
         query = Query().apply {
-            orderBy("-${Comment.COL_UPVOTE}")
+            orderBy("-${Comment.COL_UPVOTE}", "-${Record.UPDATED_AT}")
+        })
+        .map { it.data }
+        .doOnSuccess {
+            // 查询是否点赞
+            if (signedIn()) {
+                val voted = loadCommentVotes(it.map { it.id }).blockingGet()
+                it.forEach { tag ->
+                    tag.voted = voted.any { it.subjectId == tag.id && it.isPositive }
+                }
+            }
         }
-    ).map { it.data }
 
     override fun loadPagedReviews(
         productId: String,

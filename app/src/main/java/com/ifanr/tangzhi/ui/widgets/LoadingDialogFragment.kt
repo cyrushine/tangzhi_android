@@ -9,13 +9,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.base.dialog.BaseDialog
 import com.ifanr.tangzhi.ui.base.dialog.BaseDialogFragment
 import com.ifanr.tangzhi.ui.base.dialog.autoDispose
 import com.ifanr.tangzhi.ui.setStatusTextColor
+import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
@@ -33,6 +37,36 @@ fun AppCompatActivity.showLoading(delay: Boolean = false) {
 
 fun AppCompatActivity.dismissLoading() {
     (supportFragmentManager.findFragmentByTag(TAG) as? LoadingDialogFragment)?.dismiss()
+}
+
+fun AppCompatActivity.observeLoadingLiveData(liveData: LiveData<LoadingState>) {
+    liveData.observe(this, Observer {
+        when (it) {
+            LoadingState.DISMISS -> dismissLoading()
+            LoadingState.SHOW_DELAY -> showLoading(delay = true)
+            LoadingState.SHOW -> showLoading()
+        }
+    })
+}
+
+fun Fragment.showLoading(delay: Boolean = false) {
+    if (childFragmentManager.findFragmentByTag(TAG) == null) {
+        LoadingDialogFragment.show(childFragmentManager, delay = delay, tag = TAG)
+    }
+}
+
+fun Fragment.dismissLoading() {
+    (childFragmentManager.findFragmentByTag(TAG) as? LoadingDialogFragment)?.dismiss()
+}
+
+fun Fragment.observeLoadingLiveData(liveData: LiveData<LoadingState>) {
+    liveData.observe(this, Observer {
+        when (it) {
+            LoadingState.DISMISS -> dismissLoading()
+            LoadingState.SHOW_DELAY -> showLoading(delay = true)
+            LoadingState.SHOW -> showLoading()
+        }
+    })
 }
 
 

@@ -18,7 +18,7 @@ val productComment = Table("comment")                   // 产品评论表
 
 val productPost = Table("product_post")                 // 产品文章表
 
-val commentVoteLog = Table("comment_vote_log")          // 投票和点赞记录表
+val voteLog = Table("vote_log")                         // 投票和点赞记录表
 
 val timeline = Table("timeline")                        // 动态表
 

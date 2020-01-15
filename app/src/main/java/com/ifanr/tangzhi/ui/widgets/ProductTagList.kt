@@ -32,6 +32,10 @@ import kotlin.math.max
  */
 class ProductTagList: ViewGroup {
 
+    private enum class State {
+        IDLE, ANIIMATE
+    }
+
     companion object {
         private const val TAG = "ProductTagList"
     }
@@ -40,6 +44,9 @@ class ProductTagList: ViewGroup {
     private val childHorizontalPadding = context.dp2px(8)
     // 行间距
     private val rowPadding = context.dp2px(8)
+    private var state = State.IDLE
+
+    var onTagClick: (position: Int) -> Unit = {}
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -140,9 +147,35 @@ class ProductTagList: ViewGroup {
             else
                 ProductTagTextView(context).apply { addView(this) }
             child.setData(tag)
+            child.setOnClickListener { onChildClick(index) }
         }
         if (childCount > tags.size) {
             removeViews(tags.size, childCount - tags.size)
+        }
+        requestLayout()
+    }
+
+
+    private fun onChildClick(position: Int) {
+        if (state == State.IDLE) {
+            state = State.ANIIMATE
+            val child = getChildAt(position)
+            child.animate()
+                .scaleX(1.2f)
+                .scaleY(1.2f)
+                .setDuration(150)
+                .withEndAction {
+                    child.animate()
+                        .scaleY(1f)
+                        .scaleX(1f)
+                        .setDuration(150)
+                        .withEndAction {
+                            state = State.IDLE
+                            onTagClick.invoke(position)
+                        }
+                        .start()
+                }
+                .start()
         }
     }
 
@@ -204,7 +237,8 @@ data class ProductTag (
     constructor(source: Comment): this(
         content = source.content,
         count = source.upvote,
-        bgColor = source.theme
+        bgColor = source.theme,
+        voted = source.voted
     )
 }
 

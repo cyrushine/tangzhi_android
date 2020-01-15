@@ -1,17 +1,20 @@
 package com.ifanr.tangzhi.ui.product.comments.review
 
-import android.util.Log
 import androidx.lifecycle.*
+import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import kotlin.math.max
 
 class ReviewViewModel @Inject constructor (
     private val repository: BaasRepository
@@ -37,6 +40,8 @@ class ReviewViewModel @Inject constructor (
     val orderBy = MutableLiveData<CommentSwitch.Type>()
     // 提供给 ProductActivity，发表点评后刷新最新列表
     val refreshToLatest = MutableLiveData<Any>()
+    val loading = MutableLiveData<LoadingState>()
+    val toast = MutableLiveData<String>()
 
     // 下一页的页码
     private var page = 0
@@ -76,6 +81,37 @@ class ReviewViewModel @Inject constructor (
      */
     fun tryLoadNextPage() {
         tryLoadReviews(page + 1)
+    }
+
+    /**
+     * 「标签」被点击，触发「点赞」or「取消点赞」
+     */
+    fun onTagClick(position: Int) {
+        if (!repository.signedIn()) {
+            ARouter.getInstance().build(Routes.signIn).navigation()
+            return
+        }
+
+        val clicked = tags.value?.getOrNull(position)
+        if (clicked != null) {
+            val voted = clicked.voted
+            val request = if (voted) repository.removeVoteForComment(clicked.id) else
+                repository.voteForComment(clicked.id)
+            request.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loading.value = LoadingState.SHOW_DELAY }
+                .doAfterTerminate { loading.value = LoadingState.DISMISS }
+                .autoDispose(this)
+                .subscribe({
+                    tags.value?.firstOrNull { it.id == clicked.id }?.also {
+                        it.upvote = max(it.upvote + (if (voted) -1 else +1), 0)
+                        it.voted = !voted
+                        tags.value = tags.value
+                    }
+                }, {
+                    toast.value = it.message
+                })
+        }
     }
 
     private fun tryLoadReviews(page: Int = 0) {

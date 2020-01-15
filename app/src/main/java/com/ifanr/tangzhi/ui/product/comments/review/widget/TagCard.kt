@@ -16,13 +16,18 @@ import com.ifanr.tangzhi.ui.widgets.ProductTagList
  */
 class TagCard: ConstraintLayout {
 
+    interface Listener {
+        fun openTagDialog() {}
+        fun onTagClick(position: Int) {}
+    }
+
     companion object {
         private const val TAG = "TagCard"
     }
 
-    var openTagDialog: () -> Unit = {}
-
     private val list: ProductTagList
+
+    var listener: Listener = object: Listener {}
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -35,8 +40,10 @@ class TagCard: ConstraintLayout {
     init {
         setBackgroundResource(R.drawable.product_review_tag_bg)
         inflateInto(R.layout.review_tag_card)
-        findViewById<View>(R.id.openBtn).setOnClickListener { openTagDialog.invoke() }
+        findViewById<View>(R.id.openBtn).setOnClickListener { listener.openTagDialog() }
         list = findViewById(R.id.list)
+        list.onTagClick = { listener.onTagClick(it) }
+        clipChildren = false
     }
 
     fun setData(data: List<ProductTag>) {

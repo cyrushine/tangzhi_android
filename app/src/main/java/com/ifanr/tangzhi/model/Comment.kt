@@ -29,6 +29,9 @@ open class Comment {
     var createdAt: Long = 0
     var replayToName: String = ""
 
+    // 是否点赞
+    var voted = false
+
     constructor(record: Record) {
         id = record.getSafeId()
         content = record.getSafeString(COL_CONTENT)
