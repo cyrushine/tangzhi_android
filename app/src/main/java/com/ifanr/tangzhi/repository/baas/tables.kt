@@ -1,9 +1,6 @@
 package com.ifanr.tangzhi.repository.baas
 
-import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.ext.query
-import com.ifanr.tangzhi.model.Favorite
-import com.ifanr.tangzhi.model.SearchKey
 import com.ifanr.tangzhi.model.Settings
 import com.minapp.android.sdk.Global
 import com.minapp.android.sdk.database.Table
@@ -28,7 +25,7 @@ val timeline = Table("timeline")                        // 动态表
 val message = Table("message")                          // 消息表
 
 // 收藏表
-val favorite = FavoriteTable("favorite")
+val favorite = Table("favorite")
 
 val userprofile = Table("_userprofile")                 // 用户表
 
@@ -56,12 +53,6 @@ val testingOrder = Table("testing_order")               // 订单表
 
 val setting = SettingsTable()                                      // 配置表
 
-
-class FavoriteTable(tableName: String) : Table(tableName) {
-    override fun createRecord(): Favorite {
-        return Favorite(super.createRecord())
-    }
-}
 
 class SettingsTable: Table("settings")
 

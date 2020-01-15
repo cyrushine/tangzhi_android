@@ -104,4 +104,6 @@ class SendReviewViewModel @Inject constructor(
         }
         imageUri = imageUri.filterIndexed { index, _ -> index != position }
     }
+
+
 }

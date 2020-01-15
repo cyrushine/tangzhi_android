@@ -1,21 +1,28 @@
 package com.ifanr.tangzhi.ui.product
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.Event
+import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ProductViewModel @Inject constructor (
-    private val repository: BaasRepository
+    private val repository: BaasRepository,
+    private val eventBus: EventBus
 ): BaseViewModel() {
 
     companion object {
@@ -24,6 +31,14 @@ class ProductViewModel @Inject constructor (
 
     val product = MutableLiveData<Product>()
     val errorOnLoad = MutableLiveData<Throwable>()
+
+    /**
+     * > 0，delay loading
+     * = 0，loading
+     * < 0，dismiss loading
+     */
+    val loading = MutableLiveData<Int>()
+    val toast = MutableLiveData<String>()
 
     /**
      * 相关产品列表
@@ -59,7 +74,8 @@ class ProductViewModel @Inject constructor (
         product.highlightParamVisible || product.paramVisible
     }
 
-    val isFavorite = MutableLiveData<Boolean>()
+    // 关注
+    val isFollowed = MutableLiveData<Boolean>().apply { value = false }
 
     init {
 
@@ -74,17 +90,13 @@ class ProductViewModel @Inject constructor (
             }
         }
 
-        // 是否收藏
-        product.observeForever {
-            val productId = it?.id
-            if (!productId.isNullOrEmpty()) {
-                repository.isProductFavorite(productId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(this)
-                    .subscribe(Consumer { isFavorite.value = it  })
+        // 关注状态
+        product.observeForever { refreshIsFollowed() }
+        eventBus.subscribe(this, Consumer {
+            when (it) {
+                is Event.SignIn, is Event.SignOut -> refreshIsFollowed()
             }
-        }
+        })
     }
 
     fun load(productId: String) {
@@ -93,6 +105,44 @@ class ProductViewModel @Inject constructor (
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(this)
             .subscribe({ product.value = it }, { errorOnLoad.value = it })
+    }
+
+    // 「关注」按钮被点击
+    fun onFollowClick() {
+        if (!repository.signedIn()) {
+            ARouter.getInstance().build(Routes.signIn).navigation()
+            return
+        }
+
+        val productId = product.value?.id
+        if (!productId.isNullOrEmpty()) {
+            val followed = isFollowed.value == true
+            val request = if (followed) repository.unFollowProduct(productId) else
+                repository.followProduct(productId)
+            request.subscribeOn(Schedulers.io())
+                .doOnSubscribe { loading.postValue(1) }
+                .doAfterTerminate { loading.postValue(-1) }
+                .autoDispose(this)
+                .subscribe({
+                    isFollowed.postValue(!followed)
+                }, {
+                    toast.postValue(it.message)
+                })
+        }
+    }
+
+    // 刷新关注状态
+    private fun refreshIsFollowed() {
+        val productId = product.value?.id
+        if (!repository.signedIn() || productId.isNullOrEmpty()) {
+            isFollowed.value = false
+            return
+        }
+
+        repository.isProductFollowed(productId)
+            .subscribeOn(Schedulers.io())
+            .autoDispose(this)
+            .subscribe(Consumer { isFollowed.postValue(it) })
     }
 
 }

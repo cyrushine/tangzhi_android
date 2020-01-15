@@ -43,6 +43,43 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun isProductFollowed(productId: String): Single<Boolean> = Single.fromCallable {
+        val userId = userId()
+        if (userId.isNullOrEmpty()) {
+            return@fromCallable false
+        }
+
+        val where = Where().apply {
+            equalTo(Favorite.COL_TYPE, Favorite.TYPE_HARDWARE)
+            equalTo(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
+            equalTo(Favorite.COL_SUBJECT_ID, productId)
+            equalTo(Record.CREATED_BY, userId.toLong())
+        }
+        favorite.count(Query().apply { put(where) }) > 0
+    }
+
+    override fun followProduct(productId: String): Completable = Completable.fromAction {
+        assertSignIn()
+        if (!isProductFollowed(productId).blockingGet()) {
+            favorite.createRecord().apply {
+                put(Favorite.COL_TYPE, Favorite.TYPE_HARDWARE)
+                put(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
+                put(Favorite.COL_SUBJECT_ID, productId)
+            }.save()
+        }
+    }
+
+    override fun unFollowProduct(productId: String): Completable = Completable.fromAction {
+        assertSignIn()
+        val where = Where().apply {
+            equalTo(Record.CREATED_BY, userId()?.toLong())
+            equalTo(Favorite.COL_TYPE, Favorite.TYPE_HARDWARE)
+            equalTo(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
+            equalTo(Favorite.COL_SUBJECT_ID, productId)
+        }
+        favorite.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
+    }
+
     override fun sendReview(
         productId: String,
         productName: String,
@@ -434,24 +471,6 @@ class BaasRepositoryImpl @Inject constructor(
         query = query
     )
 
-    override fun favoriteProduct(productId: String): Completable = Completable.fromCallable {
-        favorite.createRecord().apply {
-            type = Favorite.TYPE_HARDWARE
-            subjectId = productId
-        }.save()
-    }
-
-    override fun unfavoriteProduct(productId: String): Completable = Completable.fromCallable {
-        favorite.fetchWithoutData(productId).delete()
-    }
-
-    override fun isProductFavorite(productId: String): Single<Boolean> = Single.fromCallable {
-        favorite.query(Query().put(Where()
-            .equalTo(Favorite.COL_SUBJECT_ID, productId)
-            .equalTo(Record.CREATED_BY, Auth.currentUserWithoutData()?.userId)
-        )).totalCount > 0
-    }
-
     override fun productList(productId: String): Single<PagedList<ProductList>> =
         Single.fromCallable { pagedList(dataSource = ProductListDataSource(
             productId
@@ -479,4 +498,13 @@ class BaasRepositoryImpl @Inject constructor(
 
     override fun getProductParamsById(paramId: String): Single<ProductParams> =
         productParam.getById(paramId)
+
+
+    @Throws(NeedSignInException::class)
+    private fun assertSignIn() {
+        if (!signedIn())
+            throw NeedSignInException()
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package com.ifanr.tangzhi.ui.product
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +22,8 @@ import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.product.widgets.FollowingView
 import com.ifanr.tangzhi.ui.share.ShareProductReq
 import com.ifanr.tangzhi.ui.statusBar
-import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.ifanr.tangzhi.ui.widgets.dismissLoading
+import com.ifanr.tangzhi.ui.widgets.showLoading
 import kotlinx.android.synthetic.main.activity_product.*
 
 @Route(path = Routes.product)
@@ -65,13 +65,23 @@ class ProductActivity : BaseViewModelActivity() {
         vm.paramVisiable.observe(this, Observer {
             productParam.visibility = if (it == true) View.VISIBLE else View.GONE
         })
-        vm.isFavorite.observe(this, Observer {
+        vm.isFollowed.observe(this, Observer {
             following.state = if (it == true)
                 FollowingView.State.FOLLOWED
             else
                 FollowingView.State.UN_FOLLOW
         })
+        vm.loading.observe(this, Observer { it?.also {
+            when {
+                it == 0 -> showLoading()
+                it > 0 -> showLoading(delay = true)
+                it < 0 -> dismissLoading()
+            }
+        }})
+        vm.toast.observe(this, Observer { it?.also { toast(it) }})
         vm.load(productId)
+
+        following.setOnClickListener { vm.onFollowClick() }
 
         commentVP.adapter = object: FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             override fun getItem(position: Int): Fragment {
@@ -89,7 +99,6 @@ class ProductActivity : BaseViewModelActivity() {
         banner.setThemeColor(themeColor)
         banner.setImages(product.image)
         root.setBackgroundColor(themeColor)
-        following.setOnClickListener { following.toggleState() }
         nameTv.text = product.name
 
         indexes.setScore(product.rating)

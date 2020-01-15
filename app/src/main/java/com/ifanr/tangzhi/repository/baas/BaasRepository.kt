@@ -12,6 +12,22 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 是否有关注产品
+     * @return 未登录的话返回 false
+     */
+    fun isProductFollowed(productId: String): Single<Boolean>
+
+    /**
+     * 关注产品
+     */
+    fun followProduct(productId: String): Completable
+
+    /**
+     * 取消关注产品
+     */
+    fun unFollowProduct(productId: String): Completable
+
+    /**
      * 发表点评
      * @param images 图片会上传到服务器，然后使用服务器地址
      */
@@ -108,22 +124,7 @@ interface BaasRepository {
         pageSize: Int = Const.PAGE_SIZE
     ): Single<Page<ProductList>>
 
-    fun productList(productId: String): Single<androidx.paging.PagedList<ProductList>>
-
-    /**
-     * 收藏
-     */
-    fun favoriteProduct(productId: String): Completable
-
-    /**
-     * 取消收藏
-     */
-    fun unfavoriteProduct(productId: String): Completable
-
-    /**
-     * 查询是否有收藏
-     */
-    fun isProductFavorite(productId: String): Single<Boolean>
+    fun productList(productId: String): Single<PagedList<ProductList>>
 
     /**
      * 点评列表
