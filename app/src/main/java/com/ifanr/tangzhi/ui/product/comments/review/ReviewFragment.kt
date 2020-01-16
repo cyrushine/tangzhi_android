@@ -135,6 +135,7 @@ class ReviewFragment : BaseViewModelFragment() {
                         .withString(Routes.commentProductId, product.id)
                         .withString(Routes.commentProductName, product.name)
                         .withString(Routes.commentReviewId, review.id)
+                        .withLong(Routes.commentReviewCreatedBy, review.createdById)
                         .navigation(context)
                 }
             }

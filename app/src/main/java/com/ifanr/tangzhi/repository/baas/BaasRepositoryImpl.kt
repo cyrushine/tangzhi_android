@@ -27,6 +27,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
+import kotlin.math.sign
 
 class BaasRepositoryImpl @Inject constructor(
     private val bus: EventBus,
@@ -50,6 +51,36 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun sendComment(
+        productId: String,
+        rootId: String,
+        content: String,
+        parentId: String?,
+        replyId: String?,
+        replyTo: Long?
+    ): Single<Comment> = Single.fromCallable {
+        assertSignIn()
+        productId.assertNotEmpty("productId")
+        rootId.assertNotEmpty("rootId")
+        content.assertNotEmpty("content")
+
+        productComment.createRecord().apply {
+            put(Comment.COL_TYPE, Comment.TYPE_COMMENT)
+            put(Comment.COL_PRODUCT, productId)
+            put(Comment.COL_ROOT_ID, rootId)
+            put(Comment.COL_CONTENT, content)
+            if (!parentId.isNullOrEmpty()) {
+                put(Comment.COL_PARENT_ID, parentId)
+            }
+            if (!replyId.isNullOrEmpty()) {
+                put(Comment.COL_REPLY_ID, replyId)
+            }
+            if (replyTo != null && replyTo > 0) {
+                put(Comment.COL_REPLY_TO, replyTo)
+            }
+        }.save().let { Comment(it) }
+    }
 
     override fun isProductTagExist(productId: String, content: String): Single<Boolean> =
         Single.fromCallable {
@@ -440,17 +471,26 @@ class BaasRepositoryImpl @Inject constructor(
     ): Single<Page<Comment>> = Single.fromCallable {
 
         // 查询一级评论
+        val commonCondition = Where().apply {
+            equalTo(Comment.COL_PRODUCT, productId)
+            equalTo(Comment.COL_ROOT_ID, reviewId)
+            equalTo(Comment.COL_TYPE, Comment.TYPE_COMMENT)
+            isNull(Comment.COL_PARENT_ID)
+        }
+        var signInCondition = Where().apply {
+            equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+        }
+        if (signedIn()) {
+            signInCondition = Where.or(signInCondition, Where().apply {
+                equalTo(Record.CREATED_BY, userId()?.toLong())
+                notEqualTo(Comment.COL_STATUS, BaseModel.STATUS_DELETED)
+            })
+        }
         val comments = productComment.query(
             Comment::class.java,
             page = page,
             pageSize = pageSize,
-            where = Where().apply {
-                equalTo(Comment.COL_PRODUCT, productId)
-                equalTo(Comment.COL_ROOT_ID, reviewId)
-                equalTo(Comment.COL_TYPE, Comment.TYPE_COMMENT)
-                equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
-                isNull(Comment.COL_PARENT_ID)
-            },
+            where = Where.and(commonCondition, signInCondition),
             query = Query().apply {
                 orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
                 expand(Record.CREATED_BY)

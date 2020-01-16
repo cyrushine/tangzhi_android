@@ -17,3 +17,9 @@ import com.ifanr.tangzhi.Const
 @ColorInt fun String.toSafeColorInt(): Int {
     return runCatching { Color.parseColor(this) }.getOrDefault(Const.DEFAULT_PRODUCT_THEME)
 }
+
+@Throws(IllegalArgumentException::class)
+fun String.assertNotEmpty(name: String) {
+    if (isEmpty())
+        throw IllegalArgumentException("$name can't be empty")
+}

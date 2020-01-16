@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.*
+import com.ifanr.tangzhi.route.Extra
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.autoDispose
@@ -30,7 +31,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_send_review.*
 import java.util.concurrent.TimeUnit
 
-@Route(path = Routes.sendReview)
+@Route(path = Routes.sendReview, extras = Extra.signIn)
 class SendReviewActivity : BaseViewModelActivity() {
 
     companion object {

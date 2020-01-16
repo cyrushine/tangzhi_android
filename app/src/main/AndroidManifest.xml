@@ -28,7 +28,7 @@
         <activity android:name=".ui.comment.CommentActivity" />
         <activity
             android:name=".ui.sendcomment.SendCommentActivity"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.sendreview.SendReviewActivity"
             android:windowSoftInputMode="stateVisible" />

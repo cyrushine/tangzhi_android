@@ -12,6 +12,24 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 发表回复
+     * @param rootId 点评 id
+     * @param replyId 二级回复才有，回复对象
+     * @param parentId 二级回复才有，回复对象所在回复树的跟（一级评论）
+     * @param replyTo 回复对象的 userId
+     */
+    fun sendComment(
+        productId: String,
+        rootId: String,
+        content: String,
+
+        // 以下字段二级回复才需要
+        parentId: String? = null,
+        replyId: String? = null,
+        replyTo: Long? = null
+    ): Single<Comment>
+
+    /**
      * 产品标签是否已存在
      */
     fun isProductTagExist(productId: String, content: String): Single<Boolean>

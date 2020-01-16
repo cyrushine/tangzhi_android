@@ -15,14 +15,19 @@ object Routes {
     const val index = "/$DEFAULT_GROUP/index"
 
     const val comment = "/$DEFAULT_GROUP/comment"
-    const val commentProductId = "product_id"        // striing
-    const val commentProductName = "product_name"   // string
-    const val commentReviewId = "review_id"         // string
+    const val commentProductId = "product_id"               // striing
+    const val commentProductName = "product_name"           // string
+    const val commentReviewId = "review_id"                 // string
+    const val commentReviewCreatedBy = "review_created_by"  // long
 
     const val sendComment = "/$DEFAULT_GROUP/send_comment"
     const val sendCommentProductId = "product_id"       // string
     const val sendCommentProductName = "product_name"   // string
-    const val sendCommentParentId = "parent_id"         // string
+    const val sendCommentRootId = "root_id"             // string
+    // 以下字段二级回复才需要
+    const val sendCommentParentId = "parent_id"         // string, optional
+    const val sendCommentReplyId = "reply_id"           // string, optional
+    const val sendCommentReplyTo = "reply_to"           // long, optional
 
     const val sendReview = "/$DEFAULT_GROUP/send_review"
     const val sendReviewProductId = "product_id"        // string

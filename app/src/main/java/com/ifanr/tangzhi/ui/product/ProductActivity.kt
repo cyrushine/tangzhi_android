@@ -40,7 +40,7 @@ class ProductActivity : BaseViewModelActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        statusBar(whiteText = true)
+        statusBar(whiteText = false)
 
         productParam.setOnClickListener {
             ARouter.getInstance().build(Routes.productParam)

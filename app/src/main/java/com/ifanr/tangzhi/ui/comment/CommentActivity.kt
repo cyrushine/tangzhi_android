@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.ui.comment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -19,6 +20,10 @@ import kotlinx.android.synthetic.main.activity_comment.*
 @Route(path = Routes.comment)
 class CommentActivity : BaseViewModelActivity() {
 
+    companion object {
+        private const val TAG = "CommentActivity"
+    }
+
     @Autowired(name = Routes.commentProductId)
     @JvmField
     var productId = ""
@@ -30,6 +35,10 @@ class CommentActivity : BaseViewModelActivity() {
     @Autowired(name = Routes.commentReviewId)
     @JvmField
     var reviewId = ""
+
+    @JvmField
+    @Autowired(name = Routes.commentReviewCreatedBy)
+    var reviewCreatedBy = 0L
 
     lateinit var vm: CommentViewModel
 
@@ -46,13 +55,16 @@ class CommentActivity : BaseViewModelActivity() {
         vm.productName.value = productName
         vm.reviewId.value = reviewId
 
+        // 底部的回复按钮（回复点评）
         sendCommentBtn.setOnClickListener {
-            ARouter.getInstance().build(Routes.sendComment)
+            val request = ARouter.getInstance().build(Routes.sendComment)
                 .withString(Routes.sendCommentProductId, productId)
                 .withString(Routes.sendCommentProductName, productName)
-                .withString(Routes.sendCommentParentId, reviewId)
-                .navigation(this)
+                .withString(Routes.sendCommentRootId, reviewId)
+            Log.d(TAG, "send comment at bottom, $request")
+            request.navigation(this)
         }
+
         toolbar.close.setOnClickListener { finish() }
         list.setListener(object: CommentList.Listener {
             override fun onReplyClick(position: Int) {

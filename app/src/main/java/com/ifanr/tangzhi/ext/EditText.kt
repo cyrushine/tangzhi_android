@@ -7,5 +7,5 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 fun EditText.bind(owner: LifecycleOwner, liveData: MutableLiveData<String>) {
-    addTextChangedListener(afterTextChanged = { liveData.value = it.toString() })
+    addTextChangedListener(afterTextChanged = { liveData.value = it.toString().trim() })
 }
