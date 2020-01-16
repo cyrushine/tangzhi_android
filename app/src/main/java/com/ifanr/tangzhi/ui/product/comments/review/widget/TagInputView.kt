@@ -20,6 +20,8 @@ class TagInputView: ConstraintLayout {
 
     private val input: EditText
 
+    var onTextSend: (String) -> Unit = {}
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -36,5 +38,20 @@ class TagInputView: ConstraintLayout {
         input.hint = SpannableStringBuilder()
             .append(context.getText(R.string.ic_plus_icon_popup), IconSpan(context), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             .append(context.getText(R.string.product_tag_dialog_add))
+        input.imeOptions = EditorInfo.IME_ACTION_SEND
+        input.setOnEditorActionListener { v, actionId, event ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    onTextSend.invoke(v.text.toString())
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    fun clearText() {
+        input.setText("")
     }
 }

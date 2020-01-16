@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
@@ -17,6 +18,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:background="@drawable/product_tag_dialog_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         >
 
         <TextView
@@ -44,6 +47,7 @@
             app:layout_constraintHeight_max="150dp"
             app:layout_constraintHeight_min="1dp"
             android:scrollbars="vertical"
+            android:clipChildren="false"
             >
             <com.ifanr.tangzhi.ui.widgets.ProductTagList
                 android:id="@+id/list"

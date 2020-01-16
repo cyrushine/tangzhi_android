@@ -10,6 +10,8 @@ import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.util.LoadingState
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
@@ -86,7 +88,7 @@ class ReviewViewModel @Inject constructor (
     /**
      * 「标签」被点击，触发「点赞」or「取消点赞」
      */
-    fun onTagClick(position: Int) {
+    fun onTagClick(position: Int, showLoading: Boolean = true) {
         if (!repository.signedIn()) {
             ARouter.getInstance().build(Routes.signIn).navigation()
             return
@@ -99,8 +101,14 @@ class ReviewViewModel @Inject constructor (
                 repository.voteForComment(clicked.id)
             request.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loading.value = LoadingState.SHOW_DELAY }
-                .doAfterTerminate { loading.value = LoadingState.DISMISS }
+                .doOnSubscribe {
+                    if (showLoading)
+                        loading.value = LoadingState.SHOW_DELAY
+                }
+                .doAfterTerminate {
+                    if (showLoading)
+                        loading.value = LoadingState.DISMISS
+                }
                 .autoDispose(this)
                 .subscribe({
                     tags.value?.firstOrNull { it.id == clicked.id }?.also {
@@ -113,6 +121,15 @@ class ReviewViewModel @Inject constructor (
                 })
         }
     }
+
+    /**
+     * 添加标签
+     */
+    fun addProductTag(content: String): Completable = Completable.fromAction {
+        val productId = product.value?.id ?: throw IllegalStateException("productId 不存在")
+        val tagCreated = repository.createProductTag(productId, content).blockingGet()
+        tags.postValue((tags.value ?: emptyList()) + tagCreated) }
+        .doOnError { toast.postValue(it.message) }
 
     private fun tryLoadReviews(page: Int = 0) {
         val productId = product.value?.id

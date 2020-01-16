@@ -12,6 +12,16 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 产品标签是否已存在
+     */
+    fun isProductTagExist(productId: String, content: String): Single<Boolean>
+
+    /**
+     * 给产品添加标签
+     */
+    fun createProductTag(productId: String, content: String): Single<Comment>
+
+    /**
      * 批量查询是否点赞
      * @param ids 评论 id 列表
      * @return 已点赞的评论的记录

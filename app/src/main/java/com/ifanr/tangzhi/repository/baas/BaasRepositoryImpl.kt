@@ -7,6 +7,7 @@ import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.exceptions.NeedSignInException
+import com.ifanr.tangzhi.exceptions.UniqueRuleException
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.repository.baas.datasource.PointLogDataSource
@@ -35,6 +36,12 @@ class BaasRepositoryImpl @Inject constructor(
     private var cachedUserBanners: List<String>? = null
     private val cachedUserBannersLock = ReentrantLock(true)
 
+    // 标签颜色列表
+    private val productTagThemes = listOf(
+        "#FDEDEC", "#F4ECF6", "#EBF5FA", "#E8F8F5", "#EAF7EF", "#FEF5E8", "#FBEEE7", "#F2F4F4",
+        "#F9DBD9", "#E7DBEE", "#D6EAF7", "#D2F2EB", "#D5EEE0", "#FDEAD2", "#F6DDCE", "#E5E8E8",
+        "#F7F5DD", "#ECE9D2", "#F9F1D4", "#F2EBE6", "#EFEFF5", "#EFF1EB", "#EFECF1", "#EDF4F8")
+
 
     init {
         cachedUserBanners()
@@ -43,6 +50,34 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun isProductTagExist(productId: String, content: String): Single<Boolean> =
+        Single.fromCallable {
+            productComment.count(Query().put(Where().apply {
+                equalTo(Comment.COL_TYPE, Comment.TYPE_TAG)
+                equalTo(Comment.COL_PRODUCT, productId)
+                equalTo(Comment.COL_CONTENT, content)
+                equalTo(Comment.COL_CREATED_BY_USER, true)
+            })) > 0
+        }
+
+    override fun createProductTag(productId: String, content: String): Single<Comment> = Single.fromCallable {
+        assertSignIn()
+        val safeContent = content.trim()
+        if (safeContent.isEmpty())
+            throw IllegalStateException("标签不能为空")
+
+        if (isProductTagExist(productId = productId, content = safeContent).blockingGet())
+            throw UniqueRuleException("产品标签「$safeContent」已存在")
+
+        productComment.createRecord().apply {
+            put(Comment.COL_TYPE, Comment.TYPE_TAG)
+            put(Comment.COL_PRODUCT, productId)
+            put(Comment.COL_CONTENT, safeContent)
+            put(Comment.COL_THEME, productTagThemes.random())
+            put(Comment.COL_CREATED_BY_USER, true)
+        }.save().let { Comment(it) }
+    }
 
     override fun loadCommentVotes(ids: List<String>): Single<List<VoteLog>> =
         Single.fromCallable {

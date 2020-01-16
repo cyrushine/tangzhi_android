@@ -65,3 +65,6 @@ class BaseDialogScopeCompletable (
 fun <T> Single<T>.autoDispose(dialog: BaseDialog) =
     autoDispose(BaseDialogScopeCompletable(dialog))
 
+fun Completable.autoDispose(dialog: BaseDialog) =
+    autoDispose(BaseDialogScopeCompletable(dialog))
+
