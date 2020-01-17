@@ -7,6 +7,7 @@ import androidx.lifecycle.Transformations
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
+import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.ProductList
@@ -30,6 +31,8 @@ class ProductViewModel @Inject constructor (
     }
 
     val product = MutableLiveData<Product>()
+    // 已发布的点评
+    val review = MutableLiveData<Comment>()
     val errorOnLoad = MutableLiveData<Throwable>()
 
     /**
@@ -95,8 +98,20 @@ class ProductViewModel @Inject constructor (
         eventBus.subscribe(this, Consumer {
             when (it) {
                 is Event.SignIn, is Event.SignOut -> refreshIsFollowed()
+                is Event.ReviewCreated -> onReviewChanged(it.review)
+                is Event.ReviewChanged -> onReviewChanged(it.review)
             }
         })
+
+        // 发布的点评
+        product.observeForever { it?.also {
+            if (repository.signedIn()) {
+                repository.myProductReview(it.id)
+                    .subscribeOn(Schedulers.io())
+                    .autoDispose(this)
+                    .subscribe(Consumer { review.postValue(it) })
+            }
+        }}
     }
 
     fun load(productId: String) {
@@ -143,6 +158,13 @@ class ProductViewModel @Inject constructor (
             .subscribeOn(Schedulers.io())
             .autoDispose(this)
             .subscribe(Consumer { isFollowed.postValue(it) })
+    }
+
+    // 监听点评改变事件
+    private fun onReviewChanged(income: Comment) {
+        if (income.productId == product.value?.id) {
+            review.value = income
+        }
     }
 
 }

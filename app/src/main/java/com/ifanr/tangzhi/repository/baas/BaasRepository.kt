@@ -12,6 +12,11 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 我的产品点评
+     */
+    fun myProductReview(productId: String): Single<Comment>
+
+    /**
      * 发表回复
      * @param rootId 点评 id
      * @param replyId 二级回复才有，回复对象
@@ -74,7 +79,7 @@ interface BaasRepository {
 
     /**
      * 发表点评
-     * @param images 图片会上传到服务器，然后使用服务器地址
+     * @param images 图片会上传到服务器（如果是 file://，否则认为是网络路径不进行文件上传），然后使用服务器地址
      */
     fun sendReview(
         productId: String,

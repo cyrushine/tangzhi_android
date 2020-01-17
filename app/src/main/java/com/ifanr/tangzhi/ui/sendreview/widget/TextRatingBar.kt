@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.inflateInto
+import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.widgets.RatingBar
 
 /**
@@ -39,5 +40,13 @@ class TextRatingBar: ConstraintLayout {
     private fun setProgress(progress: Int) {
         text.text = ratingText.getOrNull(progress.div(20))
         onProgressChanged.invoke(progress)
+    }
+
+    /**
+     * @param value
+     * @see Comment.rating
+     */
+    fun setValue(value: Float) {
+        ratingBar.setProgress(value)
     }
 }

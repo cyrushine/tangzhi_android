@@ -21,6 +21,7 @@ import com.ifanr.tangzhi.ui.sendreview.widget.UploadImageTable
 import com.ifanr.tangzhi.ui.statusBar
 import com.ifanr.tangzhi.ui.widgets.SimpleToolBar
 import com.ifanr.tangzhi.ui.widgets.dismissLoading
+import com.ifanr.tangzhi.ui.widgets.observeLoadingLiveData
 import com.ifanr.tangzhi.ui.widgets.showLoading
 import com.uber.autodispose.android.lifecycle.autoDispose
 import com.zhihu.matisse.Matisse
@@ -61,12 +62,27 @@ class SendReviewActivity : BaseViewModelActivity() {
             toolbar.setTitle(it)
             commentEt.hint = getString(R.string.send_review_hint, it)
         }})
+
         vm.sendBtnEnable.observe(this, Observer {
             toolbar.sendButtonEnable = it == true
         })
+
         vm.imagePaths.observe(this, Observer { it?.also {
             images.setImages(it)
         }})
+
+        vm.finish.observe(this, Observer {
+            if (it == true)
+                finish()
+        })
+
+        vm.existing.observe(this, Observer { it?.also {
+            textRatingBar.setValue(it.rating)
+            commentEt.setText(it.content)
+        }})
+
+        observeLoadingLiveData(vm.loading)
+        observeToast(vm.toast)
         textRatingBar.onProgressChanged = {
             vm.rating.value = it
         }
@@ -74,30 +90,14 @@ class SendReviewActivity : BaseViewModelActivity() {
             vm.comment.value = it?.toString()
         }
         toolbar.listener = object: SimpleToolBar.Listener {
+
             override fun onCancel() {
                 setResult(Activity.RESULT_CANCELED)
                 finish()
             }
 
             // 发表评论
-            override fun onSend() {
-                vm.sendReview()
-                    ?.subscribeOn(Schedulers.io())
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.doOnSubscribe { showLoading() }
-                    ?.doAfterTerminate { dismissLoading() }
-                    ?.autoDispose(this@SendReviewActivity)
-                    ?.subscribe({
-                        toast(R.string.send_review_success)
-                        delay(500) {
-                            setResult(Activity.RESULT_OK)
-                            finish()
-                        }
-                    }, {
-                        Log.e(TAG, it.message, it)
-                        toast(it.message ?: "")
-                    })
-            }
+            override fun onSend() { vm.sendReview() }
         }
         vm.productId.value = productId
         vm.productName.value = productName

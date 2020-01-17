@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.ifanr.tangzhi.R
 import com.uber.autodispose.android.lifecycle.autoDispose
 import io.reactivex.Completable
@@ -22,6 +24,10 @@ fun Activity.toastFail(msg: String?) {
 
 fun Activity.toast(@StringRes res: Int) {
     Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
+}
+
+fun AppCompatActivity.observeToast(msg: MutableLiveData<String>) {
+    msg.observe(this, Observer { it?.also { toast(it) }})
 }
 
 fun Activity.checkAndRequestPermissions(permission: Array<String>, requestCode: Int): Boolean {

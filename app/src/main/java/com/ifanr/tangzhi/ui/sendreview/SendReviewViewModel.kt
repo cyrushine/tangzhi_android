@@ -9,11 +9,16 @@ import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
+import com.ifanr.tangzhi.ui.widgets.bindLoading
+import com.ifanr.tangzhi.util.LoadingState
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.filter.Filter
 import com.zhihu.matisse.internal.entity.IncapableCause
 import com.zhihu.matisse.internal.entity.Item
+import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -23,12 +28,19 @@ class SendReviewViewModel @Inject constructor(
     private val repository: BaasRepository
 ): BaseViewModel() {
 
+    // 用户已发表的点评
+    val existing = MediatorLiveData<Comment>()
     val productId = MutableLiveData<String>()
     val productName = MutableLiveData<String>()
     val rating = MutableLiveData<Int>()
     val comment = MutableLiveData<String>()
+    val loading = MutableLiveData<LoadingState>()
+    val toast = MutableLiveData<String>()
+    val finish = MutableLiveData<Boolean>()
 
-    // 图片 file:// 路径，用来上传
+    // 图片路径，用来上传
+    // 如果是 file:// 则是用户刚选择的
+    // 否则是用户已上传的
     val imagePaths = MutableLiveData<List<String>>()
     // 图片 content:// 路径，用来去重
     private var imageUri: List<Uri> = emptyList()
@@ -61,13 +73,25 @@ class SendReviewViewModel @Inject constructor(
         sendBtnEnable.addSource(rating) {
             sendBtnEnable.value = (it ?: 0) >= 20
         }
+
+        // 查找用户是否对此产品发表过点评，有的话填入 form 中
+        existing.addSource(productId) { it?.also {
+            repository.myProductReview(it)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindLoading(loading)
+                .subscribe(Consumer {
+                    existing.value = it
+                    imagePaths.value = it.images
+                })
+        }}
     }
 
     /**
      * 发表点评
      */
-    fun sendReview(): Single<Comment>? {
-        return if (sendBtnEnable.value == true) {
+    fun sendReview() {
+        if (sendBtnEnable.value == true) {
             repository.sendReview(
                 productId = productId.value ?: "",
                 productName = productName.value ?: "",
@@ -76,9 +100,17 @@ class SendReviewViewModel @Inject constructor(
                 images = imagePaths.value ?: emptyList())
 
                 // 太快的话最新点评列表里刷新不出来
-                .delay(2000, TimeUnit.MILLISECONDS)
-        } else {
-            null
+                .delay(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindLoading(loading)
+                .autoDispose(this)
+                .subscribe({
+                    toast.value = "发表评论成功"
+                    Completable.timer(500, TimeUnit.MILLISECONDS)
+                        .autoDispose(this)
+                        .subscribe { finish.postValue(true) }
+                }, { toast.value = it.message })
         }
     }
 

@@ -37,40 +37,50 @@ class ProductActivity : BaseViewModelActivity() {
     @Autowired(name = Routes.productId)
     var productId: String = ""
 
+    lateinit var vm: ProductViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
         statusBar(whiteText = false)
 
+        vm = viewModel()
         productParam.setOnClickListener {
             ARouter.getInstance().build(Routes.productParam)
                 .withString(Routes.productParamId, productId)
                 .navigation(this)
         }
 
-        val vm: ProductViewModel = viewModel()
+        listOf(approve, oppose).forEach { it.setOnClickListener { openCreateReviewPage() } }
+
         vm.product.observe(this, Observer {
             it?.also { invalidate(it) }
         })
+
         vm.errorOnLoad.observe(this, Observer {
             Log.e(TAG, it.message, it)
             toast(R.string.error_load_product)
         })
+
         vm.relatedProducts.observe(this, Observer {
             it?.also { relatedProductList.setData(it) }
         })
+
         vm.productList.observe(this, Observer {
             productList.setProductLists(productId, it)
         })
+
         vm.paramVisiable.observe(this, Observer {
             productParam.visibility = if (it == true) View.VISIBLE else View.GONE
         })
+
         vm.isFollowed.observe(this, Observer {
             following.state = if (it == true)
                 FollowingView.State.FOLLOWED
             else
                 FollowingView.State.UN_FOLLOW
         })
+
         vm.loading.observe(this, Observer { it?.also {
             when {
                 it == 0 -> showLoading()
@@ -78,7 +88,15 @@ class ProductActivity : BaseViewModelActivity() {
                 it < 0 -> dismissLoading()
             }
         }})
+
         vm.toast.observe(this, Observer { it?.also { toast(it) }})
+
+        vm.review.observe(this, Observer { it?.also {
+            val up = it.rating >= 6f
+            approve.isChecked = up
+            oppose.isChecked = !up
+        }})
+
         vm.load(productId)
 
         following.setOnClickListener { vm.onFollowClick() }
@@ -117,6 +135,17 @@ class ProductActivity : BaseViewModelActivity() {
             ARouter.getInstance().build(Routes.share)
                 .withParcelable(Routes.shareObject, ShareProductReq(
                     id = product.id, coverImage = product.coverImage, title = product.name))
+                .navigation(this)
+        }
+    }
+
+    private fun openCreateReviewPage() {
+        val productId = vm.product.value?.id
+        val productName = vm.product.value?.name
+        if (!productId.isNullOrEmpty()){
+            ARouter.getInstance().build(Routes.sendReview)
+                .withString(Routes.sendReviewProductId, productId)
+                .withString(Routes.sendReviewProductName, productName)
                 .navigation(this)
         }
     }

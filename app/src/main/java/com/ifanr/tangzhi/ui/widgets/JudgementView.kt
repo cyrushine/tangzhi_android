@@ -1,8 +1,12 @@
 package com.ifanr.tangzhi.ui.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.SoundEffectConstants
+import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.annotation.Dimension
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.dp2px
@@ -21,6 +25,8 @@ class JudgementView: IconCompoundButton {
         @Dimension(unit = Dimension.DP)
         private const val PADDING = 8
     }
+
+    private var onClick: OnClickListener? = null
 
     constructor(context: Context?) : super(context) { init(null) }
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs) }
@@ -55,5 +61,21 @@ class JudgementView: IconCompoundButton {
         context.dp2px(PADDING).also {
             setPadding(it, it, it, it)
         }
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
+        onClick = l
+    }
+
+    /**
+     * parent 在这里会 toggle state，而我不需要 toggle
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    override fun performClick(): Boolean {
+        onClick?.onClick(this)
+        playSoundEffect(SoundEffectConstants.CLICK)
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED)
+        return true
     }
 }

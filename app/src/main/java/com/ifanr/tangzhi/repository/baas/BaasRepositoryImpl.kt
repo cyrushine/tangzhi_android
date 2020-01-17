@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.repository.baas
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
@@ -34,6 +35,10 @@ class BaasRepositoryImpl @Inject constructor(
     private val ctx: Context
 ): BaasRepository {
 
+    companion object {
+        private const val TAG = "BaasRepositoryImpl"
+    }
+
     private var cachedUserBanners: List<String>? = null
     private val cachedUserBannersLock = ReentrantLock(true)
 
@@ -51,6 +56,19 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun myProductReview(productId: String): Single<Comment> = Single.fromCallable {
+        assertSignIn()
+        productComment.query(
+            clz = Comment::class.java,
+            where = Where().apply {
+                equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
+                equalTo(Comment.COL_PRODUCT, productId)
+                equalTo(Record.CREATED_BY, userId()?.toLong())
+                notEqualTo(Comment.COL_STATUS, BaseModel.STATUS_DELETED)
+            }
+        ).blockingGet().data.first()
+    }
 
     override fun sendComment(
         productId: String,
@@ -190,19 +208,44 @@ class BaasRepositoryImpl @Inject constructor(
     ): Single<Comment> = Single.fromCallable {
         val imageUrls = images.map {
             try {
-                uploadCommentImage(it).blockingGet()
+                if (it.startsWith(prefix = "file", ignoreCase = true))
+                    uploadCommentImage(it).blockingGet()
+                else
+                    it
             } catch (e: Exception) {
                 throw Exception("上传图片失败($it)", e)
             }
         }
-        productComment.createRecord().apply {
-            put(Comment.COL_TYPE, Comment.TYPE_REVIEW)
-            put(Comment.COL_PRODUCT, productId)
-            put(Comment.COL_TITLE, productName)
-            put(Comment.COL_CONTENT, content)
-            put(Comment.COL_RATING, rating)
-            put(Comment.COL_IMAGE, imageUrls.toTypedArray())
-        }.save().let { Comment(it) }
+
+        val existing = runCatching { myProductReview(productId).blockingGet() }.getOrNull()
+
+        // 创建一条新点评
+        if (existing == null) {
+            val create = productComment.createRecord().apply {
+                put(Comment.COL_TYPE, Comment.TYPE_REVIEW)
+                put(Comment.COL_PRODUCT, productId)
+                put(Comment.COL_TITLE, productName)
+                put(Comment.COL_CONTENT, content)
+                put(Comment.COL_RATING, rating)
+                put(Comment.COL_IMAGE, imageUrls.toTypedArray())
+            }.save().let { Comment(it) }
+            bus.post(Event.ReviewCreated(create))
+            create
+        } else {
+
+            // 更新点评
+            productComment.fetchWithoutData(existing.id).apply {
+                put(Comment.COL_CONTENT, content)
+                put(Comment.COL_RATING, rating)
+                put(Comment.COL_IMAGE, imageUrls.toTypedArray())
+            }.save()
+
+            existing.images = images
+            existing.content = content
+            existing.rating = rating
+            bus.post(Event.ReviewChanged(existing))
+            existing
+        }
     }
 
 

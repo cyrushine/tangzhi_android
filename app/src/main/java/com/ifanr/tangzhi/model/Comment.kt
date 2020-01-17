@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.model
 
 import android.util.Log
+import androidx.annotation.FloatRange
 import androidx.core.graphics.toColorInt
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.ext.*
@@ -21,6 +22,8 @@ open class Comment {
     var createdById: Long = 0
     var createdByName: String = ""
     var createdByAvatar: String = ""
+
+    @FloatRange(from = 0.0, to = 10.0)
     var rating: Float = 0f
     var children: List<Comment> = emptyList()
     var rootId: String = ""
@@ -28,6 +31,7 @@ open class Comment {
     var replyId: String = ""
     var createdAt: Long = 0
     var replayToName: String = ""
+    var productId: String = ""
 
     // 是否点赞
     var voted = false
@@ -54,6 +58,9 @@ open class Comment {
         createdAt = record.getSafeLong(Record.CREATED_AT)
         record.getJsonObject(COL_REPLY_TO)?.also {
             replayToName = it.getSafeString(User.NICKNAME)
+        }
+        record.getJsonObject(COL_PRODUCT)?.also {
+            productId = it.getSafeString(Record.ID)
         }
     }
 

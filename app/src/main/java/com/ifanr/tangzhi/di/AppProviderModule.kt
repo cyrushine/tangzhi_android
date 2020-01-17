@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.ifanr.tangzhi.Const
+import com.ifanr.tangzhi.EventBus
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import dagger.Module
@@ -30,4 +31,8 @@ class AppProviderModule {
             registerApp(Const.WECHAT_APP_ID)
         }
     }
+
+    @Provides
+    @Singleton
+    fun provideEventBus(): EventBus = EventBus()
 }

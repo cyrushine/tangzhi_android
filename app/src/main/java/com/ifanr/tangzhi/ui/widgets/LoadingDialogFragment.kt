@@ -6,12 +6,14 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ui.base.autoDispose
@@ -22,6 +24,7 @@ import com.ifanr.tangzhi.ui.setStatusTextColor
 import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.annotations.SchedulerSupport
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.app_dialog_loading.*
 import java.util.concurrent.TimeUnit
@@ -68,6 +71,11 @@ fun Fragment.observeLoadingLiveData(liveData: LiveData<LoadingState>) {
         }
     })
 }
+
+@SchedulerSupport("AndroidSchedulers.mainThread()")
+fun <T> Single<T>.bindLoading(liveData: MutableLiveData<LoadingState>): Single<T> =
+    doOnSubscribe { liveData.value = LoadingState.SHOW }
+        .doAfterTerminate { liveData.value = LoadingState.DISMISS }
 
 
 /**
