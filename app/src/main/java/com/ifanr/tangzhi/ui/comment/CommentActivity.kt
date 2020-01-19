@@ -7,11 +7,13 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.observeToast
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.comment.widget.CommentList
 import com.ifanr.tangzhi.ui.statusBar
+import com.ifanr.tangzhi.ui.widgets.observeLoadingLiveData
 import kotlinx.android.synthetic.main.activity_comment.*
 
 /**
@@ -54,6 +56,8 @@ class CommentActivity : BaseViewModelActivity() {
         vm.productId.value = productId
         vm.productName.value = productName
         vm.reviewId.value = reviewId
+        observeLoadingLiveData(vm.loading)
+        observeToast(vm.toast)
 
         // 底部的回复按钮（回复点评）
         sendCommentBtn.setOnClickListener {
@@ -61,22 +65,22 @@ class CommentActivity : BaseViewModelActivity() {
                 .withString(Routes.sendCommentProductId, productId)
                 .withString(Routes.sendCommentProductName, productName)
                 .withString(Routes.sendCommentRootId, reviewId)
-            Log.d(TAG, "send comment at bottom, $request")
             request.navigation(this)
         }
 
         toolbar.close.setOnClickListener { finish() }
         list.setListener(object: CommentList.Listener {
-            override fun onReplyClick(position: Int) {
-                super.onReplyClick(position)
+
+            override fun onReplyClick(id: String) {
+                super.onReplyClick(id)
             }
 
-            override fun onUpClick(position: Int) {
-                super.onUpClick(position)
+            override fun onVoteClick(id: String) {
+                vm.onVoteClick(id)
             }
 
-            override fun onOptionClick(position: Int) {
-                super.onOptionClick(position)
+            override fun onOptionClick(id: String) {
+                super.onOptionClick(id)
             }
 
             override fun onLoadMore() { vm.tryLoadNextPage() }

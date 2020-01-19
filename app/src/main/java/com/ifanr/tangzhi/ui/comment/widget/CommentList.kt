@@ -9,9 +9,9 @@ import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 class CommentList: AppEpoxyRV {
 
     interface Listener {
-        fun onReplyClick(position: Int) {}
-        fun onUpClick(position: Int) {}
-        fun onOptionClick(position: Int) {}
+        fun onReplyClick(id: String) {}
+        fun onVoteClick(id: String) {}
+        fun onOptionClick(id: String) {}
         fun onLoadMore() {}
 
         /**

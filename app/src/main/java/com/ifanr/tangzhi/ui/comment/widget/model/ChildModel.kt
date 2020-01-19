@@ -49,6 +49,7 @@ abstract class ChildModel: EpoxyModelWithHolder<ChildModel.Holder>() {
             .append(data.content)
         holder.reply.setCount(data.replyCount)
         holder.up.setCount(data.upvote)
+        holder.up.isSelected = data.voted
         holder.reply.setOnClickListener(onReplyClick)
         holder.up.setOnClickListener(onUpClick)
         holder.option.setOnClickListener(onOptionClick)

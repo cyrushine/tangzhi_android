@@ -8,6 +8,7 @@ import android.view.Gravity
 import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatDialog
 import com.ifanr.tangzhi.ext.dp2px
+import com.ifanr.tangzhi.ui.statusBar
 import com.uber.autodispose.autoDispose
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver

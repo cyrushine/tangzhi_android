@@ -115,15 +115,7 @@ class ReviewFragment : BaseViewModelFragment() {
 
             // 点击回复按钮
             override fun onReplyClick(position: Int) {
-                val product = vm.product.value
-                val parent = vm.reviews.value?.first?.getOrNull(position)
-                if (product != null && parent != null) {
-                    ARouter.getInstance().build(Routes.sendComment)
-                        .withString(Routes.sendCommentProductId, product.id)
-                        .withString(Routes.sendCommentProductName, product.name)
-                        .withString(Routes.sendCommentParentId, parent.id)
-                        .navigation(context)
-                }
+                onClick(position)
             }
 
             // 点击点评卡片
@@ -138,6 +130,11 @@ class ReviewFragment : BaseViewModelFragment() {
                         .withLong(Routes.commentReviewCreatedBy, review.createdById)
                         .navigation(context)
                 }
+            }
+
+            // 点击「有用」
+            override fun onVoteClick(position: Int) {
+                vm.onVoteClick(position)
             }
         })
     }

@@ -64,7 +64,63 @@ open class Comment {
         }
     }
 
+
+
+    constructor(copyFrom: Comment) {
+        id = copyFrom.id
+        content = copyFrom.content
+        upvote = copyFrom.upvote
+        downvote = copyFrom.downvote
+        replyCount = copyFrom.replyCount
+        recommended = copyFrom.recommended
+        images = copyFrom.images
+        theme = copyFrom.theme
+        description = copyFrom.description
+        createdById = copyFrom.createdById
+        createdByAvatar = copyFrom.createdByAvatar
+        createdByName = copyFrom.createdByName
+        rating = copyFrom.rating
+        rootId = copyFrom.rootId
+        parentId = copyFrom.parentId
+        replyId = copyFrom.replyId
+        createdAt = copyFrom.createdAt
+        replayToName = copyFrom.replayToName
+        productId = copyFrom.productId
+        voted = copyFrom.voted
+        children = copyFrom.children
+    }
+
     constructor()
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Comment) return false
+
+        if (id != other.id) return false
+        if (content != other.content) return false
+        if (upvote != other.upvote) return false
+        if (downvote != other.downvote) return false
+        if (replyCount != other.replyCount) return false
+        if (recommended != other.recommended) return false
+        if (images != other.images) return false
+        if (theme != other.theme) return false
+        if (description != other.description) return false
+        if (createdById != other.createdById) return false
+        if (createdByName != other.createdByName) return false
+        if (createdByAvatar != other.createdByAvatar) return false
+        if (rating != other.rating) return false
+        if (children != other.children) return false
+        if (rootId != other.rootId) return false
+        if (parentId != other.parentId) return false
+        if (replyId != other.replyId) return false
+        if (createdAt != other.createdAt) return false
+        if (replayToName != other.replayToName) return false
+        if (productId != other.productId) return false
+        if (voted != other.voted) return false
+
+        return true
+    }
 
 
     companion object {

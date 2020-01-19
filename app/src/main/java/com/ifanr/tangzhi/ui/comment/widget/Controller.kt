@@ -6,7 +6,7 @@ import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.base.model.LoadMoreAwaredController
 import com.ifanr.tangzhi.ui.comment.model.ChildLoadMore
 import com.ifanr.tangzhi.ui.comment.widget.model.*
-import com.ifanr.tangzhi.ui.product.comments.review.productReview
+import com.ifanr.tangzhi.ui.product.comments.review.widget.productReview
 
 class Controller: LoadMoreAwaredController<List<Comment>>() {
 
@@ -31,8 +31,11 @@ class Controller: LoadMoreAwaredController<List<Comment>>() {
             productReview {
                 id(review.id)
                 onClick { _ -> }
-                onReplyClick { _, _, _, position ->
-                    listener.onReplyClick(position)
+                onReplyClick { _, _, _, _ ->
+                    listener.onReplyClick(review.id)
+                }
+                onVoteClick { _, _, _, _ ->
+                    listener.onVoteClick(review.id)
                 }
                 comment(review)
                 dateVisiable(true)
@@ -45,14 +48,14 @@ class Controller: LoadMoreAwaredController<List<Comment>>() {
                 commentItem {
                     id(it.id)
                     data(it)
-                    onReplyClick { _, _, _, position ->
-                        listener.onReplyClick(position)
+                    onReplyClick { _, _, _, _ ->
+                        listener.onReplyClick(it.id)
                     }
-                    onUpClick { _, _, _, position ->
-                        listener.onUpClick(position)
+                    onUpClick { _, _, _, _ ->
+                        listener.onVoteClick(it.id)
                     }
-                    onOptionClick { _, _, _, position ->
-                        listener.onOptionClick(position)
+                    onOptionClick { _, _, _, _ ->
+                        listener.onOptionClick(it.id)
                     }
                 }
 
@@ -71,18 +74,19 @@ class Controller: LoadMoreAwaredController<List<Comment>>() {
                     }
 
                 } else if (children.size == 1) {
+                    val single = children[0]
                     child {
-                        id(children[0].id)
-                        data(children[0])
+                        id(single.id)
+                        data(single)
                         background(R.drawable.comment_child_single)
-                        onReplyClick { _, _, _, position ->
-                            listener.onReplyClick(position)
+                        onReplyClick { _, _, _, _ ->
+                            listener.onReplyClick(single.id)
                         }
-                        onUpClick { _, _, _, position ->
-                            listener.onUpClick(position)
+                        onUpClick { _, _, _, _ ->
+                            listener.onVoteClick(single.id)
                         }
-                        onOptionClick { _, _, _, position ->
-                            listener.onOptionClick(position)
+                        onOptionClick { _, _, _, _ ->
+                            listener.onOptionClick(single.id)
                         }
                     }
 
@@ -96,14 +100,14 @@ class Controller: LoadMoreAwaredController<List<Comment>>() {
                                 children.lastIndex -> R.drawable.comment_child_bottom
                                 else -> R.drawable.comment_child_middle
                             })
-                            onReplyClick { _, _, _, position ->
-                                listener.onReplyClick(position)
+                            onReplyClick { _, _, _, _ ->
+                                listener.onReplyClick(child.id)
                             }
-                            onUpClick { _, _, _, position ->
-                                listener.onUpClick(position)
+                            onUpClick { _, _, _, _ ->
+                                listener.onVoteClick(child.id)
                             }
-                            onOptionClick { _, _, _, position ->
-                                listener.onOptionClick(position)
+                            onOptionClick { _, _, _, _ ->
+                                listener.onOptionClick(child.id)
                             }
                         }
                     }

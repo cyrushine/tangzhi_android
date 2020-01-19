@@ -1,12 +1,18 @@
 package com.ifanr.tangzhi.ui.comment
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.ext.networkJob
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.comment.model.ChildLoadMore
+import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -27,6 +33,8 @@ class CommentViewModel @Inject constructor(
     val productId = MutableLiveData<String>()
     val productName = MutableLiveData<String>()
     val reviewId = MutableLiveData<String>()
+    val loading = MutableLiveData<LoadingState>()
+    val toast = MutableLiveData<String>()
     private val review = MutableLiveData<Comment>()
 
     // 下一页
@@ -50,6 +58,53 @@ class CommentViewModel @Inject constructor(
         }}
 
         review.observeForever { tryLoadNextPage() }
+    }
+
+    // 点击「有用」
+    fun onVoteClick(id: String) {
+        if (!repository.signedIn()) {
+            ARouter.getInstance().build(Routes.signIn).navigation()
+            return
+        }
+
+        val updated = comments.value?.flatMap { it.children + it }?.find { it.id == id }
+        if (updated != null) {
+            val voted = updated.voted
+            val request = if (voted) repository.removeVoteForComment(updated.id)
+            else repository.voteForComment(updated.id)
+
+            request.networkJob(this, loadingState = loading)
+                .subscribe({
+                    val replaced = Comment(updated).apply {
+                        this.voted = !voted
+                        if (voted) upvote-- else upvote++
+                    }
+
+                    // 一级评论
+                    val list = comments.value?.toMutableList()
+                    if (!list.isNullOrEmpty()) {
+                        if (updated.parentId.isEmpty()) {
+                            val updatedIndex = list.indexOfFirst { it.id == replaced.id }
+                            if (updatedIndex >= 0) {
+                                list[updatedIndex] = replaced
+                                comments.value = list
+                            }
+                        } else {
+
+                            // 二级评论
+                            list.find { it.id == replaced.parentId }?.also { parent ->
+                                val updatedIndex = parent.children.indexOfFirst { it.id == replaced.id }
+                                if (updatedIndex >= 0) {
+                                    parent.children = parent.children.toMutableList().apply {
+                                        set(updatedIndex, replaced)
+                                    }
+                                    comments.value = comments.value
+                                }
+                            }
+                        }
+                    }
+                }, { toast.value = it.message })
+        }
     }
 
     /**

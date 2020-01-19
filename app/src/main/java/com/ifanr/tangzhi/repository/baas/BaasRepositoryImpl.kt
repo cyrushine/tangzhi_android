@@ -23,6 +23,7 @@ import com.minapp.android.sdk.storage.CloudFile
 import com.minapp.android.sdk.storage.Storage
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -57,10 +58,68 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
 
+    /**
+     * 通用的查询 [productComment] 表的方法
+     * 增加了点赞字段的支持
+     */
+    private fun queryProductComment(
+        page: Int = 0,
+        pageSize: Int = Const.PAGE_SIZE,
+        where: Where? = null,
+        query: Query? = null
+    ): Single<Page<Comment>> {
+
+        // 自己可以看到待审核的内容
+        val w: Where
+        if (signedIn()) {
+            w = Where.and(
+                where,
+                Where.or(
+                    Where().apply {
+                        equalTo(Record.CREATED_BY, userId()?.toLong())
+                        equalTo(Comment.COL_STATUS, BaseModel.STATUS_PENDING)
+                    },
+                    Where().apply {
+                        equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+                    }
+                )
+            )
+        } else {
+            w = Where.and(
+                where,
+                Where().apply {
+                    equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+                }
+            )
+        }
+
+        return productComment.query(
+            clz = Comment::class.java,
+            page = page,
+            pageSize = pageSize,
+            where = w,
+            query = query
+        ).doOnSuccess {
+
+            // 是否有点赞
+            if (signedIn() && it.data.isNotEmpty()) {
+                try {
+                    val votes = loadCommentVotes(it.data.map { it.id }).blockingGet()
+                    it.data.forEach { review ->
+                        review.voted = votes.any { it.subjectId == review.id && it.isPositive }
+                    }
+                } catch (e: Exception) {}
+            }
+        }
+    }
+
+
+
     override fun myProductReview(productId: String): Single<Comment> = Single.fromCallable {
         assertSignIn()
-        productComment.query(
-            clz = Comment::class.java,
+        queryProductComment(
+            page = 0,
+            pageSize = 1,
             where = Where().apply {
                 equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
                 equalTo(Comment.COL_PRODUCT, productId)
@@ -480,6 +539,7 @@ class BaasRepositoryImpl @Inject constructor(
         parentId: String,
         offset: Int
     ): Single<PageByOffset<Comment>> = productComment.queryByOffset(
+        clz = Comment::class.java,
         offset = offset,
         where = Where().apply {
             equalTo(Comment.COL_PRODUCT, productId)
@@ -491,19 +551,18 @@ class BaasRepositoryImpl @Inject constructor(
         query = Query().apply {
             orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
         }
-    )
+    ).doOnSuccess {
 
-        /*productComment.queryByOffset(
-            offset = offset,
-            where = Where().apply {
-                equalTo(Comment.COL_PRODUCT, "5dcd168223277b5a7f8bd977")
-                equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
-                equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
-            },
-            query = Query().apply {
-                orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
-            }
-        )*/
+        // 是否有点赞
+        if (signedIn() && it.data.isNotEmpty()) {
+            try {
+                val votes = loadCommentVotes(it.data.map { it.id }).blockingGet()
+                it.data.forEach { review ->
+                    review.voted = votes.any { it.subjectId == review.id && it.isPositive }
+                }
+            } catch (e: Exception) {}
+        }
+    }
 
 
     override fun loadPagedComment(
@@ -567,41 +626,56 @@ class BaasRepositoryImpl @Inject constructor(
         }
 
         comments
+    }.doOnSuccess {
+
+        // 是否有点赞
+        if (signedIn() && it.data.isNotEmpty()) {
+            try {
+                val flatList = it.data.flatMap { it.children + it }
+                val votes = loadCommentVotes(flatList.map { it.id }).blockingGet()
+                flatList.forEach { review ->
+                    review.voted = votes.any { it.subjectId == review.id && it.isPositive }
+                }
+            } catch (e: Exception) {}
+        }
     }
 
-    override fun getReviewById(reviewId: String): Single<Comment> =
-        productComment.getById(reviewId, expand = listOf(Record.CREATED_BY))
+    override fun getReviewById(reviewId: String): Single<Comment> = Single.fromCallable {
+        queryProductComment(
+            page = 0,
+            pageSize = 1,
+            where = Where().apply {
+                equalTo(Record.ID, reviewId)
+            },
+            query = Query().apply {
+                expand(listOf(Record.CREATED_BY))
+            }
+        ).blockingGet().data.first()
+    }
 
-    override fun loadAllTags(productId: String): Single<List<Comment>> = loadPagedComments(
-        productId = productId,
-        type = Comment.TYPE_TAG,
+    override fun loadAllTags(productId: String): Single<List<Comment>> = queryProductComment(
+        page = 0,
         pageSize = 999,
+        where = Where().apply {
+            equalTo(Comment.COL_PRODUCT, productId)
+            equalTo(Comment.COL_TYPE, Comment.TYPE_TAG)
+        },
         query = Query().apply {
             orderBy("-${Comment.COL_UPVOTE}", "-${Record.UPDATED_AT}")
         })
         .map { it.data }
-        .doOnSuccess {
-            // 查询是否点赞
-            if (signedIn()) {
-                val voted = loadCommentVotes(it.map { it.id }).blockingGet()
-                it.forEach { tag ->
-                    tag.voted = voted.any { it.subjectId == tag.id && it.isPositive }
-                }
-            }
-        }
 
     override fun loadPagedReviews(
         productId: String,
         page: Int,
         pageSize: Int,
         orderBy: CommentSwitch.Type?
-    ): Single<Page<Comment>> = productComment.query(
+    ): Single<Page<Comment>> = queryProductComment(
         page = page,
         pageSize = pageSize,
         where = Where().apply {
             equalTo(Comment.COL_PRODUCT, productId)
             equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
-            equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
             isNotNull(Comment.COL_CONTENT)
             if (orderBy == CommentSwitch.Type.EDITOR_CHOICE)
                 equalTo(Comment.COL_RECOMMENDED, true)
@@ -613,24 +687,6 @@ class BaasRepositoryImpl @Inject constructor(
                 CommentSwitch.Type.LATEST -> orderBy("-${Record.CREATED_AT}")
             }
         }
-    )
-
-
-    private fun loadPagedComments (
-        productId: String,
-        type: String,
-        page: Int = 0,
-        pageSize: Int = 0,
-        query: Query? = null
-    ): Single<Page<Comment>> = productComment.query(
-        page = page,
-        pageSize = pageSize,
-        where = Where().apply {
-            equalTo(Comment.COL_PRODUCT, productId)
-            equalTo(Comment.COL_TYPE, type)
-            equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
-        },
-        query = query
     )
 
     override fun productList(productId: String): Single<PagedList<ProductList>> =

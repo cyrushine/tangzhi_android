@@ -31,6 +31,7 @@ fun Activity.statusBar(whiteText: Boolean, translucent: Boolean = true) {
     window?.statusBar(whiteText = whiteText, translucent = translucent)
 }
 
+
 /**
  * 设置状态栏的背景、颜色
  * @param whiteText true - 白色的文本；false - 黑色的文本

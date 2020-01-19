@@ -1,7 +1,9 @@
 package com.ifanr.tangzhi.ui.product.comments.review
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.ext.networkJob
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.repository.baas.BaasRepository
@@ -11,7 +13,6 @@ import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
@@ -32,14 +33,19 @@ class ReviewViewModel @Inject constructor (
 
     // 产品信息
     val product = MutableLiveData<Product>()
+
     // 标签列表
     val tags = MediatorLiveData<List<Comment>>()
+
     // 点评列表, boolean == true 表示 scroll to top
     val reviews = MediatorLiveData<Pair<List<Comment>, Boolean>>()
+
     // 点评总数
     val reviewCount = MutableLiveData<Int>()
+
     // 排序
     val orderBy = MutableLiveData<CommentSwitch.Type>()
+
     // 提供给 ProductActivity，发表点评后刷新最新列表
     val refreshToLatest = MutableLiveData<Any>()
     val loading = MutableLiveData<LoadingState>()
@@ -66,6 +72,41 @@ class ReviewViewModel @Inject constructor (
         }
         reviews.addSource(orderBy) {
             refreshReviews()
+        }
+    }
+
+    // 给点评点赞
+    fun onVoteClick(position: Int) {
+        if (!repository.signedIn()) {
+            ARouter.getInstance().build(Routes.signIn).navigation()
+            return
+        }
+
+        val updated = reviews.value?.first?.getOrNull(position)
+        if (updated != null) {
+            val voted = updated.voted
+            val request = if (voted) repository.removeVoteForComment(updated.id)
+            else repository.voteForComment(updated.id)
+
+            request.networkJob(this, loadingState = loading)
+                .subscribe({
+
+                    // 更新点评列表
+                    val list = reviews.value?.first?.toMutableList()
+                    if (!list.isNullOrEmpty()) {
+                        val updatedIndex = list.indexOfFirst { it.id == updated.id }
+                        if (updatedIndex >= 0) {
+                            list[updatedIndex] = Comment(updated).apply {
+                                this.voted = !voted
+                                if (voted)
+                                    this.upvote--
+                                else
+                                    this.upvote++
+                            }
+                            reviews.value = list to false
+                        }
+                    }
+                }, { toast.value = it.message })
         }
     }
 
