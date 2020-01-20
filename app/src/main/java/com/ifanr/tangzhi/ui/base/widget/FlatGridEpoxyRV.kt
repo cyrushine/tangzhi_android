@@ -2,6 +2,7 @@ package com.ifanr.tangzhi.ui.base.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.recyclerview.widget.GridLayoutManager
 
 open class FlatGridEpoxyRV: AppEpoxyRV {
@@ -24,6 +25,10 @@ open class FlatGridEpoxyRV: AppEpoxyRV {
     }
 
     override fun canScrollVertically(direction: Int): Boolean {
+        return false
+    }
+
+    override fun onTouchEvent(e: MotionEvent?): Boolean {
         return false
     }
 

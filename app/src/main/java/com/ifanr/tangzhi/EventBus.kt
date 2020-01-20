@@ -40,4 +40,5 @@ sealed class Event {
     object ProfileChanged: Event()
     data class ReviewCreated(val review: Comment): Event()
     data class ReviewChanged(val review: Comment): Event()
+    data class CommentCreated(val comment: Comment): Event()
 }

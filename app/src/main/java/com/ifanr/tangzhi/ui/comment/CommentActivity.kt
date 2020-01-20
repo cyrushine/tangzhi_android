@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.observeToast
+import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
@@ -71,14 +72,36 @@ class CommentActivity : BaseViewModelActivity() {
         toolbar.close.setOnClickListener { finish() }
         list.setListener(object: CommentList.Listener {
 
+            /**
+             * 回复评论
+             */
             override fun onReplyClick(id: String) {
-                super.onReplyClick(id)
+                vm.comments.value?.find { it.id == id }?.also { comment ->
+                    val postCard = ARouter.getInstance().build(Routes.sendComment)
+                        .withString(Routes.sendCommentProductId, productId)
+                        .withString(Routes.sendCommentProductName, productName)
+                        .withString(Routes.sendCommentRootId, reviewId)
+
+                    if (comment.type == Comment.TYPE_COMMENT) {
+                        postCard.withString(Routes.sendCommentParentId,
+                            if (comment.parentId.isEmpty()) comment.id else comment.parentId)
+                            .withString(Routes.sendCommentReplyId, comment.id)
+                            .withLong(Routes.sendCommentReplyTo, comment.createdById)
+                    }
+                    postCard.navigation(this@CommentActivity)
+                }
             }
 
+            /**
+             * 点赞
+             */
             override fun onVoteClick(id: String) {
                 vm.onVoteClick(id)
             }
 
+            /**
+             * 评论菜单
+             */
             override fun onOptionClick(id: String) {
                 super.onOptionClick(id)
             }

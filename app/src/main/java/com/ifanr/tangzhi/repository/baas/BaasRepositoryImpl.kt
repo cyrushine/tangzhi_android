@@ -15,7 +15,9 @@ import com.ifanr.tangzhi.repository.baas.datasource.PointLogDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.ProductListDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.SearchDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.ifanr.tangzhi.util.uuid
 import com.minapp.android.sdk.auth.Auth
+import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
@@ -99,18 +101,7 @@ class BaasRepositoryImpl @Inject constructor(
             pageSize = pageSize,
             where = w,
             query = query
-        ).doOnSuccess {
-
-            // 是否有点赞
-            if (signedIn() && it.data.isNotEmpty()) {
-                try {
-                    val votes = loadCommentVotes(it.data.map { it.id }).blockingGet()
-                    it.data.forEach { review ->
-                        review.voted = votes.any { it.subjectId == review.id && it.isPositive }
-                    }
-                } catch (e: Exception) {}
-            }
-        }
+        ).doOnSuccess { setVoteProperty(it.data) }
     }
 
 
@@ -142,7 +133,7 @@ class BaasRepositoryImpl @Inject constructor(
         rootId.assertNotEmpty("rootId")
         content.assertNotEmpty("content")
 
-        productComment.createRecord().apply {
+        val comment = productComment.createRecord().apply {
             put(Comment.COL_TYPE, Comment.TYPE_COMMENT)
             put(Comment.COL_PRODUCT, productId)
             put(Comment.COL_ROOT_ID, rootId)
@@ -156,7 +147,12 @@ class BaasRepositoryImpl @Inject constructor(
             if (replyTo != null && replyTo > 0) {
                 put(Comment.COL_REPLY_TO, replyTo)
             }
-        }.save().let { Comment(it) }
+        }.save().let {
+            productComment.getById<Comment>(it.id!!,
+                listOf(Record.CREATED_BY, Comment.COL_REPLY_TO)).blockingGet()!!
+        }
+        bus.post(Event.CommentCreated(comment))
+        comment
     }
 
     override fun isProductTagExist(productId: String, content: String): Single<Boolean> =
@@ -538,30 +534,35 @@ class BaasRepositoryImpl @Inject constructor(
         reviewId: String,
         parentId: String,
         offset: Int
-    ): Single<PageByOffset<Comment>> = productComment.queryByOffset(
-        clz = Comment::class.java,
-        offset = offset,
-        where = Where().apply {
+    ): Single<PageByOffset<Comment>> {
+
+        val baseCondition = Where().apply {
             equalTo(Comment.COL_PRODUCT, productId)
             equalTo(Comment.COL_ROOT_ID, reviewId)
             equalTo(Comment.COL_TYPE, Comment.TYPE_COMMENT)
-            equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
             equalTo(Comment.COL_PARENT_ID, parentId)
-        },
-        query = Query().apply {
-            orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
         }
-    ).doOnSuccess {
 
-        // 是否有点赞
-        if (signedIn() && it.data.isNotEmpty()) {
-            try {
-                val votes = loadCommentVotes(it.data.map { it.id }).blockingGet()
-                it.data.forEach { review ->
-                    review.voted = votes.any { it.subjectId == review.id && it.isPositive }
-                }
-            } catch (e: Exception) {}
-        }
+        val profileCondition = if (signedIn())
+            Where.or(
+                Where().apply {
+                    equalTo(Comment.COL_STATUS, BaseModel.STATUS_PENDING)
+                    equalTo(Record.CREATED_BY, currentUserId())
+                },
+                Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
+            )
+        else
+            Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
+
+        return productComment.queryByOffset(
+            clz = Comment::class.java,
+            offset = offset,
+            where = Where.and(baseCondition, profileCondition),
+            query = Query().apply {
+                orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
+                expand(listOf(Comment.COL_REPLY_TO, Record.CREATED_BY))
+            })
+            .doOnSuccess { setVoteProperty(it.data) }
     }
 
 
@@ -601,44 +602,44 @@ class BaasRepositoryImpl @Inject constructor(
 
         // 批量拉取二级评论
         if (comments.data.isNotEmpty()) {
+            val baseCondition = Where().apply {
+                equalTo(Comment.COL_PRODUCT, productId)
+                equalTo(Comment.COL_ROOT_ID, reviewId)
+                equalTo(Comment.COL_TYPE, Comment.TYPE_COMMENT)
+                containedIn(Comment.COL_PARENT_ID, comments.data.map { it.id })
+            }
+
+            val profileCondition = if (signedIn())
+                Where.or(
+                    Where().apply {
+                        equalTo(Comment.COL_STATUS, BaseModel.STATUS_PENDING)
+                        equalTo(Record.CREATED_BY, currentUserId())
+                    },
+                    Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
+                )
+            else
+                Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
+
             val children = productComment.query(
                 Comment::class.java,
                 page = 0,
                 pageSize = comments.data.size * 10,
-                where = Where().apply {
-                    equalTo(Comment.COL_PRODUCT, productId)
-                    equalTo(Comment.COL_ROOT_ID, reviewId)
-                    equalTo(Comment.COL_TYPE, Comment.TYPE_COMMENT)
-                    equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
-                    containedIn(Comment.COL_PARENT_ID, comments.data.map { it.id })
-                },
+                where = Where.and(baseCondition, profileCondition),
                 query = Query().apply {
                     orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
                     expand(listOf(Record.CREATED_BY, Comment.COL_REPLY_TO))
                 }
             ).blockingGet().data
 
-            comments.data.forEach {
-                children.find { it.parentId == it.id }?.also { firstChild ->
-                    it.children = listOf(firstChild)
+            comments.data.forEach { parent ->
+                children.find { it.parentId == parent.id }?.also { firstChild ->
+                    parent.children = listOf(firstChild, Comment(id = uuid(), loading = false))
                 }
             }
         }
 
         comments
-    }.doOnSuccess {
-
-        // 是否有点赞
-        if (signedIn() && it.data.isNotEmpty()) {
-            try {
-                val flatList = it.data.flatMap { it.children + it }
-                val votes = loadCommentVotes(flatList.map { it.id }).blockingGet()
-                flatList.forEach { review ->
-                    review.voted = votes.any { it.subjectId == review.id && it.isPositive }
-                }
-            } catch (e: Exception) {}
-        }
-    }
+    }.doOnSuccess { setVoteProperty(it.data) }
 
     override fun getReviewById(reviewId: String): Single<Comment> = Single.fromCallable {
         queryProductComment(
@@ -724,5 +725,25 @@ class BaasRepositoryImpl @Inject constructor(
             throw NeedSignInException()
     }
 
+
+    private fun currentUser(): Single<CurrentUser> = Single.fromCallable {
+        Auth.currentUser() ?: throw NeedSignInException()
+    }
+
+
+    /**
+     * 查询并设置评论的点赞状态
+     */
+    private fun setVoteProperty(comments: List<Comment>) {
+        if (signedIn() && comments.isNotEmpty()) {
+            try {
+                val flatList = comments.flatMap { it.children + it }
+                val votes = loadCommentVotes(flatList.map { it.id }).blockingGet()
+                flatList.forEach { review ->
+                    review.voted = votes.any { it.subjectId == review.id && it.isPositive }
+                }
+            } catch (e: Exception) {}
+        }
+    }
 
 }

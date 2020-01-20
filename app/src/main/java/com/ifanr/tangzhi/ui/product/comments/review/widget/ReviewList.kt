@@ -169,6 +169,7 @@ abstract class ProductReviewModel: EpoxyModelWithHolder<ProductReviewModel.Holde
         holder.date.visibility = if (dateVisiable) View.VISIBLE else View.GONE
         holder.view.setOnClickListener(onClick)
         holder.content.maxLines = if (contentExpanded) Int.MAX_VALUE else 5
+        holder.imageTable.setOnClickListener(onClick)
     }
 
 

@@ -8,7 +8,7 @@
     tools:context=".ui.product.comments.review.ReviewFragment"
     >
 
-    <com.ifanr.tangzhi.ui.product.comments.review.widget.ProductReviewContainer
+    <com.ifanr.tangzhi.ui.widgets.HeaderToolBarRecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -96,7 +96,7 @@
             android:layout_height="match_parent"
             />
 
-    </com.ifanr.tangzhi.ui.product.comments.review.widget.ProductReviewContainer>
+    </com.ifanr.tangzhi.ui.widgets.HeaderToolBarRecyclerView>
 
     <com.ifanr.tangzhi.ui.widgets.SendReviewButton
         android:id="@+id/sendReviewBtn"

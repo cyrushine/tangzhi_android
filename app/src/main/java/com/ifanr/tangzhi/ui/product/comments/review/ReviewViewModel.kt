@@ -3,6 +3,7 @@ package com.ifanr.tangzhi.ui.product.comments.review
 import android.util.Log
 import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.ext.networkJob
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Product
@@ -20,7 +21,8 @@ import javax.inject.Inject
 import kotlin.math.max
 
 class ReviewViewModel @Inject constructor (
-    private val repository: BaasRepository
+    private val repository: BaasRepository,
+    private val bus: EventBus
 ) : BaseViewModel() {
 
     companion object {
@@ -96,13 +98,9 @@ class ReviewViewModel @Inject constructor (
                     if (!list.isNullOrEmpty()) {
                         val updatedIndex = list.indexOfFirst { it.id == updated.id }
                         if (updatedIndex >= 0) {
-                            list[updatedIndex] = Comment(updated).apply {
-                                this.voted = !voted
-                                if (voted)
-                                    this.upvote--
-                                else
-                                    this.upvote++
-                            }
+                            list[updatedIndex] = updated.copy(
+                                voted = !voted,
+                                upvote = if (voted) updated.upvote - 1 else updated.upvote + 1)
                             reviews.value = list to false
                         }
                     }
@@ -171,6 +169,7 @@ class ReviewViewModel @Inject constructor (
         val tagCreated = repository.createProductTag(productId, content).blockingGet()
         tags.postValue((tags.value ?: emptyList()) + tagCreated) }
         .doOnError { toast.postValue(it.message) }
+
 
     private fun tryLoadReviews(page: Int = 0) {
         val productId = product.value?.id

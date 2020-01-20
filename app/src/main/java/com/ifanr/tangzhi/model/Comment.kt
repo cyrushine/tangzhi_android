@@ -8,119 +8,103 @@ import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.user.User
 
-open class Comment {
+data class Comment (
 
-    var id: String = ""
-    var content: String = ""
-    var upvote: Int = 0
-    var downvote: Int = 0
-    var replyCount: Int = 0
-    var recommended: Boolean = false
-    var images: List<String> = emptyList()
-    var theme: Int = Const.DEFAULT_PRODUCT_THEME
-    var description: String = ""
-    var createdById: Long = 0
-    var createdByName: String = ""
-    var createdByAvatar: String = ""
+    var id: String = "",
+
+    /**
+     * 类型
+     * @see TYPE_REVIEW
+     * @see TYPE_QUESTION
+     * @see TYPE_ANSWER
+     * @see TYPE_COMMENT
+     * @see TYPE_TAG
+     * @see TYPE_TESTING_REVIEW
+     * @see TYPE_DISCUSSION
+     */
+    var type: String = "",
+
+    var content: String = "",
+
+    var upvote: Int = 0,
+
+    var downvote: Int = 0,
+
+    var replyCount: Int = 0,
+
+    var recommended: Boolean = false,
+
+    var images: List<String> = emptyList(),
+
+    var theme: Int = Const.DEFAULT_PRODUCT_THEME,
+
+    var description: String = "",
+
+    var createdById: Long = 0,
+
+    var createdByName: String = "",
+
+    var createdByAvatar: String = "",
 
     @FloatRange(from = 0.0, to = 10.0)
-    var rating: Float = 0f
-    var children: List<Comment> = emptyList()
-    var rootId: String = ""
-    var parentId: String = ""
-    var replyId: String = ""
-    var createdAt: Long = 0
-    var replayToName: String = ""
-    var productId: String = ""
+    var rating: Float = 0f,
+
+    var children: List<Comment> = emptyList(),
+
+    /**
+     * 根评论id：
+     * type = answer / comment 类型的评论，root_id 指向其所属的点评/提问 id
+     * type = review / question / tag 类型的评论， root_id 为 undefined
+     */
+    var rootId: String = "",
+
+    /**
+     * 父评论id（一级评论没有此属性，二级评论则指向某个一级评论的 id ）
+     */
+    var parentId: String = "",
+
+    /**
+     * 指向评论回复的评论（只有 type = answer / comment 才有此属性）
+     */
+    var replyId: String = "",
+
+    var createdAt: Long = 0,
+
+    var replayToName: String = "",
+
+    var productId: String = "",
 
     // 是否点赞
-    var voted = false
+    var voted: Boolean = false,
 
-    constructor(record: Record) {
-        id = record.getSafeId()
-        content = record.getSafeString(COL_CONTENT)
-        upvote = record.getSafeInt(COL_UPVOTE)
-        downvote = record.getSafeInt(COL_DOWNVOTE)
-        replyCount = record.getSafeInt(COL_REPLY_COUNT)
-        recommended = record.getSafeBoolean(COL_RECOMMENDED)
-        images = record.getSafeStringArray(COL_IMAGE)
-        theme = record.getSafeString(COL_THEME).toSafeColorInt()
-        description = record.getSafeString(COL_DESCRIPTION)
-        record.getJsonObject(Record.CREATED_BY)?.also {
-            createdById = it.getSafeLong(User.ID)
-            createdByAvatar = it.getSafeString(User.AVATAR)
-            createdByName = it.getSafeString(User.NICKNAME)
-        }
-        rating = record.getSafeFloat(COL_RATING)
-        rootId = record.getSafeString(COL_ROOT_ID)
-        parentId = record.getSafeString(COL_PARENT_ID)
-        replyId = record.getSafeString(COL_REPLY_ID)
-        createdAt = record.getSafeLong(Record.CREATED_AT)
-        record.getJsonObject(COL_REPLY_TO)?.also {
-            replayToName = it.getSafeString(User.NICKNAME)
-        }
-        record.getJsonObject(COL_PRODUCT)?.also {
-            productId = it.getSafeString(Record.ID)
-        }
-    }
+    /**
+     * 如果 != null，表示子评论 loading 指示器
+     */
+    var loading: Boolean? = null
+) {
 
-
-
-    constructor(copyFrom: Comment) {
-        id = copyFrom.id
-        content = copyFrom.content
-        upvote = copyFrom.upvote
-        downvote = copyFrom.downvote
-        replyCount = copyFrom.replyCount
-        recommended = copyFrom.recommended
-        images = copyFrom.images
-        theme = copyFrom.theme
-        description = copyFrom.description
-        createdById = copyFrom.createdById
-        createdByAvatar = copyFrom.createdByAvatar
-        createdByName = copyFrom.createdByName
-        rating = copyFrom.rating
-        rootId = copyFrom.rootId
-        parentId = copyFrom.parentId
-        replyId = copyFrom.replyId
-        createdAt = copyFrom.createdAt
-        replayToName = copyFrom.replayToName
-        productId = copyFrom.productId
-        voted = copyFrom.voted
-        children = copyFrom.children
-    }
-
-    constructor()
-
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Comment) return false
-
-        if (id != other.id) return false
-        if (content != other.content) return false
-        if (upvote != other.upvote) return false
-        if (downvote != other.downvote) return false
-        if (replyCount != other.replyCount) return false
-        if (recommended != other.recommended) return false
-        if (images != other.images) return false
-        if (theme != other.theme) return false
-        if (description != other.description) return false
-        if (createdById != other.createdById) return false
-        if (createdByName != other.createdByName) return false
-        if (createdByAvatar != other.createdByAvatar) return false
-        if (rating != other.rating) return false
-        if (children != other.children) return false
-        if (rootId != other.rootId) return false
-        if (parentId != other.parentId) return false
-        if (replyId != other.replyId) return false
-        if (createdAt != other.createdAt) return false
-        if (replayToName != other.replayToName) return false
-        if (productId != other.productId) return false
-        if (voted != other.voted) return false
-
-        return true
-    }
+    constructor(record: Record): this(
+        id = record.getSafeId(),
+        type = record.getSafeString(COL_TYPE),
+        content = record.getSafeString(COL_CONTENT),
+        upvote = record.getSafeInt(COL_UPVOTE),
+        downvote = record.getSafeInt(COL_DOWNVOTE),
+        replyCount = record.getSafeInt(COL_REPLY_COUNT),
+        recommended = record.getSafeBoolean(COL_RECOMMENDED),
+        images = record.getSafeStringArray(COL_IMAGE),
+        theme = record.getSafeString(COL_THEME).toSafeColorInt(),
+        description = record.getSafeString(COL_DESCRIPTION),
+        createdById = record.getJsonObject(Record.CREATED_BY)?.getSafeLong(User.ID) ?: 0L,
+        createdByName = record.getJsonObject(Record.CREATED_BY)?.getSafeString(User.NICKNAME) ?: "",
+        createdByAvatar = record.getJsonObject(Record.CREATED_BY)?.getSafeString(User.AVATAR) ?: "",
+        rating = record.getSafeFloat(COL_RATING),
+        rootId = record.getSafeString(COL_ROOT_ID),
+        parentId = record.getSafeString(COL_PARENT_ID),
+        replyId = record.getSafeString(COL_REPLY_ID),
+        createdAt = record.getSafeLong(Record.CREATED_AT),
+        replayToName = record.getJsonObject(COL_REPLY_TO)?.getSafeString(User.NICKNAME) ?: "",
+        productId = record.getJsonObject(COL_PRODUCT)?.getSafeString(Record.ID) ?: ""
+    )
 
 
     companion object {
@@ -135,16 +119,7 @@ open class Comment {
         const val TYPE_TESTING_REVIEW = "testing_review"   // 众测点评
         const val TYPE_DISCUSSION     = "discussion"       // 讨论
 
-        /**
-         * 类型
-         * @see TYPE_REVIEW
-         * @see TYPE_QUESTION
-         * @see TYPE_ANSWER
-         * @see TYPE_COMMENT
-         * @see TYPE_TAG
-         * @see TYPE_TESTING_REVIEW
-         * @see TYPE_DISCUSSION
-         */
+
         const val COL_TYPE                 = "type"
 
         /**
@@ -153,21 +128,13 @@ open class Comment {
          */
         const val COL_PRODUCT              = "product"
 
-        /**
-         * 根评论id：
-         * type = answer / comment 类型的评论，root_id 指向其所属的点评/提问 id
-         * type = review / question / tag 类型的评论， root_id 为 undefined
-         */
+
         const val COL_ROOT_ID              = "root_id"
 
-        /**
-         * 父评论id（一级评论没有此属性，二级评论则指向某个一级评论的 id ）
-         */
+
         const val COL_PARENT_ID            = "parent_id"
 
-        /**
-         * 指向评论回复的评论（只有 type = answer / comment 才有此属性）
-         */
+
         const val COL_REPLY_ID             = "reply_id"
 
         /**

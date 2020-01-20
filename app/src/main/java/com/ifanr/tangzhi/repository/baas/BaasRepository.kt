@@ -193,6 +193,8 @@ interface BaasRepository {
 
     /**
      * 分页的评论列表
+     * 对于子评论 children，目前这样处理：
+     * 如果有子评论的话，则 children 包含一个真实的子评论和一个加载更多 Comment
      */
     fun loadPagedComment (
         productId: String,

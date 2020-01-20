@@ -4,7 +4,6 @@ import com.airbnb.epoxy.AutoModel
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.base.model.LoadMoreAwaredController
-import com.ifanr.tangzhi.ui.comment.model.ChildLoadMore
 import com.ifanr.tangzhi.ui.comment.widget.model.*
 import com.ifanr.tangzhi.ui.product.comments.review.widget.productReview
 
@@ -60,17 +59,15 @@ class Controller: LoadMoreAwaredController<List<Comment>>() {
                 }
 
                 val children = it.children
-                if (children.size == 2 && children[1] is ChildLoadMore) {
-                    val foldChild = children[0]
-                    val loadMore = children[1] as ChildLoadMore
+                if (children.size == 2 && children[1].loading != null) {
                     childFold {
-                        id(foldChild.id)
-                        data(foldChild)
+                        id(children[0].id)
+                        data(children[0])
                     }
                     childLoadMore {
-                        id(loadMore.id)
-                        state(loadMore)
-                        onClick { _ -> listener.onChildLoadMoreClick(loadMore.id) }
+                        id(children[1].id)
+                        state(children[1])
+                        onClick { _ -> listener.onChildLoadMoreClick(children[1].id) }
                     }
 
                 } else if (children.size == 1) {

@@ -5,8 +5,8 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
-import com.ifanr.tangzhi.ui.comment.model.ChildLoadMore
 import com.ifanr.tangzhi.ui.comment.widget.LoadMoreTextView
 
 @EpoxyModelClass(layout = R.layout.comment_child_load_more)
@@ -16,17 +16,20 @@ abstract class ChildLoadMoreModel: EpoxyModelWithHolder<ChildLoadMoreModel.Holde
     lateinit var onClick: View.OnClickListener
 
     @EpoxyAttribute
-    lateinit var state: ChildLoadMore
+    lateinit var state: Comment
 
     override fun bind(holder: Holder) {
-        holder.text.state = if (state.loading)
+        holder.text.state = if (state.loading == true)
             LoadMoreTextView.State.LOADING
         else
             LoadMoreTextView.State.IDLE
 
-        if (!state.loading) {
+        /**
+         * 这里得及时改变 ui
+         * 如果通过 Controller.setData 会有闪烁
+         */
+        if (state.loading != true) {
             holder.text.setOnClickListener {
-                state.loading = true
                 holder.text.state = LoadMoreTextView.State.LOADING
                 onClick.onClick(it)
             }
