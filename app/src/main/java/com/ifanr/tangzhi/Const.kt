@@ -30,4 +30,7 @@ object Const {
         .setMaxSize(Int.MAX_VALUE)
         .setPrefetchDistance(PRE_FETCH_DISTANCE)
         .build()
+
+    const val privacyPolicyUri = "https://www.ifanr.com/privacypolicy"
+    const val userAgreementUri = "https://www.ifanr.com/privacypolicy"
 }

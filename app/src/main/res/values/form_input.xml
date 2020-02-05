@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FormInput">
+        <attr name="formInputType" format="enum">
+            <enum name="text" value="0" />
+            <enum name="phone" value="1" />
+            <enum name="textPassword" value="2" />
+            <enum name="textEmailAddress" value="3" />
+        </attr>
+        <attr name="formInputHint" format="string" />
+    </declare-styleable>
+</resources>

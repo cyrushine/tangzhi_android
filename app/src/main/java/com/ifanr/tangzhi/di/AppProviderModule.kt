@@ -3,6 +3,8 @@ package com.ifanr.tangzhi.di
 import android.content.Context
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.EventBus
 import com.tencent.mm.opensdk.openapi.IWXAPI

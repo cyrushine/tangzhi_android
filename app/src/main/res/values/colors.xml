@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#383943</color>
     <color name="colorPrimaryDark">#363741</color>
-    <color name="colorAccent">@color/base_red</color>
+    <color name="colorAccent">#383943</color>
     <color name="image_placeholder">#B8B8B8</color>
     <color name="white">@android:color/white</color>
     <color name="golden_start">#FEAC2D</color>
@@ -28,6 +28,7 @@
     <color name="base_8a">#8A8A8A</color>
     <color name="base_gold">#E2B76D</color>
     <color name="base_e8">#E8E8E8</color>
+    <color name="base_e9">#E9E9E9</color>
     <color name="base_23">#232323</color>
     <color name="base_red">#F13B03</color>
     <color name="base_a8">#A8A8A8</color>
@@ -44,4 +45,7 @@
     <color name="base_da">#DADADA</color>
     <color name="base_f6">#F6F6F6</color>
     <color name="base_9b">#9B9B9B</color>
+    <color name="base_35">#353535</color>
+    <color name="base_de">#DEDEDE</color>
+    <color name="base_link">#586284</color>
 </resources>

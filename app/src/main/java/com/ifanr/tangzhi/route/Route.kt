@@ -58,4 +58,7 @@ object Routes {
     const val browser = "/$DEFAULT_GROUP/browser"
     const val browserUrl = "url"                        // string
     const val browserTitle = "title"                    // string
+
+    const val signInByPhone = "/$DEFAULT_GROUP/sign_in_by_phone"
+    const val signInByPhoneNumber = "phone_number"      // String，手机号码
 }

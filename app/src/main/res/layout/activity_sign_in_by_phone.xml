@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    tools:context=".ui.signin.phone.SignInByPhoneActivity">
+
+
+    <com.ifanr.tangzhi.ui.widgets.AppToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:appToolbarStyle="WHITE"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/contentStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/contentEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="40dp"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_by_phone_title"
+        android:textColor="@color/base_35"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        android:layout_marginTop="12dp"
+        />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_by_phone_sub_title"
+        android:textColor="@color/base_88"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="4dp"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.PhoneCountryCodeSelector
+        android:id="@+id/codeSelector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/subTitle"
+        android:layout_marginTop="35dp"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormInput
+        android:id="@+id/phoneInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/codeSelector"
+        android:layout_marginTop="25dp"
+        app:formInputType="phone"
+        app:formInputHint="@string/sign_in_by_phone_number_hint"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormSmsCodeInput
+        android:id="@+id/smsCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/phoneInput"
+        android:layout_marginTop="25dp"
+        app:formSmsCodeInputImeOptions="actionGo"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormButton
+        android:id="@+id/signIn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/smsCode"
+        android:layout_marginTop="36dp"
+        android:text="@string/sign_in"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.phone.PolicyTextView
+        android:id="@+id/policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/signIn"
+        android:layout_marginTop="35dp"
+        />
+
+    <TextView
+        android:id="@+id/thirdPartySignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/contentStart"
+        app:layout_constraintRight_toRightOf="@id/contentEnd"
+        app:layout_constraintTop_toBottomOf="@id/policy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/base_88"
+        android:textSize="14sp"
+        android:text="@string/sign_in_by_phone_others"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

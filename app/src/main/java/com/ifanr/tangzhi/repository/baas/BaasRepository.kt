@@ -12,6 +12,16 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 手机号码登录（注册）
+     */
+    fun signInByPhone(phone: String, smsCode: String): Completable
+
+    /**
+     * 发送手机验证码
+     */
+    fun sendSmsCode(phone: String): Completable
+
+    /**
      * 我的产品点评
      */
     fun myProductReview(productId: String): Single<Comment>

@@ -3,7 +3,7 @@ package com.ifanr.tangzhi.exceptions
 /**
  * 404 not found
  */
-class NotFoundException: DBException {
+class NotFoundException: BaaSException {
     constructor() : super()
     constructor(message: String?) : super(message)
     constructor(message: String?, cause: Throwable?) : super(message, cause)

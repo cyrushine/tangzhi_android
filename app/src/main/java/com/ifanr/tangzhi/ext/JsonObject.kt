@@ -32,3 +32,6 @@ fun <T> JsonObject.getSafeArrayByConstruct(prop: String, clz: Class<T>): List<T>
 
 fun JsonObject.getSafeLong(key: String) =
     try { get(key).asLong } catch (e: Exception) { 0L }
+
+fun JsonObject.getSafeInt(key: String) =
+    try { get(key).asInt } catch (e: Exception) { 0 }

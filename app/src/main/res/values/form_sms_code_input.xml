@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FormSmsCodeInput">
+        <attr name="formSmsCodeInputImeOptions" format="enum">
+            <enum name="actionGo" value="4" />
+            <enum name="actionSearch" value="5" />
+            <enum name="actionSend" value="6" />
+            <enum name="actionNext" value="7" />
+            <enum name="actionDone" value="8" />
+            <enum name="actionPrevious" value="9" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
+import com.ifanr.tangzhi.exceptions.BaaSException
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.exceptions.UniqueRuleException
 import com.ifanr.tangzhi.ext.*
@@ -16,8 +17,10 @@ import com.ifanr.tangzhi.repository.baas.datasource.ProductListDataSource
 import com.ifanr.tangzhi.repository.baas.datasource.SearchDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.util.uuid
+import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.auth.CurrentUser
+import com.minapp.android.sdk.auth.model.SignInByPhoneRequest
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
@@ -59,6 +62,14 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun signInByPhone(phone: String, smsCode: String): Completable = Completable.fromAction {
+        Auth.signInByPhone(SignInByPhoneRequest(phone, smsCode))
+    }
+
+    override fun sendSmsCode(phone: String): Completable = Completable.fromAction {
+        if (!BaaS.sendSmsCode(phone))
+            throw BaaSException("status != ok")
+    }
 
     /**
      * 通用的查询 [productComment] 表的方法

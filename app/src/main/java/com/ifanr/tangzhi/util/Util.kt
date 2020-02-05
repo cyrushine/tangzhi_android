@@ -2,6 +2,8 @@ package com.ifanr.tangzhi.util
 
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.util.*
 
 
@@ -30,4 +32,9 @@ fun typeToString(type: Int): String = when (type) {
     ViewCompat.TYPE_TOUCH -> "TOUCH"
     ViewCompat.TYPE_NON_TOUCH -> "NON TOUCH"
     else -> "NONE"
+}
+
+val AppGson: Gson by lazy {
+    GsonBuilder()
+        .create()
 }
