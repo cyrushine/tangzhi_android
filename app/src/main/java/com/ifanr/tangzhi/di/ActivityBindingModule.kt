@@ -44,6 +44,8 @@ import com.ifanr.tangzhi.ui.share.ShareActivity
 import com.ifanr.tangzhi.ui.share.ShareModule
 import com.ifanr.tangzhi.ui.signin.SignInActivity
 import com.ifanr.tangzhi.ui.signin.SignInModule
+import com.ifanr.tangzhi.ui.signin.email.SignInByEmailActivity
+import com.ifanr.tangzhi.ui.signin.email.SignInByEmailModule
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneActivity
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneModule
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneViewModel
@@ -54,6 +56,10 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [SignInByEmailModule::class])
+    abstract fun signInByEmailActivity(): SignInByEmailActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [SignInByPhoneModule::class])

@@ -256,6 +256,20 @@
       "font_class": "download-btn",
       "unicode": "e628",
       "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "12680592",
+      "name": "part-comment",
+      "font_class": "part-comment",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "12749182",
+      "name": "b-close",
+      "font_class": "b-close",
+      "unicode": "e634",
+      "unicode_decimal": 58932
     }
   ]
 }

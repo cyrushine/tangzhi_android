@@ -123,4 +123,14 @@
     <string name="sign_in_by_phone_send_code">获取验证码</string>
     <string name="sign_in_by_phone_send_delay">%s 秒后重新获取</string>
     <string name="sign_in">登录</string>
+    <string name="sign_in_title">登录</string>
+    <string name="sign_in_sub_title">社交账号快捷登录</string>
+    <string name="sign_in_wechat">微信登录</string>
+    <string name="sign_in_email">邮箱登录</string>
+    <string name="sign_in_email_tip">仅支持爱范儿邮箱账号登录</string>
+    <string name="sign_in_by_phone">手机号注册新账号或登录></string>
+    <string name="sign_in_by_email_title">邮箱登录</string>
+    <string name="sign_in_by_email_tip">仅支持爱范儿邮箱账号登录</string>
+    <string name="sign_in_by_email_hint">请输入邮箱账号</string>
+    <string name="sign_in_by_email_pwd_hint">请输入密码</string>
 </resources>

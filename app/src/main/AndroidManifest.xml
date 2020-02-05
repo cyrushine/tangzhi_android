@@ -18,8 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.signin.phone.SignInByPhoneActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.signin.email.SignInByEmailActivity"></activity>
+        <activity
+            android:name=".ui.signin.phone.SignInByPhoneActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.points.PointsActivity" />
         <activity android:name=".ui.updateprofile.UpdateProfileActivity" />
         <activity android:name=".ui.signin.SignInActivity" />

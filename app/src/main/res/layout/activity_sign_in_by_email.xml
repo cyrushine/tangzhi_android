@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.signin.email.SignInByEmailActivity">
+
+    <com.ifanr.tangzhi.ui.widgets.AppToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:appToolbarStyle="WHITE"
+        app:appToolbarTitle="@string/sign_in_by_email_title"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="40dp"
+        />
+
+    <TextView
+        android:id="@+id/tip"
+        android:textSize="14sp"
+        android:textColor="@color/base_88"
+        android:text="@string/sign_in_by_email_hint"
+        android:layout_marginTop="40dp"
+        app:layout_constraintLeft_toLeftOf="@id/left"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormInput
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/left"
+        app:layout_constraintRight_toRightOf="@id/right"
+        app:layout_constraintTop_toBottomOf="@id/tip"
+        android:layout_marginTop="60dp"
+        app:formInputType="textEmailAddress"
+        app:formInputHint="@string/sign_in_by_email_hint"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormInput
+        android:id="@+id/pwd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/left"
+        app:layout_constraintRight_toRightOf="@id/right"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        android:layout_marginTop="30dp"
+        app:formInputType="textEmailAddress"
+        app:formInputHint="@string/sign_in_by_email_pwd_hint"
+        />
+
+    <com.ifanr.tangzhi.ui.signin.widget.FormButton
+        android:id="@+id/signIn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/left"
+        app:layout_constraintRight_toRightOf="@id/right"
+        app:layout_constraintTop_toBottomOf="@id/pwd"
+        android:layout_marginTop="78dp"
+        android:text="@string/sign_in"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

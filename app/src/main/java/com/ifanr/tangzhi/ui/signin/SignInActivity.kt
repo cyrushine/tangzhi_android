@@ -3,9 +3,11 @@ package com.ifanr.tangzhi.ui.signin
 import android.os.Bundle
 import android.util.Log
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.delay
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
@@ -51,8 +53,13 @@ class SignInActivity : BaseViewModelActivity() {
         setContentView(R.layout.activity_sign_in)
         statusBar(whiteText = false)
 
-        wechatBtn.setOnClickListener {
+        wechat.setOnClickListener {
             WechatComponent.signIn(wechatCallback)
+        }
+
+        phone.setOnClickListener {
+            ARouter.getInstance().build(Routes.signInByPhone).navigation(this)
+            finish()
         }
     }
 }

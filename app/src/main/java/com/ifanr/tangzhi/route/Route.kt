@@ -61,4 +61,6 @@ object Routes {
 
     const val signInByPhone = "/$DEFAULT_GROUP/sign_in_by_phone"
     const val signInByPhoneNumber = "phone_number"      // String，手机号码
+
+    const val signInByEmail = "/$DEFAULT_GROUP/sign_in_by_email"
 }

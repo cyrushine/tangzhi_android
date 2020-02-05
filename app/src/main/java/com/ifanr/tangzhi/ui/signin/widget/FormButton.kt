@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.ui.signin.widget
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -28,6 +29,7 @@ class FormButton: AppCompatTextView {
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         gravity = Gravity.CENTER
         setPadding(intArrayOf(0, 14, 0, 14))
+        typeface = Typeface.DEFAULT_BOLD
     }
 
 }

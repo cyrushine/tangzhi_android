@@ -37,4 +37,6 @@
 	<string name="ic_star_full">\ue637</string>
 	<string name="ic_star_left">\ue638</string>
 	<string name="ic_download_btn">\ue628</string>
+	<string name="ic_part_comment">\ue632</string>
+	<string name="ic_b_close">\ue634</string>
 </resources>

@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.observeToast
 import com.ifanr.tangzhi.ext.toast
@@ -72,5 +73,10 @@ class SignInByPhoneActivity : BaseViewModelActivity() {
             }
             false
         })
+
+        thirdPartySignIn.setOnClickListener {
+            ARouter.getInstance().build(Routes.signIn).navigation(this)
+            finish()
+        }
     }
 }
