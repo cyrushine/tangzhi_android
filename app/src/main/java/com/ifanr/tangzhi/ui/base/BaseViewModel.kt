@@ -6,6 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class BaseViewModel: ViewModel() {
@@ -38,3 +39,10 @@ fun <T> Observable<T>.autoDispose(vm: BaseViewModel) =
 
 fun Completable.autoDispose(vm: BaseViewModel) =
     autoDispose(ViewModelScopeCompletable(vm))
+
+fun BaseViewModel.runInIO(block: () -> Unit) {
+    Completable.fromAction(block)
+        .subscribeOn(Schedulers.io())
+        .autoDispose(this)
+        .subscribe()
+}

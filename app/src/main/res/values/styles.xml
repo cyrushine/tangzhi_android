@@ -5,7 +5,28 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="buttonBarPositiveButtonStyle">@style/AppButtonBarPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppButtonBarNegativeButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppButtonBarNeutralButtonStyle</item>
     </style>
+
+    <!-- app alert dialog style -->
+    <style name="AppButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/base_red</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+    <style name="AppButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/base_88</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+    <style name="AppButtonBarNeutralButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/base_88</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+    <!-- app alert dialog style -->
 
     <style name="AppTheme.GalleryActivity">
         <item name="android:windowAnimationStyle">@style/AppAnimation.GalleryActivity</item>

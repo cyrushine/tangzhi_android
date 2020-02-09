@@ -1,4 +1,4 @@
-package com.ifanr.tangzhi.ui.signin.phone
+package com.ifanr.tangzhi.ui.signin.bindlocalphone
 
 import android.content.Context
 import android.net.Uri
@@ -29,11 +29,11 @@ class PolicyTextView: AppCompatTextView {
     init {
         setTextColor(context.getColorCompat(R.color.base_88))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-        gravity = Gravity.CENTER
+        gravity = Gravity.CENTER_HORIZONTAL
         text = SpannableStringBuilder().apply {
-            append(context.getText(R.string.sign_in_by_phone_policy))
-            setSpan(UserAgreementSpan(context), 20, 28, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(PrivacyPolicySpan(context), 29, 35, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            append(context.getText(R.string.bind_local_phone_policy))
+            setSpan(UserAgreementSpan(context), 5, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(PrivacyPolicySpan(context), 14, 20, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         movementMethod = LinkMovementMethod.getInstance()
     }

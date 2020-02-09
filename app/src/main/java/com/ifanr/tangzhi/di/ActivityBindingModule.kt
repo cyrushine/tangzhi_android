@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.di
 
 import com.ifanr.tangzhi.route.SignInInterceptor
+import com.ifanr.tangzhi.service.ProfileService
 import com.ifanr.tangzhi.ui.LaunchActivity
 import com.ifanr.tangzhi.ui.browser.BrowserActivity
 import com.ifanr.tangzhi.ui.browser.BrowserModule
@@ -44,6 +45,8 @@ import com.ifanr.tangzhi.ui.share.ShareActivity
 import com.ifanr.tangzhi.ui.share.ShareModule
 import com.ifanr.tangzhi.ui.signin.SignInActivity
 import com.ifanr.tangzhi.ui.signin.SignInModule
+import com.ifanr.tangzhi.ui.signin.bindlocalphone.BindLocalPhoneActivity
+import com.ifanr.tangzhi.ui.signin.bindlocalphone.BindLocalPhoneModule
 import com.ifanr.tangzhi.ui.signin.email.SignInByEmailActivity
 import com.ifanr.tangzhi.ui.signin.email.SignInByEmailModule
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneActivity
@@ -56,6 +59,14 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun profileService(): ProfileService
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [BindLocalPhoneModule::class])
+    abstract fun bindLocalPhoneActivity(): BindLocalPhoneActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [SignInByEmailModule::class])

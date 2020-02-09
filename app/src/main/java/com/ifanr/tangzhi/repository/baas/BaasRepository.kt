@@ -5,11 +5,27 @@ import androidx.paging.PagedList
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.storage.CloudFile
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface BaasRepository {
+
+    /**
+     * 获取当前登录用户
+     */
+    fun currentUser(): Single<CurrentUser>
+
+    /**
+     * 更新用户手机号码
+     */
+    fun updateUserPhone(phone: String): Completable
+
+    /**
+     * 邮箱登录
+     */
+    fun signInByEmail(email: String, pwd: String): Completable
 
     /**
      * 手机号码登录（注册）

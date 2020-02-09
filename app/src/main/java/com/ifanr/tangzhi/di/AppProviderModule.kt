@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.di
 
 import android.content.Context
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
@@ -33,6 +34,15 @@ class AppProviderModule {
             registerApp(Const.WECHAT_APP_ID)
         }
     }
+
+    @Provides
+    @Singleton
+    fun provideTelephonyManager(ctx: Context): TelephonyManager =
+        ctx.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+    @Provides
+    @Singleton
+    fun provideAssetManager(ctx: Context) = ctx.assets
 
     @Provides
     @Singleton

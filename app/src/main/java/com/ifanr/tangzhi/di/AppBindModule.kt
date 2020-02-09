@@ -9,6 +9,10 @@ import com.ifanr.tangzhi.App
 import com.ifanr.tangzhi.AppConfig
 import com.ifanr.tangzhi.AppConfigImpl
 import com.ifanr.tangzhi.EventBus
+import com.ifanr.tangzhi.appmgr.AppMgr
+import com.ifanr.tangzhi.appmgr.AppMgrImpl
+import com.ifanr.tangzhi.repository.ifanr.IfanrServerRepository
+import com.ifanr.tangzhi.repository.ifanr.IfanrServerRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,4 +29,12 @@ abstract class AppBindModule {
 
     @Binds
     abstract fun bindContext(app: App): Context
+
+    @Singleton
+    @Binds
+    abstract fun bindAppMgr(mgrImpl: AppMgrImpl): AppMgr
+
+    @Singleton
+    @Binds
+    abstract fun bindIfanrServerRepository(impl: IfanrServerRepositoryImpl): IfanrServerRepository
 }

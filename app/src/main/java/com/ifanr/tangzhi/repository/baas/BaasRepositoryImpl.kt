@@ -26,6 +26,7 @@ import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
 import com.minapp.android.sdk.storage.CloudFile
 import com.minapp.android.sdk.storage.Storage
+import com.minapp.android.sdk.user.User
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
@@ -60,6 +61,18 @@ class BaasRepositoryImpl @Inject constructor(
             .delay(10 * 1000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .subscribe()
+    }
+
+    override fun updateUserPhone(phone: String): Completable = Completable.fromAction {
+        assertSignIn()
+        val user = Auth.currentUser()!!
+        user.phone = phone
+        user.isPhoneVerified = true
+        user.save()
+    }
+
+    override fun signInByEmail(email: String, pwd: String): Completable = Completable.fromAction {
+        Auth.signInByEmail(email, pwd)
     }
 
     override fun signInByPhone(phone: String, smsCode: String): Completable = Completable.fromAction {
@@ -737,7 +750,7 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
 
-    private fun currentUser(): Single<CurrentUser> = Single.fromCallable {
+    override fun currentUser(): Single<CurrentUser> = Single.fromCallable {
         Auth.currentUser() ?: throw NeedSignInException()
     }
 

@@ -7,6 +7,7 @@ import android.text.style.ClickableSpan
 import android.view.SoundEffectConstants
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.route.Routes
@@ -14,7 +15,7 @@ import com.ifanr.tangzhi.route.Routes
 /**
  * 通用的行内文本链接
  */
-class TextLinkSpan (
+open class TextLinkSpan (
     private val uri: Uri,
     ctx: Context
 ): ClickableSpan() {
@@ -33,3 +34,7 @@ class TextLinkSpan (
     }
 
 }
+
+class UserAgreementSpan(ctx: Context): TextLinkSpan(uri = Uri.parse(Const.userAgreementUri), ctx = ctx)
+
+class PrivacyPolicySpan(ctx: Context): TextLinkSpan(uri = Uri.parse(Const.privacyPolicyUri), ctx = ctx)

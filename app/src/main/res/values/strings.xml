@@ -132,5 +132,17 @@
     <string name="sign_in_by_email_title">邮箱登录</string>
     <string name="sign_in_by_email_tip">仅支持爱范儿邮箱账号登录</string>
     <string name="sign_in_by_email_hint">请输入邮箱账号</string>
+    <string name="sign_in_by_email_error">请输入正确的邮箱</string>
     <string name="sign_in_by_email_pwd_hint">请输入密码</string>
+    <string name="bind_local_phone_title">免密登录</string>
+    <string name="bind_local_phone_number">本机号码：%s</string>
+    <string name="bind_local_phone_bind">本机号码一键登录</string>
+    <string name="bind_local_phone_bind_other">使用其它手机号验证</string>
+    <string name="bind_local_phone_policy">登录即同意《糖纸用户协议》和《隐私策略》\n并使用本机号码</string>
+    <string name="bind_local_phone_grant_tip">为了获取本机号码，请在待会的权限弹窗里点击确定</string>
+    <string name="bind_local_phone_grant_ok">一键登录</string>
+    <string name="bind_local_phone_grant_title">授权提示</string>
+    <string name="bind_local_phone_fail">登录失败</string>
+    <string name="bind_local_phone_not_found">没找到本机号码，使用其他手机号验证</string>
+    <string name="sign_in_fail">登录失败</string>
 </resources>

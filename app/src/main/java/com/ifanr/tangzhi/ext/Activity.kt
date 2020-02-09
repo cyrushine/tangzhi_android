@@ -39,6 +39,12 @@ fun Activity.checkAndRequestPermissions(permission: Array<String>, requestCode: 
     return permissionGranted
 }
 
+fun Activity.checkPermissions(permission: Array<String>): Boolean {
+    return permission
+        .map { ActivityCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
+        .all { it }
+}
+
 /**
  * @param ms MILLISECONDS
  */
@@ -47,4 +53,8 @@ fun AppCompatActivity.delay(ms: Long, block: () -> Unit) {
         .observeOn(AndroidSchedulers.mainThread())
         .autoDispose(this)
         .subscribe { block.invoke() }
+}
+
+fun Activity.requestPermissionCompat(permissions: Array<String>, code: Int) {
+    ActivityCompat.requestPermissions(this, permissions, code)
 }

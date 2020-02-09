@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FormButton">
+        <attr name="formButtonStyle" format="enum">
+            <enum name="FILL" value="0" />
+            <enum name="STROKE" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

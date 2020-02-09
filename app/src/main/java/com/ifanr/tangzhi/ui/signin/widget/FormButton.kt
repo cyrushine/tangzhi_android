@@ -15,21 +15,39 @@ import com.ifanr.tangzhi.ext.setPadding
  */
 class FormButton: AppCompatTextView {
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?) : super(context) { init(null) }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) { init(attrs) }
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
-    )
+    ) { init(attrs) }
 
     init {
-        setBackgroundResource(R.drawable.form_button_bg)
-        setTextColor(context.getColorCompat(R.color.white))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         gravity = Gravity.CENTER
         setPadding(intArrayOf(0, 14, 0, 14))
-        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private fun init(attrs: AttributeSet?) {
+        var bg = R.drawable.form_button_bg
+        var textColor = context.getColorCompat(R.color.white)
+        if (attrs != null) {
+            val ta = context.obtainStyledAttributes(attrs, R.styleable.FormButton)
+            when (ta.getInt(R.styleable.FormButton_formButtonStyle, 0)) {
+                1 -> {
+                    bg = R.drawable.form_button_bg_stroke
+                    textColor = context.getColorCompat(R.color.base_88)
+                }
+                else -> {
+                    bg = R.drawable.form_button_bg
+                    textColor = context.getColorCompat(R.color.white)
+                    typeface = Typeface.DEFAULT_BOLD
+                }
+            }
+        }
+        setBackgroundResource(bg)
+        setTextColor(textColor)
     }
 
 }

@@ -9,6 +9,7 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.schedulers.ExecutorScheduler
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
@@ -32,6 +33,12 @@ class EventBus {
         observeOn: Scheduler = AndroidSchedulers.mainThread()) {
         subject.observeOn(observeOn).autoDispose(vm).subscribe(onNext)
     }
+
+    fun subscribe(
+        observeOn: Scheduler = Schedulers.io(),
+        onNext: Consumer<Event>) =
+        subject.observeOn(observeOn).subscribe(onNext)
+
 }
 
 sealed class Event {

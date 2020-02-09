@@ -36,8 +36,8 @@ class FormInput: ConstraintLayout {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.FormInput)
             input.inputType = when (ta.getInt(R.styleable.FormInput_formInputType, 0)) {
                 1 -> EditorInfo.TYPE_CLASS_PHONE
-                2 -> EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-                3 -> EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                2 -> EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
+                3 -> EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 else -> EditorInfo.TYPE_CLASS_TEXT
             }
             input.hint = ta.getText(R.styleable.FormInput_formInputHint)
