@@ -1,7 +1,6 @@
 package com.ifanr.tangzhi.di
 
 import com.ifanr.tangzhi.route.SignInInterceptor
-import com.ifanr.tangzhi.service.ProfileService
 import com.ifanr.tangzhi.ui.LaunchActivity
 import com.ifanr.tangzhi.ui.browser.BrowserActivity
 import com.ifanr.tangzhi.ui.browser.BrowserModule
@@ -9,7 +8,6 @@ import com.ifanr.tangzhi.ui.comment.CommentActivity
 import com.ifanr.tangzhi.ui.comment.CommentModule
 import com.ifanr.tangzhi.ui.gallery.GalleryActivity
 import com.ifanr.tangzhi.ui.gallery.GalleryModule
-import com.ifanr.tangzhi.ui.gallery.GalleryViewModel
 import com.ifanr.tangzhi.ui.index.IndexActivity
 import com.ifanr.tangzhi.ui.index.IndexModule
 import com.ifanr.tangzhi.ui.index.home.HomeFragment
@@ -33,25 +31,24 @@ import com.ifanr.tangzhi.ui.productparam.ProductParamActivity
 import com.ifanr.tangzhi.ui.productparam.ProductParamModule
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsActivity
 import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsModule
-import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductsViewModel
 import com.ifanr.tangzhi.ui.search.SearchActivity
 import com.ifanr.tangzhi.ui.search.SearchModule
 import com.ifanr.tangzhi.ui.sendcomment.SendCommentActivity
 import com.ifanr.tangzhi.ui.sendcomment.SendCommentModule
 import com.ifanr.tangzhi.ui.sendreview.SendReviewActivity
 import com.ifanr.tangzhi.ui.sendreview.SendReviewModule
-import com.ifanr.tangzhi.ui.sendreview.SendReviewViewModel
 import com.ifanr.tangzhi.ui.share.ShareActivity
 import com.ifanr.tangzhi.ui.share.ShareModule
-import com.ifanr.tangzhi.ui.signin.SignInActivity
-import com.ifanr.tangzhi.ui.signin.SignInModule
+import com.ifanr.tangzhi.ui.signin.wechat.SignInByWechatActivity
+import com.ifanr.tangzhi.ui.signin.wechat.SignInByWechatModule
 import com.ifanr.tangzhi.ui.signin.bindlocalphone.BindLocalPhoneActivity
 import com.ifanr.tangzhi.ui.signin.bindlocalphone.BindLocalPhoneModule
+import com.ifanr.tangzhi.ui.signin.bindphone.BindPhoneActivity
+import com.ifanr.tangzhi.ui.signin.bindphone.BindPhoneModule
 import com.ifanr.tangzhi.ui.signin.email.SignInByEmailActivity
 import com.ifanr.tangzhi.ui.signin.email.SignInByEmailModule
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneActivity
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneModule
-import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneViewModel
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileActivity
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileModule
 import dagger.Module
@@ -61,8 +58,8 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBindingModule {
 
     @ActivityScoped
-    @ContributesAndroidInjector
-    abstract fun profileService(): ProfileService
+    @ContributesAndroidInjector(modules = [BindPhoneModule::class])
+    abstract fun BindPhoneActivity(): BindPhoneActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [BindLocalPhoneModule::class])
@@ -93,8 +90,8 @@ abstract class ActivityBindingModule {
     abstract fun updateProfileActivity(): UpdateProfileActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [SignInModule::class])
-    abstract fun signInActivity(): SignInActivity
+    @ContributesAndroidInjector(modules = [SignInByWechatModule::class])
+    abstract fun signInActivity(): SignInByWechatActivity
 
 
     @ActivityScoped

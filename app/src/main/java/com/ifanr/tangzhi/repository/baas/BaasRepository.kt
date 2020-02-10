@@ -13,6 +13,21 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 检验手机验证码
+     */
+    fun verifySmsCode(phone: String, code:String): Completable
+
+    /**
+     * 当前登录用户
+     */
+    fun currentUserWithoutData(): CurrentUser?
+
+    /**
+     * 匿名登录
+     */
+    fun signInAnonymous(): Completable
+
+    /**
      * 获取当前登录用户
      */
     fun currentUser(): Single<CurrentUser>

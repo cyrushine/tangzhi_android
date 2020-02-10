@@ -42,7 +42,11 @@ class EventBus {
 }
 
 sealed class Event {
-    object SignIn: Event()
+    data class SignIn(val type: Type): Event() {
+        enum class Type {
+            WECHAT, EMAIL, PHONE
+        }
+    }
     object SignOut: Event()
     object ProfileChanged: Event()
     data class ReviewCreated(val review: Comment): Event()

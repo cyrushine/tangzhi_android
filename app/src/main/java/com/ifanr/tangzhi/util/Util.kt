@@ -4,7 +4,9 @@ import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import io.reactivex.Observable
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 fun uuid() = UUID.randomUUID().toString()
@@ -38,3 +40,11 @@ val AppGson: Gson by lazy {
     GsonBuilder()
         .create()
 }
+
+/**
+ * count down with [from .. 0]
+ * @param periodMs 毫秒
+ */
+fun countDown(from: Long, periodMs: Long = 1000L) =
+    Observable.intervalRange(0, from + 1, 0, periodMs, TimeUnit.MILLISECONDS)
+        .map { from - it }

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
+import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.exceptions.BaaSException
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.exceptions.UniqueRuleException
@@ -21,6 +22,7 @@ import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.auth.model.SignInByPhoneRequest
+import com.minapp.android.sdk.auth.model.UpdateUserReq
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
@@ -63,12 +65,23 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun verifySmsCode(phone: String, code: String): Completable = Completable.fromAction {
+        if (!BaaS.verifySmsCode(phone, code))
+            throw Exception(ctx.getString(R.string.incorrect_sms_code))
+    }
+
+    override fun currentUserWithoutData(): CurrentUser? =
+        Auth.currentUserWithoutData()
+
+    override fun signInAnonymous(): Completable = Completable.fromAction {
+        Auth.signInAnonymous()
+    }
+
     override fun updateUserPhone(phone: String): Completable = Completable.fromAction {
         assertSignIn()
-        val user = Auth.currentUser()!!
-        user.phone = phone
-        user.isPhoneVerified = true
-        user.save()
+        currentUser().blockingGet().updateUser(UpdateUserReq().apply {
+            this.phone = phone
+        })
     }
 
     override fun signInByEmail(email: String, pwd: String): Completable = Completable.fromAction {

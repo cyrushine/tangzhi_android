@@ -32,7 +32,7 @@ class AppMgrImpl @Inject constructor(
             if (countryCode.isNullOrEmpty())
                 countryCode = telephonyManager.networkCountryIso
         } catch (e: Exception) {}
-        val phoneCode = loadPhoneCodes().blockingGet()[countryCode]
+        val phoneCode = loadPhoneCodes().blockingGet()[countryCode?.toLowerCase()]
 
         var phone = telephonyManager.line1Number
         if (phone.startsWith("+"))
@@ -52,7 +52,7 @@ class AppMgrImpl @Inject constructor(
                     phoneCodes = AppGson.fromJson(
                         assetManager.open("country_phone_code.json").use { String(it.readBytes()) }, JsonArray::class.java)
                         .flatMap { (it as JsonObject).getAsJsonArray("data").map { it as JsonObject } }
-                        .map { it.getSafeString("countryCode") to it.getSafeString("phoneCode") }
+                        .map { it.getSafeString("countryCode").toLowerCase() to it.getSafeString("phoneCode") }
                         .toMap()
                 }
             }

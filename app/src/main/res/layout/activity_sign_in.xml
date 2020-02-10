@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.signin.SignInActivity">
+    tools:context=".ui.signin.wechat.SignInByWechatActivity">
 
     <com.ifanr.tangzhi.ui.icons.IcBClose
         android:id="@+id/close"

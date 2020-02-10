@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.exceptions.PhoneNotBindException
+import com.ifanr.tangzhi.ext.finishDelay
 import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.ext.viewModelOf
 import com.ifanr.tangzhi.route.Routes
@@ -36,12 +39,27 @@ class SignInByEmailActivity : BaseViewModelActivity() {
         observeLoadingLiveData(vm.loading)
         vm.event.observe(this, Observer {
             when (it) {
+
                 Event.IncorrectEmail -> toast(R.string.sign_in_by_email_error)
+
                 Event.IncorrectPwd -> toast(R.string.sign_in_by_email_pwd_hint)
+
                 is Event.SignInError -> {
-                    toast(it.t.message ?: "")
-                    Log.e(TAG, it.t.message, it.t)
+                    when (it.t) {
+                        is PhoneNotBindException -> {
+                            ARouter.getInstance().build(Routes.bindPhone)
+                                .withString(Routes.bindPhoneType, "email")
+                                .navigation(this)
+                            finishDelay()
+                        }
+
+                        else -> {
+                            toast(it.t.message ?: "")
+                            Log.e(TAG, it.t.message, it.t)
+                        }
+                    }
                 }
+
                 Event.SignInSuccess -> finish()
             }
         })

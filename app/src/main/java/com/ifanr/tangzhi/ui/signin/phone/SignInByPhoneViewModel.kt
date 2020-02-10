@@ -8,6 +8,7 @@ import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.util.LoadingState
+import com.minapp.android.sdk.auth.Auth
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Action
@@ -28,32 +29,26 @@ class SignInByPhoneViewModel @Inject constructor(
     val phone = MutableLiveData<String>()
     val countryCode = MutableLiveData<Int>()
     val smsCode = MutableLiveData<String>()
-    val sendSmsCodeCountDown = MutableLiveData<Int>().apply { value = 0 }
     val loading = MutableLiveData<LoadingState>()
     val toast = MutableLiveData<Pair<Int, String>>()
     val signInResult = MutableLiveData<Boolean>()
+    val event = MutableLiveData<Event>()
 
     fun sendSmsCode() {
-        if (sendSmsCodeCountDown.value == 0) {
-            val num = phone.value
-            if (num.isNullOrEmpty()) {
-                toast.value = R.string.sign_in_by_phone_number_hint to ""
-                return
-            }
-
-            repository.sendSmsCode(num)
-                .networkJob(vm = this, loadingState = loading)
-                .subscribe({
-                    toast.value = R.string.sign_in_by_phone_sms_code_sended to ""
-                    Observable.intervalRange(0L, 61L, 0L, 1000L, TimeUnit.MILLISECONDS)
-                        .map { 60L - it }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .autoDispose(this)
-                        .subscribe { sendSmsCodeCountDown.value = it.toInt() }
-                }, {
-                    toast.value = 0 to (it.message ?: "")
-                })
+        val num = phone.value
+        if (num.isNullOrEmpty()) {
+            toast.value = R.string.sign_in_by_phone_number_hint to ""
+            return
         }
+
+        repository.sendSmsCode(num)
+            .networkJob(vm = this, loadingState = loading)
+            .subscribe({
+                toast.value = R.string.sign_in_by_phone_sms_code_sended to ""
+                event.value = Event.SmsCodeSended
+            }, {
+                toast.value = 0 to (it.message ?: "")
+            })
     }
 
     fun signIn() {
@@ -70,7 +65,6 @@ class SignInByPhoneViewModel @Inject constructor(
             return
         }
 
-        Log.d(TAG, "sign in by $phoneNum $smsCode")
         repository.signInByPhone(phoneNum, smsCode)
             .networkJob(vm = this, loadingState = loading, loadingDelay = false)
             .subscribe({
@@ -79,5 +73,9 @@ class SignInByPhoneViewModel @Inject constructor(
                 signInResult.value = false
                 toast.value = 0 to (it.message ?: "")
             })
+    }
+
+    sealed class Event {
+        object SmsCodeSended: Event()
     }
 }

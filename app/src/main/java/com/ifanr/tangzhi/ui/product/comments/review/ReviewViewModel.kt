@@ -1,6 +1,5 @@
 package com.ifanr.tangzhi.ui.product.comments.review
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.EventBus
@@ -80,7 +79,7 @@ class ReviewViewModel @Inject constructor (
     // 给点评点赞
     fun onVoteClick(position: Int) {
         if (!repository.signedIn()) {
-            ARouter.getInstance().build(Routes.signIn).navigation()
+            ARouter.getInstance().build(Routes.signInByWechat).navigation()
             return
         }
 
@@ -129,7 +128,7 @@ class ReviewViewModel @Inject constructor (
      */
     fun onTagClick(position: Int, showLoading: Boolean = true) {
         if (!repository.signedIn()) {
-            ARouter.getInstance().build(Routes.signIn).navigation()
+            ARouter.getInstance().build(Routes.signInByWechat).navigation()
             return
         }
 

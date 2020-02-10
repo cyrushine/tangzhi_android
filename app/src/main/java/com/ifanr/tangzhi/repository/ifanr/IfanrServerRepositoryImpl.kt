@@ -44,6 +44,6 @@ class IfanrServerRepositoryImpl @Inject constructor(
             throw SignInByEmailFailException()
 
         Auth.signIn(token, userId.toString(), expiredIn)
-        bus.post(Event.SignIn)
+        bus.post(Event.SignIn(Event.SignIn.Type.EMAIL))
     }
 }

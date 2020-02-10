@@ -8,7 +8,7 @@ object Routes {
 
     const val updateProfile = "/$DEFAULT_GROUP/updateprofile"
 
-    const val signIn = "/$DEFAULT_GROUP/signin"
+    const val signInByWechat = "/$DEFAULT_GROUP/signin_by_wechat"
 
     const val search = "/$DEFAULT_GROUP/search"
 
@@ -64,4 +64,7 @@ object Routes {
 
     const val signInByEmail = "/$DEFAULT_GROUP/sign_in_by_email"
     const val bindLocalPhone = "/$DEFAULT_GROUP/bind_local_phone"
+
+    const val bindPhone = "/$DEFAULT_GROUP/bind_phone"
+    const val bindPhoneType = "type"                    // String，页面样式（wechat or email）
 }

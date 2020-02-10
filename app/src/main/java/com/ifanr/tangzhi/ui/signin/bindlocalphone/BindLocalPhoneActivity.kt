@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.route.Routes
@@ -53,6 +54,7 @@ class BindLocalPhoneActivity : BaseViewModelActivity() {
             when (it) {
                 Event.PhoneNotFound -> {
                     toast(R.string.bind_local_phone_not_found)
+                    bindOther.performClick()
                 }
 
                 Event.SignInSuccess -> {
@@ -75,6 +77,13 @@ class BindLocalPhoneActivity : BaseViewModelActivity() {
             } else {
                 signInQuick()
             }
+        }
+
+        bindOther.setOnClickListener {
+            ARouter.getInstance().build(Routes.bindPhone)
+                .withString(Routes.bindPhoneType, "wechat")
+                .navigation(this)
+            finishDelay()
         }
     }
 

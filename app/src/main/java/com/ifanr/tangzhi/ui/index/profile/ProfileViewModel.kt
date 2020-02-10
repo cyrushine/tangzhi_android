@@ -45,7 +45,7 @@ class ProfileViewModel @Inject constructor(
 
         bus.subscribe(this, Consumer {
             when (it) {
-                Event.SignIn, Event.ProfileChanged -> {
+                is Event.SignIn, Event.ProfileChanged -> {
                     loadProfile()
                 }
                 Event.SignOut -> {

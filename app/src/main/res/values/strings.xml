@@ -145,4 +145,17 @@
     <string name="bind_local_phone_fail">登录失败</string>
     <string name="bind_local_phone_not_found">没找到本机号码，使用其他手机号验证</string>
     <string name="sign_in_fail">登录失败</string>
+    <string name="bind_phone_wechat_tip">使用微信账号登录中</string>
+    <string name="bind_phone_email_tip">为了保障账号安全，请完成手机号绑定\n绑定过程会用到短信，请注意您的手机提示，我们将保护您个人手机信息</string>
+    <string name="bind_phone_number_hint">请输入手机号码</string>
+    <string name="bind_phone_wechat_title">绑定手机</string>
+    <string name="bind_phone_email_title">邮箱登录</string>
+    <string name="bind_phone_wechat_go">完成验证</string>
+    <string name="bind_phone_email_go">绑定</string>
+    <string name="bind_phone_wechat_policy">点击“完成验证”按钮，即表明您已阅读并同意\n《糖纸用户协议》和《隐私策略》</string>
+    <string name="bind_phone_email_policy">登录即同意《糖纸用户协议》和《隐私策略》</string>
+    <string name="bind_phone_wechat_name_not_found">未找到微信名称</string>
+    <string name="bind_phone_success">手机号绑定成功</string>
+    <string name="bind_phone_fail">手机号绑定失败</string>
+    <string name="incorrect_sms_code">验证码错误</string>
 </resources>

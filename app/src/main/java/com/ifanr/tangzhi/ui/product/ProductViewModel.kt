@@ -1,7 +1,6 @@
 package com.ifanr.tangzhi.ui.product
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.alibaba.android.arouter.launcher.ARouter
@@ -16,7 +15,6 @@ import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -125,7 +123,7 @@ class ProductViewModel @Inject constructor (
     // 「关注」按钮被点击
     fun onFollowClick() {
         if (!repository.signedIn()) {
-            ARouter.getInstance().build(Routes.signIn).navigation()
+            ARouter.getInstance().build(Routes.signInByWechat).navigation()
             return
         }
 

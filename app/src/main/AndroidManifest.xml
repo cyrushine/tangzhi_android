@@ -19,10 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <service
-            android:name=".service.ProfileService"
-            android:exported="false"></service>
-
+        <activity android:name=".ui.signin.bindphone.BindPhoneActivity"></activity>
         <activity android:name=".ui.signin.bindlocalphone.BindLocalPhoneActivity" />
         <activity android:name=".ui.signin.email.SignInByEmailActivity" />
         <activity
@@ -30,7 +27,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.points.PointsActivity" />
         <activity android:name=".ui.updateprofile.UpdateProfileActivity" />
-        <activity android:name=".ui.signin.SignInActivity" />
+        <activity android:name=".ui.signin.wechat.SignInByWechatActivity" />
         <activity
             android:name=".ui.search.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />

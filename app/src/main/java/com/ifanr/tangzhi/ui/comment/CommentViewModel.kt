@@ -1,6 +1,5 @@
 package com.ifanr.tangzhi.ui.comment
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.Event
@@ -16,7 +15,6 @@ import com.ifanr.tangzhi.util.uuid
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CommentViewModel @Inject constructor(
@@ -80,7 +78,7 @@ class CommentViewModel @Inject constructor(
     // 点击「有用」
     fun onVoteClick(id: String) {
         if (!repository.signedIn()) {
-            ARouter.getInstance().build(Routes.signIn).navigation()
+            ARouter.getInstance().build(Routes.signInByWechat).navigation()
             return
         }
 

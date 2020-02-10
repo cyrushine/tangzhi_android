@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.ui.signin.widget
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -10,6 +11,11 @@ import androidx.core.widget.addTextChangedListener
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.getColorCompat
 import com.ifanr.tangzhi.ext.inflateInto
+import com.ifanr.tangzhi.util.countDown
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import kotlin.properties.Delegates
 
 /**
@@ -19,11 +25,16 @@ class FormSmsCodeInput: ConstraintLayout {
 
     interface Listener {
         fun onTextChanged(text: String) {}
+
+        /**
+         * only invoke when [delayValue] == 0
+         */
         fun onSendSmsCodeClick() {}
     }
 
     private val input: EditText
     private lateinit var operation: TextView
+    private var countDownTask: Disposable? = null
 
     var listener: Listener = object : Listener {}
 
@@ -31,7 +42,7 @@ class FormSmsCodeInput: ConstraintLayout {
      * <= 0，显示「获取验证码」
      * > 0，显示「x 秒后重新获取验证码」
      */
-    var delayValue: Int by Delegates.observable(0) { _, _, newValue ->
+    private var delayValue: Int by Delegates.observable(0) { _, _, newValue ->
         if (newValue <= 0) {
             operation.setText(R.string.sign_in_by_phone_send_code)
             operation.setTextColor(context.getColorCompat(R.color.base_red))
@@ -83,5 +94,27 @@ class FormSmsCodeInput: ConstraintLayout {
             }
             ta.recycle()
         }
+    }
+
+    /**
+     * 开始倒数
+     */
+    fun startCountDown() {
+        if (delayValue <= 0) {
+            countDownTask?.dispose()
+            countDownTask = countDown(from = 60)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { delayValue = it.toInt() }
+        }
+    }
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        return input.requestFocus(direction, previouslyFocusedRect)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        countDownTask?.dispose()
+        delayValue = 0
     }
 }

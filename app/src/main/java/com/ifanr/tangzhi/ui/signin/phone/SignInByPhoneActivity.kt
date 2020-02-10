@@ -8,7 +8,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.ext.observeToast
 import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
@@ -48,9 +47,11 @@ class SignInByPhoneActivity : BaseViewModelActivity() {
             if (it.second.isNotEmpty())
                 toast(it.second)
         } })
-        vm.sendSmsCodeCountDown.observe(this, Observer { it?.also {
-            smsCode.delayValue = it
-        } })
+        vm.event.observe(this, Observer {
+            when (it) {
+                SignInByPhoneViewModel.Event.SmsCodeSended -> smsCode.startCountDown()
+            }
+        })
         codeSelector.onValueChanged = { vm.countryCode.value = it }
         codeSelector.isEnabled = false
         phoneInput.onTextChangedListener = { vm.phone.value = it }
@@ -58,7 +59,6 @@ class SignInByPhoneActivity : BaseViewModelActivity() {
             override fun onTextChanged(text: String) {
                 vm.smsCode.value = text
             }
-
             override fun onSendSmsCodeClick() {
                 vm.sendSmsCode()
             }
@@ -75,7 +75,7 @@ class SignInByPhoneActivity : BaseViewModelActivity() {
         })
 
         thirdPartySignIn.setOnClickListener {
-            ARouter.getInstance().build(Routes.signIn).navigation(this)
+            ARouter.getInstance().build(Routes.signInByWechat).navigation(this)
             finish()
         }
     }

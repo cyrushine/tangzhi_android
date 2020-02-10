@@ -2,11 +2,14 @@ package com.ifanr.tangzhi.ui.signin.email
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.ifanr.tangzhi.exceptions.PhoneNotBindException
 import com.ifanr.tangzhi.ext.networkJob
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.repository.ifanr.IfanrServerRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.util.LoadingState
+import com.minapp.android.sdk.auth.Auth
+import io.reactivex.Completable
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -39,13 +42,20 @@ class SignInByEmailViewModel @Inject constructor(
             return
         }
 
-        ifanrServer.signInByEmail(e, p)
+        SignInByEmail(e, p)
             .networkJob(vm = this, loadingState = loading, loadingDelay = false)
-            .subscribe({ event.value = Event.SignInSuccess }, {
+            .subscribe({
+                event.value = Event.SignInSuccess
+            }, {
                 event.value = Event.SignInError(t = it)
             })
     }
 
+    private fun SignInByEmail(email: String, pwd: String) = Completable.fromAction {
+        ifanrServer.signInByEmail(email, pwd).blockingAwait()
+        if (repository.currentUser().blockingGet().phone.isNullOrEmpty())
+            throw PhoneNotBindException()
+    }
 }
 
 sealed class Event {

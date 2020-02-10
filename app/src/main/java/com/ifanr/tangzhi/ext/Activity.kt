@@ -6,12 +6,14 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ifanr.tangzhi.R
 import com.uber.autodispose.android.lifecycle.autoDispose
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
 fun Activity.toast(msg: String) {
@@ -48,13 +50,17 @@ fun Activity.checkPermissions(permission: Array<String>): Boolean {
 /**
  * @param ms MILLISECONDS
  */
-fun AppCompatActivity.delay(ms: Long, block: () -> Unit) {
+fun AppCompatActivity.delay(ms: Long, untilEvent: Lifecycle.Event? = null, block: () -> Unit) {
     Completable.timer(ms, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
-        .autoDispose(this)
+        .autoDispose(this, untilEvent = untilEvent)
         .subscribe { block.invoke() }
 }
 
-fun Activity.requestPermissionCompat(permissions: Array<String>, code: Int) {
+fun AppCompatActivity.requestPermissionCompat(permissions: Array<String>, code: Int) {
     ActivityCompat.requestPermissions(this, permissions, code)
+}
+
+fun AppCompatActivity.finishDelay(ms: Long = 500L) {
+    delay(ms, untilEvent = Lifecycle.Event.ON_DESTROY) { finish() }
 }
