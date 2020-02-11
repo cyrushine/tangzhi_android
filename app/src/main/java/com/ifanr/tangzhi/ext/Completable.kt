@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-fun Completable.networkJob(
+fun Completable.ioTask(
     vm: BaseViewModel,
     loadingState: MutableLiveData<LoadingState>? = null,
     loadingDelay: Boolean = true

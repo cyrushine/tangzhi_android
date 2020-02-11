@@ -3,7 +3,7 @@ package com.ifanr.tangzhi.ui.product.comments.review
 import androidx.lifecycle.*
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.EventBus
-import com.ifanr.tangzhi.ext.networkJob
+import com.ifanr.tangzhi.ext.ioTask
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.repository.baas.BaasRepository
@@ -89,7 +89,7 @@ class ReviewViewModel @Inject constructor (
             val request = if (voted) repository.removeVoteForComment(updated.id)
             else repository.voteForComment(updated.id)
 
-            request.networkJob(this, loadingState = loading)
+            request.ioTask(this, loadingState = loading)
                 .subscribe({
 
                     // 更新点评列表

@@ -1,9 +1,6 @@
 package com.ifanr.tangzhi.model
 
-import com.ifanr.tangzhi.ext.getSafeBoolean
-import com.ifanr.tangzhi.ext.getSafeInt
-import com.ifanr.tangzhi.ext.getSafeLong
-import com.ifanr.tangzhi.ext.getSafeString
+import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.user.User
 
 data class UserProfile(
@@ -48,7 +45,17 @@ data class UserProfile(
     var followCount: Int = 0,
 
     // 足迹数
-    var traceCount: Int = 0
+    var traceCount: Int = 0,
+
+    // 微信昵称
+    var wechatName: String = "",
+
+    var id: Long = 0,
+
+    var nickname: String = "",
+
+    // column "_phone" in table "_userprofile"
+    var userPhone: String = ""
 ) {
 
 
@@ -68,7 +75,11 @@ data class UserProfile(
         todayPoint = user.getSafeInt(COL_TODAY_POINT),
         favoriteCount = user.getSafeInt(COL_FAVORITE_COUNT),
         followCount = user.getSafeInt(COL_FOLLOW_COUNT),
-        traceCount = user.getSafeInt(COL_TRACE_COUNT)
+        traceCount = user.getSafeInt(COL_TRACE_COUNT),
+        wechatName = user.wechatName ?: "",
+        id = user.userId ?: 0,
+        nickname = user.nickname ?: "",
+        userPhone = user.phone ?: ""
     )
 
     companion object {
@@ -88,3 +99,11 @@ data class UserProfile(
         const val COL_TRACE_COUNT    = "trace_count"
     }
 }
+
+private val User.wechatName: String?
+    get() {
+        return runCatching {
+            getJsonObject("_provider")?.getAsJsonObject("oauth_wechat_native")
+                ?.get("nickname")?.asString
+        }.getOrNull()
+    }

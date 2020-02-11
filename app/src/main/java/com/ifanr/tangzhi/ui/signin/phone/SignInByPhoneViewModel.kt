@@ -1,21 +1,11 @@
 package com.ifanr.tangzhi.ui.signin.phone
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ifanr.tangzhi.R
-import com.ifanr.tangzhi.ext.networkJob
+import com.ifanr.tangzhi.ext.ioTask
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
-import com.ifanr.tangzhi.ui.base.autoDispose
 import com.ifanr.tangzhi.util.LoadingState
-import com.minapp.android.sdk.auth.Auth
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
-import kotlinx.android.synthetic.main.points_table_item.view.*
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SignInByPhoneViewModel @Inject constructor(
@@ -42,7 +32,7 @@ class SignInByPhoneViewModel @Inject constructor(
         }
 
         repository.sendSmsCode(num)
-            .networkJob(vm = this, loadingState = loading)
+            .ioTask(vm = this, loadingState = loading)
             .subscribe({
                 toast.value = R.string.sign_in_by_phone_sms_code_sended to ""
                 event.value = Event.SmsCodeSended
@@ -66,7 +56,7 @@ class SignInByPhoneViewModel @Inject constructor(
         }
 
         repository.signInByPhone(phoneNum, smsCode)
-            .networkJob(vm = this, loadingState = loading, loadingDelay = false)
+            .ioTask(vm = this, loadingState = loading, loadingDelay = false)
             .subscribe({
                 signInResult.value = true
             }, {

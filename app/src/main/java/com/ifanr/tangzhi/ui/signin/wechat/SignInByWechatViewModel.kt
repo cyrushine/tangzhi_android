@@ -30,13 +30,12 @@ class SignInByWechatViewModel @Inject constructor(
         override fun onSuccess() {
             runInIO {
                 val phoneExist = runCatching {
-                    !repository.currentUser().blockingGet().phone.isNullOrBlank()
+                    !repository.currentUser().blockingGet().userPhone.isEmpty()
                 }.getOrDefault(true)
 
                 loading.postValue(LoadingState.DISMISS)
                 event.postValue(
                     if (phoneExist) SignInEvent.SignInSuccess else SignInEvent.PhoneNotBind)
-                Log.d(TAG, "${repository.currentUserWithoutData()?.userId}")
             }
         }
 

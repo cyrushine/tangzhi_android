@@ -2,14 +2,11 @@ package com.ifanr.tangzhi.ui.signin.bindphone
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.ifanr.tangzhi.ext.networkJob
-import com.ifanr.tangzhi.ext.wechatName
+import com.ifanr.tangzhi.ext.ioTask
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.util.LoadingState
 import io.reactivex.Completable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 class BindPhoneViewModel @Inject constructor(
@@ -30,9 +27,9 @@ class BindPhoneViewModel @Inject constructor(
             repository.currentUser()
                 .map {
                     Log.d(TAG, it.toString())
-                    it.wechatName ?: ""
+                    it.wechatName
                 }
-                .networkJob(vm = this@BindPhoneViewModel)
+                .ioTask(vm = this@BindPhoneViewModel)
                 .subscribe({
                     this.value = it
                     Log.d(TAG, "wechat name: $it")
@@ -57,7 +54,7 @@ class BindPhoneViewModel @Inject constructor(
         }
 
         UpdateUserPhone(number, code)
-            .networkJob(vm = this, loadingState = loading, loadingDelay = false)
+            .ioTask(vm = this, loadingState = loading, loadingDelay = false)
             .subscribe({ event.value = Event.BindPhoneSuccess },
                 { event.value = Event.BindPhoneFail(it) })
     }
@@ -75,7 +72,7 @@ class BindPhoneViewModel @Inject constructor(
         }
 
         repository.sendSmsCode(number)
-            .networkJob(vm = this, loadingState = loading)
+            .ioTask(vm = this, loadingState = loading)
             .subscribe({ event.value = Event.SmsCodeSended },
                 { event.value = Event.SendSmsCodeFail(it) })
     }

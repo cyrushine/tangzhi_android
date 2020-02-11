@@ -1,7 +1,9 @@
 package com.ifanr.tangzhi.ext
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -63,4 +65,10 @@ fun AppCompatActivity.requestPermissionCompat(permissions: Array<String>, code: 
 
 fun AppCompatActivity.finishDelay(ms: Long = 500L) {
     delay(ms, untilEvent = Lifecycle.Event.ON_DESTROY) { finish() }
+}
+
+fun Activity.startActivityForResultSafely(intent: Intent, requestCode: Int, options: Bundle? = null) {
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(intent, requestCode, options)
+    }
 }

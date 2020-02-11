@@ -20,3 +20,6 @@ fun Context.appLabelString(): String {
         getString(packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).labelRes)
     } catch (e: Exception) { "" }
 }
+
+val Context.appName: String
+    get() = appLabelString()

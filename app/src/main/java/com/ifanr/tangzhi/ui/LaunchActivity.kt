@@ -22,8 +22,7 @@ class LaunchActivity : BaseActivity() {
         statusBar(whiteText = false)
 
         delay(1000L) {
-            Auth.logout()
-            ARouter.getInstance().build(Routes.signInByWechat).navigation(this)
+            ARouter.getInstance().build(Routes.index).navigation(this)
             finishDelay()
         }
     }

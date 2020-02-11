@@ -70,18 +70,22 @@ class BaasRepositoryImpl @Inject constructor(
             throw Exception(ctx.getString(R.string.incorrect_sms_code))
     }
 
-    override fun currentUserWithoutData(): CurrentUser? =
-        Auth.currentUserWithoutData()
+    override fun currentUserWithoutData(): UserProfile? {
+        val currentUser = Auth.currentUserWithoutData()
+        return if (currentUser != null) UserProfile(user = currentUser) else currentUser
+    }
 
     override fun signInAnonymous(): Completable = Completable.fromAction {
         Auth.signInAnonymous()
     }
 
     override fun updateUserPhone(phone: String): Completable = Completable.fromAction {
-        assertSignIn()
-        currentUser().blockingGet().updateUser(UpdateUserReq().apply {
+        val currentUser = Auth.currentUser() ?: throw NeedSignInException()
+        currentUser.updateUser(UpdateUserReq().apply {
             this.phone = phone
         })
+        currentUser.put(UserProfile.COL_PHONE, phone)
+        currentUser.save()
     }
 
     override fun signInByEmail(email: String, pwd: String): Completable = Completable.fromAction {
@@ -763,9 +767,9 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
 
-    override fun currentUser(): Single<CurrentUser> = Single.fromCallable {
+    override fun currentUser(): Single<UserProfile> = Single.fromCallable {
         Auth.currentUser() ?: throw NeedSignInException()
-    }
+    }.map { UserProfile(user = it) }
 
 
     /**

@@ -3,12 +3,10 @@ package com.ifanr.tangzhi.ui.signin.bindlocalphone
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ifanr.tangzhi.appmgr.AppMgr
-import com.ifanr.tangzhi.ext.networkJob
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.runInIO
 import com.ifanr.tangzhi.util.LoadingState
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class BindLocalPhoneViewModel @Inject constructor(

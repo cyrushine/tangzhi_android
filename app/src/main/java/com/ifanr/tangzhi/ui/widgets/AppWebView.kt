@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.ui.widgets
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
@@ -87,6 +88,18 @@ class AppWebView: WebView {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             eventSubject.onNext(Event.ProgressChanged(newProgress.coerceIn(0, 100)))
         }
+
+        override fun onShowFileChooser(
+            webView: WebView?,
+            filePathCallback: ValueCallback<Array<Uri>>?,
+            fileChooserParams: FileChooserParams?
+        ): Boolean {
+            if (fileChooserParams != null && filePathCallback != null) {
+                eventSubject.onNext(Event.ShowFileChooser(filePathCallback, fileChooserParams))
+                return true
+            }
+            return false
+        }
     }
 
     constructor(context: Context?) : super(context)
@@ -166,5 +179,9 @@ class AppWebView: WebView {
         data class UrlChanged(val url: String): Event()
         data class TitleChanged(val title: String): Event()
         data class ProgressChanged(@IntRange(from = 0, to = 100) val progress: Int): Event()
+        data class ShowFileChooser(
+            val filePathCallback: ValueCallback<Array<Uri>>,
+            val fileChooserParams: WebChromeClient.FileChooserParams
+        ): Event()
     }
 }

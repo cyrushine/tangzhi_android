@@ -33,4 +33,8 @@ object Const {
 
     const val privacyPolicyUri = "https://www.ifanr.com/privacypolicy"
     const val userAgreementUri = "https://www.ifanr.com/privacypolicy"
+
+    const val aboutTangZhi =
+        "https://cloud-minapp-16269.myxiaoapp.com/h5/tangzhi-introduction-v2/index.0ab8abfd.html"
+    const val feedback = "https://support.qq.com/product/123451"
 }

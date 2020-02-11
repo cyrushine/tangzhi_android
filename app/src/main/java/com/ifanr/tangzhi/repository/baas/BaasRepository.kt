@@ -20,7 +20,7 @@ interface BaasRepository {
     /**
      * 当前登录用户
      */
-    fun currentUserWithoutData(): CurrentUser?
+    fun currentUserWithoutData(): UserProfile?
 
     /**
      * 匿名登录
@@ -30,7 +30,7 @@ interface BaasRepository {
     /**
      * 获取当前登录用户
      */
-    fun currentUser(): Single<CurrentUser>
+    fun currentUser(): Single<UserProfile>
 
     /**
      * 更新用户手机号码

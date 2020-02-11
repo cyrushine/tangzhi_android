@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.ifanr.tangzhi.Const
 
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.avatar
@@ -27,6 +28,7 @@ class ProfileFragment : BaseViewModelFragment() {
 
     companion object {
         private const val TAG = "ProfileFragment"
+
     }
 
     private lateinit var viewModel: ProfileViewModel
@@ -62,6 +64,18 @@ class ProfileFragment : BaseViewModelFragment() {
 
         profilePointText.setOnClickListener {
             ARouter.getInstance().build(Routes.points).navigation(requireActivity())
+        }
+
+        profileAbout.setOnClickListener {
+            ARouter.getInstance().build(Routes.browser)
+                .withString(Routes.browserUrl, Const.aboutTangZhi)
+                .navigation(requireActivity())
+        }
+
+        profileFeedback.setOnClickListener {
+            ARouter.getInstance().build(Routes.browser)
+                .withString(Routes.browserUrl, Const.feedback)
+                .navigation(requireActivity())
         }
     }
 

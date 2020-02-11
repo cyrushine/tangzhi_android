@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
-import com.ifanr.tangzhi.ext.networkJob
+import com.ifanr.tangzhi.ext.ioTask
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.route.Routes
@@ -88,7 +88,7 @@ class CommentViewModel @Inject constructor(
             val request = if (voted) repository.removeVoteForComment(updated.id)
             else repository.voteForComment(updated.id)
 
-            request.networkJob(this, loadingState = loading)
+            request.ioTask(this, loadingState = loading)
                 .subscribe({
                     val replaced = updated.copy(
                         voted = !voted,
@@ -166,7 +166,7 @@ class CommentViewModel @Inject constructor(
                     reviewId = reviewId.value ?: "",
                     parentId = parent.id,
                     offset = parent.children.size - 1)
-                    .networkJob(vm = this, loading = loading)
+                    .ioTask(vm = this, loading = loading)
                     .subscribe(Consumer {
                         val list = comments.value?.toMutableList()
                         if (!list.isNullOrEmpty()) {
