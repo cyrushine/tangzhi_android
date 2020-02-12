@@ -70,4 +70,5 @@ object Routes {
 
     const val message = "/$DEFAULT_GROUP/message"       // 我的消息
     const val follows = "/$DEFAULT_GROUP/follows"       // 我的关注
+    const val timeline = "/$DEFAULT_GROUP/timeline"     // 我的动态
 }

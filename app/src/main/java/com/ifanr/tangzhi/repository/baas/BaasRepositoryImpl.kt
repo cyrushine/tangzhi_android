@@ -58,6 +58,10 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun timelineList(): Single<PagedList<Timeline>> = Single.fromCallable {
+        assertSignIn()
+        pagedList(dataSource = TimelineDataSource(this))
+    }
 
     override fun followsList(): Single<PagedList<Product>> = Single.fromCallable {
         assertSignIn()
@@ -111,7 +115,7 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
     /**
-     * 通用的查询 [productComment] 表的方法
+     * 通用的查询 [commentTable] 表的方法
      * 增加了点赞字段的支持
      */
     private fun queryProductComment(
@@ -145,7 +149,7 @@ class BaasRepositoryImpl @Inject constructor(
             )
         }
 
-        return productComment.query(
+        return commentTable.query(
             clz = Comment::class.java,
             page = page,
             pageSize = pageSize,
@@ -183,7 +187,7 @@ class BaasRepositoryImpl @Inject constructor(
         rootId.assertNotEmpty("rootId")
         content.assertNotEmpty("content")
 
-        val comment = productComment.createRecord().apply {
+        val comment = commentTable.createRecord().apply {
             put(Comment.COL_TYPE, Comment.TYPE_COMMENT)
             put(Comment.COL_PRODUCT, productId)
             put(Comment.COL_ROOT_ID, rootId)
@@ -198,7 +202,7 @@ class BaasRepositoryImpl @Inject constructor(
                 put(Comment.COL_REPLY_TO, replyTo)
             }
         }.save().let {
-            productComment.getById<Comment>(it.id!!,
+            commentTable.getById<Comment>(it.id!!,
                 listOf(Record.CREATED_BY, Comment.COL_REPLY_TO)).blockingGet()!!
         }
         bus.post(Event.CommentCreated(comment))
@@ -207,7 +211,7 @@ class BaasRepositoryImpl @Inject constructor(
 
     override fun isProductTagExist(productId: String, content: String): Single<Boolean> =
         Single.fromCallable {
-            productComment.count(Query().put(Where().apply {
+            commentTable.count(Query().put(Where().apply {
                 equalTo(Comment.COL_TYPE, Comment.TYPE_TAG)
                 equalTo(Comment.COL_PRODUCT, productId)
                 equalTo(Comment.COL_CONTENT, content)
@@ -224,7 +228,7 @@ class BaasRepositoryImpl @Inject constructor(
         if (isProductTagExist(productId = productId, content = safeContent).blockingGet())
             throw UniqueRuleException("产品标签「$safeContent」已存在")
 
-        productComment.createRecord().apply {
+        commentTable.createRecord().apply {
             put(Comment.COL_TYPE, Comment.TYPE_TAG)
             put(Comment.COL_PRODUCT, productId)
             put(Comment.COL_CONTENT, safeContent)
@@ -326,7 +330,7 @@ class BaasRepositoryImpl @Inject constructor(
 
         // 创建一条新点评
         if (existing == null) {
-            val create = productComment.createRecord().apply {
+            val create = commentTable.createRecord().apply {
                 put(Comment.COL_TYPE, Comment.TYPE_REVIEW)
                 put(Comment.COL_PRODUCT, productId)
                 put(Comment.COL_TITLE, productName)
@@ -339,7 +343,7 @@ class BaasRepositoryImpl @Inject constructor(
         } else {
 
             // 更新点评
-            productComment.fetchWithoutData(existing.id).apply {
+            commentTable.fetchWithoutData(existing.id).apply {
                 put(Comment.COL_CONTENT, content)
                 put(Comment.COL_RATING, rating)
                 put(Comment.COL_IMAGE, imageUrls.toTypedArray())
@@ -604,7 +608,7 @@ class BaasRepositoryImpl @Inject constructor(
         else
             Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
 
-        return productComment.queryByOffset(
+        return commentTable.queryByOffset(
             clz = Comment::class.java,
             offset = offset,
             where = Where.and(baseCondition, profileCondition),
@@ -639,7 +643,7 @@ class BaasRepositoryImpl @Inject constructor(
                 notEqualTo(Comment.COL_STATUS, BaseModel.STATUS_DELETED)
             })
         }
-        val comments = productComment.query(
+        val comments = commentTable.query(
             Comment::class.java,
             page = page,
             pageSize = pageSize,
@@ -670,7 +674,7 @@ class BaasRepositoryImpl @Inject constructor(
             else
                 Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
 
-            val children = productComment.query(
+            val children = commentTable.query(
                 Comment::class.java,
                 page = 0,
                 pageSize = comments.data.size * 10,

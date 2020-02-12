@@ -86,6 +86,16 @@ class ProfileFragment : BaseViewModelFragment() {
         profileMessage.setOnClickListener {
             ARouter.getInstance().build(Routes.message).navigation(requireActivity())
         }
+
+        // 我的动态
+        profileActivities.setOnClickListener {
+            ARouter.getInstance().build(Routes.timeline).navigation(requireActivity())
+        }
+
+        // 我的关注
+        profileFollow.setOnClickListener {
+            ARouter.getInstance().build(Routes.follows).navigation(requireActivity())
+        }
     }
 
     override fun onResume() {

@@ -55,6 +55,8 @@ import com.ifanr.tangzhi.ui.signin.email.SignInByEmailActivity
 import com.ifanr.tangzhi.ui.signin.email.SignInByEmailModule
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneActivity
 import com.ifanr.tangzhi.ui.signin.phone.SignInByPhoneModule
+import com.ifanr.tangzhi.ui.timeline.TimelineActivity
+import com.ifanr.tangzhi.ui.timeline.TimelineModule
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileActivity
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileModule
 import dagger.Module
@@ -63,6 +65,9 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBindingModule {
 
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [TimelineModule::class])
+    abstract fun timelineActivity(): TimelineActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [FollowsModule::class])

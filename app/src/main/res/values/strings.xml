@@ -172,4 +172,9 @@
     <string name="message_type_normal">消息</string>
     <string name="message_type_system">系统消息</string>
     <string name="follows_title">我的关注</string>
+    <string name="timeline_action_review">发表点评</string>
+    <string name="timeline_action_question">提出问题</string>
+    <string name="timeline_action_answer">回答问题</string>
+    <string name="timeline_action_discussion">发表讨论</string>
+    <string name="timeline_title">我的动态</string>
 </resources>

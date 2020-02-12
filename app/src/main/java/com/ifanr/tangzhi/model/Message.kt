@@ -5,7 +5,7 @@ import com.ifanr.tangzhi.ext.getSafeJson
 import com.ifanr.tangzhi.ext.getSafeLong
 import com.ifanr.tangzhi.ext.getSafeString
 import com.ifanr.tangzhi.ext.getSafeStringArray
-import com.ifanr.tangzhi.repository.baas.productComment
+import com.ifanr.tangzhi.repository.baas.commentTable
 import com.ifanr.tangzhi.repository.baas.productTable
 import com.ifanr.tangzhi.repository.baas.userprofileTable
 import com.minapp.android.sdk.database.Record
@@ -166,16 +166,16 @@ class Message {
                 product = Product(Record(productTable, json.getAsJsonObject(COL_PRODUCT)))
             } catch (e: Exception) {}
             try {
-                comment = Comment(Record(productComment, json.getAsJsonObject(COL_COMMENT)))
+                comment = Comment(Record(commentTable, json.getAsJsonObject(COL_COMMENT)))
             } catch (e: Exception) {}
             try {
-                parentComment = Comment(Record(productComment, json.getAsJsonObject(COL_PARENT_COMMENT)))
+                parentComment = Comment(Record(commentTable, json.getAsJsonObject(COL_PARENT_COMMENT)))
             } catch (e: Exception) {}
             try {
-                rootComment = Comment(Record(productComment, json.getAsJsonObject(COL_ROOT_COMMENT)))
+                rootComment = Comment(Record(commentTable, json.getAsJsonObject(COL_ROOT_COMMENT)))
             } catch (e: Exception) {}
             try {
-                replyComment = Comment(Record(productComment, json.getAsJsonObject(COL_REPLY_COMMENT)))
+                replyComment = Comment(Record(commentTable, json.getAsJsonObject(COL_REPLY_COMMENT)))
             } catch (e: Exception) {}
             participant = json.getSafeStringArray(COL_PARTICIPANT)
         }

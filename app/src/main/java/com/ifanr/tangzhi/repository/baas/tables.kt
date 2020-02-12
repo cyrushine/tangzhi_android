@@ -14,13 +14,13 @@ import java.lang.reflect.Type
 
 val productTable = Table("product")                          // 产品表
 
-val productComment = Table("comment")                   // 产品评论表
+val commentTable = Table("comment")                   // 产品评论表
 
 val productPost = Table("product_post")                 // 产品文章表
 
 val voteLog = Table("vote_log")                         // 投票和点赞记录表
 
-val timeline = Table("timeline")                        // 动态表
+val timelineTable = Table("timeline")                        // 动态表
 
 val messageTable = Table("message")                          // 消息表
 

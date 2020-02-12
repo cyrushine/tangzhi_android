@@ -15,6 +15,11 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 我的动态
+     */
+    fun timelineList(): Single<PagedList<Timeline>>
+
+    /**
      * 我的关注列表
      */
     fun followsList(): Single<PagedList<Product>>

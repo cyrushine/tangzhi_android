@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ifanr.tangzhi.ui.icons.IcPartComment
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/actionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/base_red"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/icon"
+        android:layout_marginStart="8dp"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.DateTextView
+        android:id="@+id/dateTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/base_a8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/contentTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_3a"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.1"
+        app:layout_constraintTop_toBottomOf="@id/icon"
+        android:layout_marginTop="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="25dp"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.MessageProductCard
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/contentTv"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="@id/contentTv"
+        app:layout_constraintRight_toRightOf="@id/contentTv"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

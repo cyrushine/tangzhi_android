@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.follows.FollowsActivity"></activity>
+        <activity android:name=".ui.timeline.TimelineActivity"></activity>
+        <activity android:name=".ui.follows.FollowsActivity" />
         <activity android:name=".ui.message.MessageActivity" />
         <activity android:name=".ui.signin.bindphone.BindPhoneActivity" />
         <activity android:name=".ui.signin.bindlocalphone.BindLocalPhoneActivity" />
