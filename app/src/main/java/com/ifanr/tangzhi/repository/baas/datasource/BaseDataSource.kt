@@ -19,6 +19,9 @@ abstract class BaseDataSource<T> (
     private val query = Query()
     private var total = 0
 
+    var endOfList = false
+    private set
+
     init {
         initQuery.invoke(query)
     }
@@ -39,6 +42,7 @@ abstract class BaseDataSource<T> (
         val list = response.data
         val nextOffset = if (list.size == response.limit) response.limit else null
         list.forEach { doOnNext(it) }
+        if (nextOffset == null) endOfList = true
         callback.onResult(list, 0, total, null, nextOffset)
     }
 
@@ -55,6 +59,7 @@ abstract class BaseDataSource<T> (
         val nextOffset =
             if (list.size == response.limit) response.offset + response.limit else null
         list.forEach { doOnNext(it) }
+        if (nextOffset == null) endOfList = true
         callback.onResult(list, nextOffset)
     }
 

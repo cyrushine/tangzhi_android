@@ -12,7 +12,7 @@ import java.lang.reflect.Type
  * 这里定义知晓云里所有的数据表
  */
 
-val product = Table("product")                          // 产品表
+val productTable = Table("product")                          // 产品表
 
 val productComment = Table("comment")                   // 产品评论表
 
@@ -22,12 +22,12 @@ val voteLog = Table("vote_log")                         // 投票和点赞记录
 
 val timeline = Table("timeline")                        // 动态表
 
-val message = Table("message")                          // 消息表
+val messageTable = Table("message")                          // 消息表
 
 // 收藏表
 val favorite = Table("favorite")
 
-val userprofile = Table("_userprofile")                 // 用户表
+val userprofileTable = Table("_userprofile")                 // 用户表
 
 val itemList = Table("item_list")                       // 清单
 

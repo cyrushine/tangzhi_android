@@ -158,4 +158,17 @@
     <string name="bind_phone_success">手机号绑定成功</string>
     <string name="bind_phone_fail">手机号绑定失败</string>
     <string name="incorrect_sms_code">验证码错误</string>
+    <string name="message_system_nickname">系统通知</string>
+    <string name="product">产品</string>
+    <string name="message_action_send_review">发表了点评</string>
+    <string name="message_action_reply_review">回复了你的点评</string>
+    <string name="message_action_reply_comment">回复了你的评论</string>
+    <string name="message_action_answer">回答了你提的问题</string>
+    <string name="message_content_recommend">你这条评论被管理员标记为精选</string>
+    <string name="message_content_upvotes_comment">%s 等%s人赞了你的评论</string>
+    <string name="message_content_upvotes_review">%s 等%s人赞了你的点评</string>
+    <string name="message_content_answer_invation">邀请你回答</string>
+    <string name="message_title">我的消息</string>
+    <string name="message_type_normal">消息</string>
+    <string name="message_type_system">系统消息</string>
 </resources>

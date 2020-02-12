@@ -66,16 +66,25 @@ class ProfileFragment : BaseViewModelFragment() {
             ARouter.getInstance().build(Routes.points).navigation(requireActivity())
         }
 
+        // 关于
         profileAbout.setOnClickListener {
             ARouter.getInstance().build(Routes.browser)
                 .withString(Routes.browserUrl, Const.aboutTangZhi)
+                .withString(Routes.browserTitle, getString(R.string.profile_about))
                 .navigation(requireActivity())
         }
 
+        // 反馈
         profileFeedback.setOnClickListener {
             ARouter.getInstance().build(Routes.browser)
                 .withString(Routes.browserUrl, Const.feedback)
+                .withString(Routes.browserTitle, getString(R.string.profile_feedback))
                 .navigation(requireActivity())
+        }
+
+        // 我的消息
+        profileMessage.setOnClickListener {
+            ARouter.getInstance().build(Routes.message).navigation(requireActivity())
         }
     }
 

@@ -1,9 +1,14 @@
 package com.ifanr.tangzhi.ui.base.model
 
+import android.util.Log
+import androidx.paging.DataSource
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DiffUtil
 import com.airbnb.epoxy.*
 import com.airbnb.epoxy.paging.PagedListEpoxyController
 import com.ifanr.tangzhi.Const
+import com.ifanr.tangzhi.repository.baas.datasource.BaseDataSource
+import com.ifanr.tangzhi.util.uuid
 import com.ifanr.tangzhi.workerHandler
 
 /**
@@ -32,11 +37,36 @@ abstract class BaseTyped4Controller<T, U, V, W>: Typed4EpoxyController<T, U, V, 
 
 abstract class BasePagedListController<T>: PagedListEpoxyController<T> {
 
+    companion object {
+        private const val TAG = "BasePagedListController"
+    }
+
+    private val footer by lazy {
+        ListEndSlogonModel_().id(uuid())
+    }
+
+    private var dataSource: DataSource<*, *>? = null
+
     constructor(
         itemDiffCallback: DiffUtil.ItemCallback<T>
     ) : super(workerHandler, workerHandler, itemDiffCallback)
 
     constructor() : super(workerHandler, workerHandler)
+
+    /**
+     * use it instead of [submitList]
+     */
+    fun submitPagedList(newList: PagedList<T>) {
+        dataSource = newList.dataSource
+        submitList(newList)
+    }
+
+    override fun addModels(models: List<EpoxyModel<*>>) {
+        super.addModels(models)
+        if (models.isNotEmpty() && (dataSource as? BaseDataSource)?.endOfList == true) {
+            add(footer)
+        }
+    }
 }
 
 abstract class LoadMoreAwaredController<T: Collection<*>>: BaseTypedController<T>() {

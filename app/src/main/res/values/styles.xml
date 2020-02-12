@@ -144,4 +144,13 @@
         <item name="android:background">@color/base_e8</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
+
+    <style name="MessageUpVoteList">
+        <item name="android:textColor">@color/base_a8</item>
+    </style>
+
+    <style name="MessageTabText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/base_7d</item>
+    </style>
 </resources>

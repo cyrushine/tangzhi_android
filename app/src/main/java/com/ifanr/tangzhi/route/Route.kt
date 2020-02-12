@@ -67,4 +67,6 @@ object Routes {
 
     const val bindPhone = "/$DEFAULT_GROUP/bind_phone"
     const val bindPhoneType = "type"                    // String，页面样式（wechat or email）
+
+    const val message = "/$DEFAULT_GROUP/message"       // 我的消息
 }

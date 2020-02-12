@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 我的消息条目 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.DateTextView
+        android:id="@+id/dateTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:textSize="12sp"
+        android:textColor="@color/base_a8"
+        />
+
+    <TextView
+        android:id="@+id/nicknameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/base_12"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintRight_toLeftOf="@id/dateTv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+
+    <TextView
+        android:id="@+id/actionTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/base_a8"
+        app:layout_constraintTop_toBottomOf="@id/nicknameTv"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintRight_toLeftOf="@id/dateTv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+
+    <TextView
+        android:id="@+id/systemNameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_12"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="@string/message_system_nickname"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintRight_toLeftOf="@id/dateTv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        />
+
+    <TextView
+        android:id="@+id/contentTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/base_3a"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/avatar"
+        android:layout_marginTop="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="60dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="20dp"
+        android:lineSpacingMultiplier="1.1"
+        />
+
+    <com.ifanr.tangzhi.ui.widgets.MessageProductCard
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/contentTv"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="60dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

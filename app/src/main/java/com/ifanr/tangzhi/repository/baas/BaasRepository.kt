@@ -4,6 +4,8 @@ import androidx.annotation.FloatRange
 import androidx.paging.PagedList
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
+import com.ifanr.tangzhi.repository.baas.datasource.MessageDataSource
+import com.ifanr.tangzhi.repository.baas.datasource.SystemMessageDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.storage.CloudFile
@@ -11,6 +13,16 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface BaasRepository {
+
+    /**
+     * 我的系统消息列表
+     */
+    fun systemMessageList(): Single<PagedList<Message>>
+
+    /**
+     * 我的消息列表
+     */
+    fun messageList(): Single<PagedList<Message>>
 
     /**
      * 检验手机验证码

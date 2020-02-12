@@ -1,7 +1,6 @@
 package com.ifanr.tangzhi.repository.baas
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
@@ -13,14 +12,11 @@ import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.exceptions.UniqueRuleException
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
-import com.ifanr.tangzhi.repository.baas.datasource.PointLogDataSource
-import com.ifanr.tangzhi.repository.baas.datasource.ProductListDataSource
-import com.ifanr.tangzhi.repository.baas.datasource.SearchDataSource
+import com.ifanr.tangzhi.repository.baas.datasource.*
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.util.uuid
 import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
-import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.auth.model.SignInByPhoneRequest
 import com.minapp.android.sdk.auth.model.UpdateUserReq
 import com.minapp.android.sdk.database.Record
@@ -28,16 +24,13 @@ import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
 import com.minapp.android.sdk.storage.CloudFile
 import com.minapp.android.sdk.storage.Storage
-import com.minapp.android.sdk.user.User
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
-import kotlin.math.sign
 
 class BaasRepositoryImpl @Inject constructor(
     private val bus: EventBus,
@@ -63,6 +56,16 @@ class BaasRepositoryImpl @Inject constructor(
             .delay(10 * 1000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .subscribe()
+    }
+
+    override fun systemMessageList(): Single<PagedList<Message>> = Single.fromCallable {
+        assertSignIn()
+        pagedList(dataSource = SystemMessageDataSource(this))
+    }
+
+    override fun messageList(): Single<PagedList<Message>> = Single.fromCallable {
+        assertSignIn()
+        pagedList(dataSource = MessageDataSource(this))
     }
 
     override fun verifySmsCode(phone: String, code: String): Completable = Completable.fromAction {
@@ -460,7 +463,7 @@ class BaasRepositoryImpl @Inject constructor(
 
 
 
-    override fun searchHint(key: String): Single<List<Product>> = product.query<Product>(
+    override fun searchHint(key: String): Single<List<Product>> = productTable.query<Product>(
         page = 0,
         pageSize = 10,
         query = Query().apply {
@@ -558,7 +561,7 @@ class BaasRepositoryImpl @Inject constructor(
 
 
 
-    override fun latestProduct(): Single<List<Product>> = product.query<Product>(
+    override fun latestProduct(): Single<List<Product>> = productTable.query<Product>(
         page = 0,
         pageSize = 20,
         where = Where().apply {
@@ -738,10 +741,10 @@ class BaasRepositoryImpl @Inject constructor(
         ) }
 
     override fun getProductsByIds(ids: List<String>): Single<List<Product>> =
-        product.getByIds(ids)
+        productTable.getByIds(ids)
 
     override fun getProductById(id: String): Single<Product> =
-        product.getById(id)
+        productTable.getById(id)
 
     override fun getProductListByProductId(
         productId: String,

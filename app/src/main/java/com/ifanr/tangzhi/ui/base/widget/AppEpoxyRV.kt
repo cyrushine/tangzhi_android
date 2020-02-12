@@ -16,6 +16,6 @@ open class AppEpoxyRV: EpoxyRecyclerView {
     )
 
     init {
-        overScrollMode = View.OVER_SCROLL_NEVER
+
     }
 }

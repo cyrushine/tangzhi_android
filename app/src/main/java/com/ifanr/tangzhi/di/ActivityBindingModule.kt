@@ -14,6 +14,10 @@ import com.ifanr.tangzhi.ui.index.home.HomeFragment
 import com.ifanr.tangzhi.ui.index.home.HomeModule
 import com.ifanr.tangzhi.ui.index.profile.ProfileFragment
 import com.ifanr.tangzhi.ui.index.profile.ProfileModule
+import com.ifanr.tangzhi.ui.message.MessageActivity
+import com.ifanr.tangzhi.ui.message.MessageModule
+import com.ifanr.tangzhi.ui.message.fragment.MessagePageFragment
+import com.ifanr.tangzhi.ui.message.fragment.MessagePageModule
 import com.ifanr.tangzhi.ui.points.PointsActivity
 import com.ifanr.tangzhi.ui.points.PointsModule
 import com.ifanr.tangzhi.ui.points.handbook.PointHandBookDialogFragment
@@ -56,6 +60,14 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [MessagePageModule::class])
+    abstract fun messagePageFragment(): MessagePageFragment
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [MessageModule::class])
+    abstract fun messageActivity(): MessageActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [BindPhoneModule::class])

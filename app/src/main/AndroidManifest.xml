@@ -17,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.signin.bindphone.BindPhoneActivity"></activity>
+        <activity android:name=".ui.message.MessageActivity"></activity>
+        <activity android:name=".ui.signin.bindphone.BindPhoneActivity" />
         <activity android:name=".ui.signin.bindlocalphone.BindLocalPhoneActivity" />
         <activity android:name=".ui.signin.email.SignInByEmailActivity" />
         <activity

@@ -22,7 +22,7 @@ class LaunchActivity : BaseActivity() {
         statusBar(whiteText = false)
 
         delay(1000L) {
-            ARouter.getInstance().build(Routes.index).navigation(this)
+            ARouter.getInstance().build(Routes.message).navigation(this)
             finishDelay()
         }
     }
