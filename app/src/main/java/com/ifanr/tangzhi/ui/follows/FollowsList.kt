@@ -1,18 +1,22 @@
-package com.ifanr.tangzhi.ui.relatedproducts
+package com.ifanr.tangzhi.ui.follows
 
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.epoxy.EpoxyModel
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.model.Product
+import com.ifanr.tangzhi.ui.base.model.BasePagedListController
 import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
+import com.ifanr.tangzhi.ui.relatedproducts.RelatedProductItemModel_
 
-class RelatedProductsList: AppEpoxyRV {
+class FollowsList: AppEpoxyRV {
 
-    private val controller = Controller()
+    private val ctl = FollowsController()
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -23,12 +27,23 @@ class RelatedProductsList: AppEpoxyRV {
     )
 
     init {
-        setController(controller)
+        setController(ctl)
         addItemDecoration(Decoration(context))
     }
 
-    fun setData(data: List<Product>) {
-        controller.setData(data)
+    fun submitList(list: PagedList<Product>) {
+        ctl.submitPagedList(list)
+    }
+}
+
+class FollowsController: BasePagedListController<Product>() {
+    override fun buildItemModel(currentPosition: Int, item: Product?): EpoxyModel<*> {
+        val data = item ?: Product()
+        val model = RelatedProductItemModel_().apply {
+            id(data.id)
+            product(data)
+        }
+        return model
     }
 }
 
@@ -42,9 +57,14 @@ class Decoration(
         val vt = vh.itemViewType
         val position = vh.adapterPosition
         val count = parent.adapter?.itemCount ?: 0
+        val padding = ctx.dp2px(20)
 
-        if (vt == R.layout.related_products_item && position < count - 2) {
-            outRect.bottom = ctx.dp2px(20)
+        if (vt == R.layout.related_products_item) {
+            outRect.left = padding
+            outRect.right = padding
+            outRect.bottom = padding
+            if (position == 0)
+                outRect.top = padding
         }
     }
 }

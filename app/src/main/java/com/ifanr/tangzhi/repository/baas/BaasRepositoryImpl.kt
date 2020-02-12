@@ -58,6 +58,12 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+
+    override fun followsList(): Single<PagedList<Product>> = Single.fromCallable {
+        assertSignIn()
+        pagedList(dataSource = FollowsDataSource(this))
+    }
+
     override fun systemMessageList(): Single<PagedList<Message>> = Single.fromCallable {
         assertSignIn()
         pagedList(dataSource = SystemMessageDataSource(this))
@@ -273,13 +279,13 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Favorite.COL_SUBJECT_ID, productId)
             equalTo(Record.CREATED_BY, userId.toLong())
         }
-        favorite.count(Query().apply { put(where) }) > 0
+        favoriteTable.count(Query().apply { put(where) }) > 0
     }
 
     override fun followProduct(productId: String): Completable = Completable.fromAction {
         assertSignIn()
         if (!isProductFollowed(productId).blockingGet()) {
-            favorite.createRecord().apply {
+            favoriteTable.createRecord().apply {
                 put(Favorite.COL_TYPE, Favorite.TYPE_HARDWARE)
                 put(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
                 put(Favorite.COL_SUBJECT_ID, productId)
@@ -295,7 +301,7 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
             equalTo(Favorite.COL_SUBJECT_ID, productId)
         }
-        favorite.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
+        favoriteTable.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
     }
 
     override fun sendReview(

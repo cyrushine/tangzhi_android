@@ -8,6 +8,7 @@ import com.airbnb.epoxy.*
 import com.airbnb.epoxy.paging.PagedListEpoxyController
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.repository.baas.datasource.BaseDataSource
+import com.ifanr.tangzhi.repository.baas.datasource.TransformerDataSource
 import com.ifanr.tangzhi.util.uuid
 import com.ifanr.tangzhi.workerHandler
 
@@ -63,7 +64,9 @@ abstract class BasePagedListController<T>: PagedListEpoxyController<T> {
 
     override fun addModels(models: List<EpoxyModel<*>>) {
         super.addModels(models)
-        if (models.isNotEmpty() && (dataSource as? BaseDataSource)?.endOfList == true) {
+        val endOfList = (dataSource as? BaseDataSource)?.endOfList == true ||
+                (dataSource as? TransformerDataSource<*, *>)?.endOfList == true
+        if (models.isNotEmpty() && endOfList) {
             add(footer)
         }
     }

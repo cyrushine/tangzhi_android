@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.ui.relatedproducts
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
@@ -30,9 +31,11 @@ abstract class RelatedProductItemModel: EpoxyModelWithHolder<RelatedProductItemM
             product.postCount, product.reviewCount)
 
         holder.view.setOnClickListener {
-            ARouter.getInstance().build(Routes.product)
-                .withString(Routes.productId, product.id)
-                .navigation(holder.ctx)
+            if (product.id.isNotEmpty()) {
+                ARouter.getInstance().build(Routes.product)
+                    .withString(Routes.productId, product.id)
+                    .navigation(holder.ctx)
+            }
         }
     }
 

@@ -25,7 +25,7 @@ val timeline = Table("timeline")                        // 动态表
 val messageTable = Table("message")                          // 消息表
 
 // 收藏表
-val favorite = Table("favorite")
+val favoriteTable = Table("favorite")
 
 val userprofileTable = Table("_userprofile")                 // 用户表
 

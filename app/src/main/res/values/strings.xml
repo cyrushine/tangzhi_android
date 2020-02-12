@@ -171,4 +171,5 @@
     <string name="message_title">我的消息</string>
     <string name="message_type_normal">消息</string>
     <string name="message_type_system">系统消息</string>
+    <string name="follows_title">我的关注</string>
 </resources>

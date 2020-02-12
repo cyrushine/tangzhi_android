@@ -6,6 +6,8 @@ import com.ifanr.tangzhi.ui.browser.BrowserActivity
 import com.ifanr.tangzhi.ui.browser.BrowserModule
 import com.ifanr.tangzhi.ui.comment.CommentActivity
 import com.ifanr.tangzhi.ui.comment.CommentModule
+import com.ifanr.tangzhi.ui.follows.FollowsActivity
+import com.ifanr.tangzhi.ui.follows.FollowsModule
 import com.ifanr.tangzhi.ui.gallery.GalleryActivity
 import com.ifanr.tangzhi.ui.gallery.GalleryModule
 import com.ifanr.tangzhi.ui.index.IndexActivity
@@ -60,6 +62,12 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [FollowsModule::class])
+    abstract fun followsActivity(): FollowsActivity
+
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [MessagePageModule::class])
