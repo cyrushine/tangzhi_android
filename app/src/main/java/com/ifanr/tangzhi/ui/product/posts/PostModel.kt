@@ -8,6 +8,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.appName
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.rounded
@@ -31,7 +32,8 @@ abstract class PostModel: EpoxyModelWithHolder<PostModel.Holder>() {
             if (this::data.isInitialized) {
                 ARouter.getInstance().build(Routes.browser)
                     .withString(Routes.browserUrl, "https://www.ifanr.com/${data.postId}")
-                    .withString(Routes.browserTitle, data.postTitle)
+                    .withString(Routes.browserTitle, holder.ctx.appName)
+                    .withBoolean(Routes.browserTitleNotChanged, true)
                     .navigation(holder.ctx)
             }
         }

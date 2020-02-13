@@ -8,6 +8,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
+import com.ifanr.tangzhi.ext.appName
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ext.roundedRect
@@ -25,8 +26,9 @@ abstract class PostListItemModel: EpoxyModelWithHolder<PostListItemModel.Holder>
         holder.authorTv.text = post.createdByName
         holder.view.setOnClickListener {
             ARouter.getInstance().build(Routes.browser)
-                .withString(Routes.browserTitle, post.postTitle)
+                .withString(Routes.browserTitle, holder.ctx.appName)
                 .withString(Routes.browserUrl, "https://www.ifanr.com/${post.postId}")
+                .withBoolean(Routes.browserTitleNotChanged, true)
                 .navigation(it.context)
         }
     }

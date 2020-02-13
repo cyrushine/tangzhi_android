@@ -43,6 +43,10 @@ class BrowserActivity : BaseViewModelActivity() {
     @JvmField
     var title = ""
 
+    @Autowired(name = Routes.browserTitleNotChanged, required = false)
+    @JvmField
+    var titleNotChanged: Boolean? = false
+
     private var chooseFileEvent: AppWebView.Event.ShowFileChooser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +86,11 @@ class BrowserActivity : BaseViewModelActivity() {
             .subscribe { when (it) {
                 is AppWebView.Event.WebViewCrash -> finish()
                 is AppWebView.Event.UrlChanged -> vm.url.value = it.url
-                is AppWebView.Event.TitleChanged -> vm.title.value = it.title
+                is AppWebView.Event.TitleChanged -> {
+                    if (titleNotChanged != true) {
+                        vm.title.value = it.title
+                    }
+                }
                 is AppWebView.Event.ProgressChanged -> vm.progress.value = it.progress
                 is AppWebView.Event.ShowFileChooser -> {
                     chooseFileEvent = it

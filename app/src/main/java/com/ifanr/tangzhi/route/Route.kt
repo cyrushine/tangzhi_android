@@ -56,8 +56,10 @@ object Routes {
     const val productParamId = "product_id"             // product id, String
 
     const val browser = "/$DEFAULT_GROUP/browser"
-    const val browserUrl = "url"                        // string
-    const val browserTitle = "title"                    // string
+    const val browserUrl = "url"                            // string
+    const val browserTitle = "title"                        // string
+    // Boolean，== true && title != null 时，标题固定不变
+    const val browserTitleNotChanged = "title_not_changed"
 
     const val signInByPhone = "/$DEFAULT_GROUP/sign_in_by_phone"
     const val signInByPhoneNumber = "phone_number"      // String，手机号码
