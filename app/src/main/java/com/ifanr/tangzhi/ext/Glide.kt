@@ -9,7 +9,7 @@ import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.glide.OPTION_RADIUS
 import com.ifanr.tangzhi.ui.widgets.StackImageView
 
-fun RequestManager.default() = asBitmap()
+fun RequestManager.default() = asDrawable()
     .error(R.drawable.image_placeholder)
     .fallback(R.drawable.image_placeholder)
     .placeholder(R.drawable.image_placeholder)
