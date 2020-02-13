@@ -170,6 +170,10 @@ abstract class ProductReviewModel: EpoxyModelWithHolder<ProductReviewModel.Holde
         holder.view.setOnClickListener(onClick)
         holder.content.maxLines = if (contentExpanded) Int.MAX_VALUE else 5
         holder.imageTable.setOnClickListener(onClick)
+        holder.avatar.setOnLongClickListener {
+            Log.d(TAG, "id: ${comment.id}")
+            false
+        }
     }
 
 

@@ -732,6 +732,7 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Comment.COL_PRODUCT, productId)
             equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
             isNotNull(Comment.COL_CONTENT)
+            notEqualTo(Comment.COL_CONTENT, "")
             if (orderBy == CommentSwitch.Type.EDITOR_CHOICE)
                 equalTo(Comment.COL_RECOMMENDED, true)
         },
