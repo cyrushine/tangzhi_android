@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.NestedScrollingParent3
 import androidx.customview.widget.ViewDragHelper
+import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.canScrollDown
 import com.ifanr.tangzhi.ext.dp2px
+import com.ifanr.tangzhi.ui.getStatusBarHeight
 import com.ifanr.tangzhi.util.axesToString
 import com.ifanr.tangzhi.util.typeToString
 import java.lang.Math.abs
@@ -34,10 +36,16 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     }
 
     private lateinit var productView: ProductPanel
+
     private lateinit var reviewsView: View
-    private var state = State.FOLD
+
+    var state = State.FOLD
+        private set
+
     private var actionDownPointerId = 0
+
     private var actionLastY = 0f
+
     private val bottomPanelDraggedListeners
             = mutableListOf<BottomPanelDraggedListener>()
 
@@ -45,7 +53,8 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
     private val reviewExposeHeight = context.dp2px(50)
 
     // 点评面板距离 container top 的高度
-    private val reviewPaddingTop = context.dp2px(50)
+    private val reviewPaddingTop =
+        context.getStatusBarHeight() + resources.getDimensionPixelSize(R.dimen.app_tool_bar_height)
 
     // 点评面板被 drag 时，top 的上限（底部）
     private val reviewDraggedTopMax: Int
@@ -53,7 +62,7 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
 
     // 点评面板被 drag 时，top 的下限（顶部）
     private val reviewDraggedTopMin: Int
-        get() = reviewExposeHeight
+        get() = reviewPaddingTop
 
     // 点评面板可以被 drag 的距离
     private val reviewDraggedDistance: Int
@@ -324,6 +333,28 @@ class ProductContainer: ViewGroup, NestedScrollingParent3 {
 
     fun removeBottomPanelDraggedListener(l: BottomPanelDraggedListener) {
         bottomPanelDraggedListeners.remove(l)
+    }
+
+    /**
+     * 展开点评面板
+     */
+    fun expand() {
+        if (state == State.FOLD) {
+            if (dragHelper.smoothSlideViewTo(reviewsView, 0, reviewDraggedTopMin)) {
+                invalidate()
+            }
+        }
+    }
+
+    /**
+     * 收起点评面板
+     */
+    fun fold() {
+        if (state == State.EXPAND) {
+            if (dragHelper.smoothSlideViewTo(reviewsView, 0, reviewDraggedTopMax)) {
+                invalidate()
+            }
+        }
     }
 
 }

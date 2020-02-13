@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.ifanr.tangzhi.ui.getStatusBarHeight
 
-class StatusBar: View {
+class AppStatusBar: View {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(

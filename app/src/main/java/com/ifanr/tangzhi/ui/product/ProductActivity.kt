@@ -20,6 +20,7 @@ import com.ifanr.tangzhi.ui.product.comments.review.ReviewFragment
 import com.ifanr.tangzhi.ui.product.comments.review.ReviewViewModel
 import com.ifanr.tangzhi.ui.product.indexes.IndexesDialogFragment
 import com.ifanr.tangzhi.ui.product.widgets.FollowingView
+import com.ifanr.tangzhi.ui.product.widgets.ProductContainer
 import com.ifanr.tangzhi.ui.share.ShareProductReq
 import com.ifanr.tangzhi.ui.statusBar
 import com.ifanr.tangzhi.ui.widgets.dismissLoading
@@ -42,7 +43,7 @@ class ProductActivity : BaseViewModelActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        statusBar(whiteText = false)
+        statusBar(whiteText = true)
 
         vm = viewModel()
         productParam.setOnClickListener {
@@ -110,6 +111,23 @@ class ProductActivity : BaseViewModelActivity() {
                 return 1
             }
         }
+
+        toolBar.close.setOnClickListener { onCloseClick() }
+    }
+
+    /**
+     * 返回事件
+     */
+    private fun onCloseClick() {
+        if (root.state == ProductContainer.State.EXPAND) {
+            root.fold()
+            return
+        }
+        finish()
+    }
+
+    override fun onBackPressed() {
+        onCloseClick()
     }
 
     private fun invalidate(product: Product) {

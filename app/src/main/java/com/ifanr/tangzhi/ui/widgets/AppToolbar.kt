@@ -60,8 +60,13 @@ class AppToolbar: ConstraintLayout {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec,
-            MeasureSpec.makeMeasureSpec(context.dp2px(44), MeasureSpec.EXACTLY))
+        super.onMeasure(
+            widthMeasureSpec,
+            MeasureSpec.makeMeasureSpec(
+                resources.getDimensionPixelSize(R.dimen.app_tool_bar_height),
+                MeasureSpec.EXACTLY
+            )
+        )
     }
 
     enum class Style (

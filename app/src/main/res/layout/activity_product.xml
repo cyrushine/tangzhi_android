@@ -1,218 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ifanr.tangzhi.ui.product.widgets.ProductContainer
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
-    tools:context=".ui.product.ProductActivity">
+    tools:context=".ui.product.ProductActivity"
+    >
 
-    <com.ifanr.tangzhi.ui.product.widgets.ProductPanel
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.ifanr.tangzhi.ui.product.widgets.ProductContainer
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/root"
         >
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.ifanr.tangzhi.ui.product.widgets.ProductPanel
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
 
-            <com.ifanr.tangzhi.ui.product.widgets.ProductBanner
-                android:id="@+id/banner"
-                app:layout_constraintTop_toTopOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1.3345"
-                />
+                android:layout_height="match_parent"
+                >
 
-            <com.ifanr.tangzhi.ui.product.widgets.FollowingView
-                android:id="@+id/following"
+                <com.ifanr.tangzhi.ui.product.widgets.ProductBanner
+                    android:id="@+id/banner"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1.3345"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.widgets.FollowingView
+                    android:id="@+id/following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/nameTv"
+                    app:layout_constraintBottom_toBottomOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginEnd="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/banner"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/following"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:textColor="@color/white"
+                    android:gravity="left"
+                    android:breakStrategy="simple"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <View
+                    android:id="@+id/card_indexes"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="@id/following"
+                    app:layout_constraintTop_toBottomOf="@id/nameTv"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_product_indexes"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.widgets.IndexesView
+                    android:id="@+id/indexes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/card_indexes"
+                    app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+                    app:layout_constraintLeft_toLeftOf="@id/card_indexes"
+                    android:layout_marginLeft="16dp"
+                    />
+
+                <com.ifanr.tangzhi.ui.widgets.JudgementView
+                    android:id="@+id/oppose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:judgementViewStyle="OPPOSE"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/card_indexes"
+                    app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+                    app:layout_constraintRight_toRightOf="@id/card_indexes"
+                    android:layout_marginEnd="16dp"
+                    />
+
+                <com.ifanr.tangzhi.ui.widgets.JudgementView
+                    android:id="@+id/approve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:judgementViewStyle="APPROVE"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/card_indexes"
+                    app:layout_constraintBottom_toBottomOf="@id/card_indexes"
+                    app:layout_constraintRight_toLeftOf="@id/oppose"
+                    android:layout_marginEnd="32dp"
+                    />
+
+                <com.ifanr.tangzhi.ui.widgets.IndicatorTextView
+                    android:id="@+id/summarySection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintTop_toBottomOf="@id/card_indexes"
+                    android:layout_marginTop="40dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/white"
+                    android:text="@string/product_summary"
+                    android:textStyle="bold"
+                    />
+
+                <com.ifanr.tangzhi.ui.widgets.SpringTextView
+                    android:id="@+id/summaryTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="@id/following"
+                    app:layout_constraintTop_toBottomOf="@id/summarySection"
+                    android:layout_marginTop="16dp"
+                    app:springTextViewSize="13.5dp"
+                    app:springTextViewColor="#CCFFFFFF"
+                    app:springTextViewLineSpacingMultiplier="1.2"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.widgets.ProductParameterView
+                    android:id="@+id/productParam"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="@id/following"
+                    app:layout_constraintTop_toBottomOf="@id/summaryTv"
+                    android:layout_marginTop="11dp"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.posts.PostList
+                    android:id="@+id/posts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/productParam"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="@id/following"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.related.RelatedProductList
+                    android:id="@+id/relatedProductList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/posts"
+                    />
+
+                <com.ifanr.tangzhi.ui.product.list.ProductLists
+                    android:id="@+id/productList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@id/nameTv"
+                    app:layout_constraintRight_toRightOf="@id/following"
+                    app:layout_constraintTop_toBottomOf="@id/relatedProductList"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.ifanr.tangzhi.ui.product.widgets.ProductPanel>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/commentPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/product_comment_panel_bg"
+            >
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/commentGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/nameTv"
-                app:layout_constraintBottom_toBottomOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="50dp"
                 />
 
-            <TextView
-                android:id="@+id/nameTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/banner"
+            <com.ifanr.tangzhi.ui.widgets.DraggableIndicator
+                android:id="@+id/commentIndicator"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/following"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="30dp"
-                android:textStyle="bold"
-                android:textSize="28sp"
-                android:textColor="@color/white"
-                android:gravity="left"
-                android:breakStrategy="simple"
-                android:layout_marginTop="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                />
+
+            <com.ifanr.tangzhi.ui.widgets.ShareButton
+                android:id="@+id/shareButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/commentGuideline"
                 />
 
             <View
-                android:id="@+id/card_indexes"
-                android:layout_width="0dp"
-                android:layout_height="65dp"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="@id/following"
-                app:layout_constraintTop_toBottomOf="@id/nameTv"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_product_indexes"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/base_e7"
+                app:layout_constraintTop_toBottomOf="@id/commentGuideline"
                 />
 
-            <com.ifanr.tangzhi.ui.product.widgets.IndexesView
-                android:id="@+id/indexes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/card_indexes"
-                app:layout_constraintBottom_toBottomOf="@id/card_indexes"
-                app:layout_constraintLeft_toLeftOf="@id/card_indexes"
-                android:layout_marginLeft="16dp"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/commentVP"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/commentGuideline"
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <com.ifanr.tangzhi.ui.widgets.JudgementView
-                android:id="@+id/oppose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:judgementViewStyle="OPPOSE"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="@id/card_indexes"
-                app:layout_constraintBottom_toBottomOf="@id/card_indexes"
-                app:layout_constraintRight_toRightOf="@id/card_indexes"
-                android:layout_marginEnd="16dp"
-                />
-
-            <com.ifanr.tangzhi.ui.widgets.JudgementView
-                android:id="@+id/approve"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:judgementViewStyle="APPROVE"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="@id/card_indexes"
-                app:layout_constraintBottom_toBottomOf="@id/card_indexes"
-                app:layout_constraintRight_toLeftOf="@id/oppose"
-                android:layout_marginEnd="32dp"
-                />
-
-            <com.ifanr.tangzhi.ui.widgets.IndicatorTextView
-                android:id="@+id/summarySection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintTop_toBottomOf="@id/card_indexes"
-                android:layout_marginTop="40dp"
-                android:textSize="17sp"
-                android:textColor="@color/white"
-                android:text="@string/product_summary"
-                android:textStyle="bold"
-                />
-
-            <com.ifanr.tangzhi.ui.widgets.SpringTextView
-                android:id="@+id/summaryTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="@id/following"
-                app:layout_constraintTop_toBottomOf="@id/summarySection"
-                android:layout_marginTop="16dp"
-                app:springTextViewSize="13.5dp"
-                app:springTextViewColor="#CCFFFFFF"
-                app:springTextViewLineSpacingMultiplier="1.2"
-                />
-
-            <com.ifanr.tangzhi.ui.product.widgets.ProductParameterView
-                android:id="@+id/productParam"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="@id/following"
-                app:layout_constraintTop_toBottomOf="@id/summaryTv"
-                android:layout_marginTop="11dp"
-                />
-
-            <com.ifanr.tangzhi.ui.product.posts.PostList
-                android:id="@+id/posts"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/productParam"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="@id/following"
-                />
-
-            <com.ifanr.tangzhi.ui.product.related.RelatedProductList
-                android:id="@+id/relatedProductList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/posts"
-                />
-
-            <com.ifanr.tangzhi.ui.product.list.ProductLists
-                android:id="@+id/productList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/nameTv"
-                app:layout_constraintRight_toRightOf="@id/following"
-                app:layout_constraintTop_toBottomOf="@id/relatedProductList"
-                />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.ifanr.tangzhi.ui.product.widgets.ProductPanel>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/commentPanel"
+    </com.ifanr.tangzhi.ui.product.widgets.ProductContainer>
+
+    <com.ifanr.tangzhi.ui.widgets.AppStatusBar
+        android:id="@+id/appStatusBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/product_comment_panel_bg"
-        >
-        
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/commentGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="50dp"
-            />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-        <com.ifanr.tangzhi.ui.widgets.DraggableIndicator
-            android:id="@+id/commentIndicator"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            />
-
-        <com.ifanr.tangzhi.ui.widgets.ShareButton
-            android:id="@+id/shareButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/commentGuideline"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/base_e7"
-            app:layout_constraintTop_toBottomOf="@id/commentGuideline"
-            />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/commentVP"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/commentGuideline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.ifanr.tangzhi.ui.product.widgets.ProductContainer>
+    <com.ifanr.tangzhi.ui.widgets.AppToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/appStatusBar"
+        app:appToolbarStyle="BLACK"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
