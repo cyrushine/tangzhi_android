@@ -177,4 +177,5 @@
     <string name="timeline_action_answer">回答问题</string>
     <string name="timeline_action_discussion">发表讨论</string>
     <string name="timeline_title">我的动态</string>
+    <string name="review">点评</string>
 </resources>

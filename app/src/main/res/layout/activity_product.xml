@@ -214,6 +214,40 @@
                 app:layout_constraintTop_toBottomOf="@id/commentGuideline"
                 />
 
+            <TextView
+                android:id="@+id/reviewIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/base_3a"
+                android:textSize="15sp"
+                android:text="@string/review"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/commentGuideline"
+                android:layout_marginBottom="6dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/base_red"
+                app:layout_constraintLeft_toLeftOf="@id/reviewIndicator"
+                app:layout_constraintRight_toRightOf="@id/reviewIndicator"
+                app:layout_constraintBottom_toBottomOf="@id/commentGuideline"
+                />
+
+            <TextView
+                android:id="@+id/reviewIndicatorCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/base_7d"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="@id/reviewIndicator"
+                app:layout_constraintLeft_toRightOf="@id/reviewIndicator"
+                android:layout_marginStart="3dp"
+                />
+
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/commentVP"
                 android:layout_width="match_parent"

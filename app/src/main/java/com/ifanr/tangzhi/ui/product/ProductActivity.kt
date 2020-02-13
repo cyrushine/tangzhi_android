@@ -113,6 +113,11 @@ class ProductActivity : BaseViewModelActivity() {
         }
 
         toolBar.close.setOnClickListener { onCloseClick() }
+
+        val reviewViewModel: ReviewViewModel = viewModel()
+        reviewViewModel.reviewCount.observe(this, Observer {
+            reviewIndicatorCount.text = it?.toString() ?: "0"
+        })
     }
 
     /**
