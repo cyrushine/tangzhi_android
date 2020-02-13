@@ -115,7 +115,7 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
     /**
-     * 通用的查询 [commentTable] 表的方法
+     * 通用的查询 [Tables.comment] 表的方法
      * 增加了点赞字段的支持
      */
     private fun queryProductComment(
@@ -149,7 +149,7 @@ class BaasRepositoryImpl @Inject constructor(
             )
         }
 
-        return commentTable.query(
+        return Tables.comment.query(
             clz = Comment::class.java,
             page = page,
             pageSize = pageSize,
@@ -187,7 +187,7 @@ class BaasRepositoryImpl @Inject constructor(
         rootId.assertNotEmpty("rootId")
         content.assertNotEmpty("content")
 
-        val comment = commentTable.createRecord().apply {
+        val comment = Tables.comment.createRecord().apply {
             put(Comment.COL_TYPE, Comment.TYPE_COMMENT)
             put(Comment.COL_PRODUCT, productId)
             put(Comment.COL_ROOT_ID, rootId)
@@ -202,7 +202,7 @@ class BaasRepositoryImpl @Inject constructor(
                 put(Comment.COL_REPLY_TO, replyTo)
             }
         }.save().let {
-            commentTable.getById<Comment>(it.id!!,
+            Tables.comment.getById<Comment>(it.id!!,
                 listOf(Record.CREATED_BY, Comment.COL_REPLY_TO)).blockingGet()!!
         }
         bus.post(Event.CommentCreated(comment))
@@ -211,7 +211,7 @@ class BaasRepositoryImpl @Inject constructor(
 
     override fun isProductTagExist(productId: String, content: String): Single<Boolean> =
         Single.fromCallable {
-            commentTable.count(Query().put(Where().apply {
+            Tables.comment.count(Query().put(Where().apply {
                 equalTo(Comment.COL_TYPE, Comment.TYPE_TAG)
                 equalTo(Comment.COL_PRODUCT, productId)
                 equalTo(Comment.COL_CONTENT, content)
@@ -228,7 +228,7 @@ class BaasRepositoryImpl @Inject constructor(
         if (isProductTagExist(productId = productId, content = safeContent).blockingGet())
             throw UniqueRuleException("产品标签「$safeContent」已存在")
 
-        commentTable.createRecord().apply {
+        Tables.comment.createRecord().apply {
             put(Comment.COL_TYPE, Comment.TYPE_TAG)
             put(Comment.COL_PRODUCT, productId)
             put(Comment.COL_CONTENT, safeContent)
@@ -249,14 +249,14 @@ class BaasRepositoryImpl @Inject constructor(
                 equalTo(VoteLog.COL_IS_POSITIVE, true)
                 containedIn(VoteLog.COL_SUBJECT_ID, ids)
             }
-            voteLog.query(VoteLog::class.java, page = 0, pageSize = ids.size, where = where)
+            Tables.voteLog.query(VoteLog::class.java, page = 0, pageSize = ids.size, where = where)
                 .blockingGet().data
         }
 
     override fun voteForComment(id: String): Completable = Completable.fromAction {
         assertSignIn()
         if (loadCommentVotes(listOf(id)).blockingGet().isEmpty()) {
-            voteLog.createRecord().apply {
+            Tables.voteLog.createRecord().apply {
                 put(VoteLog.COL_TYPE, VoteLog.TYPE_COMMENT)
                 put(VoteLog.COL_SUBJECT_ID, id)
                 put(VoteLog.COL_IS_POSITIVE, true)
@@ -268,7 +268,7 @@ class BaasRepositoryImpl @Inject constructor(
     override fun removeVoteForComment(id: String): Completable = Completable.fromAction {
         val voteId = loadCommentVotes(listOf(id)).blockingGet().firstOrNull()?.id
         if (!voteId.isNullOrEmpty())
-            voteLog.fetchWithoutData(voteId).delete()
+            Tables.voteLog.fetchWithoutData(voteId).delete()
     }
 
     override fun isProductFollowed(productId: String): Single<Boolean> = Single.fromCallable {
@@ -283,13 +283,13 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Favorite.COL_SUBJECT_ID, productId)
             equalTo(Record.CREATED_BY, userId.toLong())
         }
-        favoriteTable.count(Query().apply { put(where) }) > 0
+        Tables.favorite.count(Query().apply { put(where) }) > 0
     }
 
     override fun followProduct(productId: String): Completable = Completable.fromAction {
         assertSignIn()
         if (!isProductFollowed(productId).blockingGet()) {
-            favoriteTable.createRecord().apply {
+            Tables.favorite.createRecord().apply {
                 put(Favorite.COL_TYPE, Favorite.TYPE_HARDWARE)
                 put(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
                 put(Favorite.COL_SUBJECT_ID, productId)
@@ -305,7 +305,7 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
             equalTo(Favorite.COL_SUBJECT_ID, productId)
         }
-        favoriteTable.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
+        Tables.favorite.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
     }
 
     override fun sendReview(
@@ -330,7 +330,7 @@ class BaasRepositoryImpl @Inject constructor(
 
         // 创建一条新点评
         if (existing == null) {
-            val create = commentTable.createRecord().apply {
+            val create = Tables.comment.createRecord().apply {
                 put(Comment.COL_TYPE, Comment.TYPE_REVIEW)
                 put(Comment.COL_PRODUCT, productId)
                 put(Comment.COL_TITLE, productName)
@@ -343,7 +343,7 @@ class BaasRepositoryImpl @Inject constructor(
         } else {
 
             // 更新点评
-            commentTable.fetchWithoutData(existing.id).apply {
+            Tables.comment.fetchWithoutData(existing.id).apply {
                 put(Comment.COL_CONTENT, content)
                 put(Comment.COL_RATING, rating)
                 put(Comment.COL_IMAGE, imageUrls.toTypedArray())
@@ -384,7 +384,7 @@ class BaasRepositoryImpl @Inject constructor(
         return if (userId == null) {
             Single.just(Page())
         } else {
-            pointLog.query(
+            Tables.pointLog.query(
                 clz = PointLog::class.java,
                 page = page,
                 pageSize = Const.PAGE_SIZE,
@@ -456,7 +456,7 @@ class BaasRepositoryImpl @Inject constructor(
             cachedUserBannersLock.lock()
             try {
                 if (cachedUserBanners == null) {
-                    cachedUserBanners = setting.getValue<List<String>>(
+                    cachedUserBanners = Tables.setting.getValue<List<String>>(
                         "user_banner", object: TypeToken<List<String>>(){}.type).blockingGet()
                 }
             }
@@ -469,11 +469,11 @@ class BaasRepositoryImpl @Inject constructor(
 
 
     override fun searchHotKeys(): Single<List<SearchKey>> =
-        setting.getValue("hot_search_key", object: TypeToken<List<SearchKey>>(){}.type)
+        Tables.setting.getValue("hot_search_key", object: TypeToken<List<SearchKey>>(){}.type)
 
 
 
-    override fun searchHint(key: String): Single<List<Product>> = productTable.query<Product>(
+    override fun searchHint(key: String): Single<List<Product>> = Tables.product.query<Product>(
         page = 0,
         pageSize = 10,
         query = Query().apply {
@@ -517,7 +517,7 @@ class BaasRepositoryImpl @Inject constructor(
     override fun loadSearchLog(): Single<List<SearchLog>> {
         val id = currentUserId()
         return if (id != null) {
-            searchLog.query<SearchLog>(
+            Tables.searchLog.query<SearchLog>(
                 page = 0,
                 pageSize = 100,
                 where = Where().apply {
@@ -538,13 +538,13 @@ class BaasRepositoryImpl @Inject constructor(
     private fun addSearchLog(key: String): Completable = Completable.fromCallable {
         val id = currentUserId()
         if (id != null) {
-            val exist = searchLog.count(Query().put(Where().apply {
+            val exist = Tables.searchLog.count(Query().put(Where().apply {
                 equalTo(Record.CREATED_BY, id)
                 equalTo(SearchLog.COL_KEY, key)
                 equalTo(SearchLog.COL_STATUS, BaseModel.STATUS_APPROVED)
             })) > 0
             if (!exist) {
-                searchLog.createRecord().apply {
+                Tables.searchLog.createRecord().apply {
                     put(SearchLog.COL_KEY, key)
                     put(SearchLog.COL_STATUS, BaseModel.STATUS_APPROVED)
                 }.save()
@@ -561,17 +561,17 @@ class BaasRepositoryImpl @Inject constructor(
                 equalTo(SearchLog.COL_STATUS, BaseModel.STATUS_APPROVED)
                 equalTo(Record.CREATED_BY, userId)
             })
-            val update = searchLog.createRecord().apply {
+            val update = Tables.searchLog.createRecord().apply {
                 put(SearchLog.COL_STATUS, BaseModel.STATUS_DELETED)
             }
-            searchLog.batchUpdate(query, update)
+            Tables.searchLog.batchUpdate(query, update)
         }
     }
 
 
 
 
-    override fun latestProduct(): Single<List<Product>> = productTable.query<Product>(
+    override fun latestProduct(): Single<List<Product>> = Tables.product.query<Product>(
         page = 0,
         pageSize = 20,
         where = Where().apply {
@@ -608,7 +608,7 @@ class BaasRepositoryImpl @Inject constructor(
         else
             Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
 
-        return commentTable.queryByOffset(
+        return Tables.comment.queryByOffset(
             clz = Comment::class.java,
             offset = offset,
             where = Where.and(baseCondition, profileCondition),
@@ -643,7 +643,7 @@ class BaasRepositoryImpl @Inject constructor(
                 notEqualTo(Comment.COL_STATUS, BaseModel.STATUS_DELETED)
             })
         }
-        val comments = commentTable.query(
+        val comments = Tables.comment.query(
             Comment::class.java,
             page = page,
             pageSize = pageSize,
@@ -674,7 +674,7 @@ class BaasRepositoryImpl @Inject constructor(
             else
                 Where().apply { equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED) }
 
-            val children = commentTable.query(
+            val children = Tables.comment.query(
                 Comment::class.java,
                 page = 0,
                 pageSize = comments.data.size * 10,
@@ -751,16 +751,16 @@ class BaasRepositoryImpl @Inject constructor(
         ) }
 
     override fun getProductsByIds(ids: List<String>): Single<List<Product>> =
-        productTable.getByIds(ids)
+        Tables.product.getByIds(ids)
 
     override fun getProductById(id: String): Single<Product> =
-        productTable.getById(id)
+        Tables.product.getById(id)
 
     override fun getProductListByProductId(
         productId: String,
         page: Int,
         pageSize: Int
-    ): Single<Page<ProductList>> = itemList.query (
+    ): Single<Page<ProductList>> = Tables.itemList.query (
         clz = ProductList::class.java,
         page = page,
         pageSize = pageSize,
@@ -770,7 +770,7 @@ class BaasRepositoryImpl @Inject constructor(
         })
 
     override fun getProductParamsById(paramId: String): Single<ProductParams> =
-        productParam.getById(paramId)
+        Tables.productParam.getById(paramId)
 
 
     @Throws(NeedSignInException::class)

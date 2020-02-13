@@ -2,7 +2,7 @@ package com.ifanr.tangzhi.repository.baas.datasource
 
 import com.ifanr.tangzhi.model.BaseModel
 import com.ifanr.tangzhi.model.Product
-import com.ifanr.tangzhi.repository.baas.productTable
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Where
 
@@ -12,7 +12,7 @@ import com.minapp.android.sdk.database.query.Where
  * @param key 关键字
  */
 class SearchDataSource (key: String): BaseDataSource<Product>(
-    table = productTable,
+    table = Tables.product,
     clz = Product::class.java,
     initQuery = {
         var where = Where.or(

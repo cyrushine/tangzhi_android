@@ -2,7 +2,7 @@ package com.ifanr.tangzhi.repository.baas.datasource
 
 import com.ifanr.tangzhi.model.Message
 import com.ifanr.tangzhi.repository.baas.BaasRepository
-import com.ifanr.tangzhi.repository.baas.messageTable
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Where
 
@@ -12,7 +12,7 @@ import com.minapp.android.sdk.database.query.Where
 class SystemMessageDataSource(
     private val repository: BaasRepository
 ): BaseDataSource<Message>(
-    table = messageTable,
+    table = Tables.message,
     clz = Message::class.java,
     initQuery = {
         put(Where().apply {

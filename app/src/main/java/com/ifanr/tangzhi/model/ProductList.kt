@@ -3,12 +3,10 @@ package com.ifanr.tangzhi.model
 import com.ifanr.tangzhi.ext.getSafeId
 import com.ifanr.tangzhi.ext.getSafeString
 import com.ifanr.tangzhi.ext.getSafeStringArray
-import com.ifanr.tangzhi.repository.baas.itemList
 import com.minapp.android.sdk.database.Record
 
 /**
  * 产品清单：用于展示同一类别的产品，如 2019 苹果发布会产品清单
- * @see [itemList]
  */
 data class ProductList (
 

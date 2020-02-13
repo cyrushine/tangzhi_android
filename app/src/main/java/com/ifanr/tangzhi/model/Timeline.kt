@@ -3,9 +3,9 @@ package com.ifanr.tangzhi.model
 import com.google.gson.JsonObject
 import com.ifanr.tangzhi.ext.getSafeId
 import com.ifanr.tangzhi.ext.getSafeLong
-import com.ifanr.tangzhi.repository.baas.commentTable
-import com.ifanr.tangzhi.repository.baas.productTable
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
+import com.minapp.android.sdk.database.Table
 
 /**
  * 动态
@@ -68,10 +68,10 @@ class Timeline {
 
         constructor(json: JsonObject) {
             try {
-                product = Product(Record(productTable, json.getAsJsonObject(COL_PRODUCT)))
+                product = Product(Record(Tables.product, json.getAsJsonObject(COL_PRODUCT)))
             } catch (e: Exception) {}
             try {
-                comment = Comment(Record(commentTable, json.getAsJsonObject(COL_COMMENT)))
+                comment = Comment(Record(Tables.comment, json.getAsJsonObject(COL_COMMENT)))
             } catch (e: Exception) {}
         }
 

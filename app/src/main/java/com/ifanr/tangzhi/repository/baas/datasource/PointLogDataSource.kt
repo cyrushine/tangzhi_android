@@ -5,7 +5,7 @@ import com.google.gson.JsonObject
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.getSafeString
 import com.ifanr.tangzhi.model.PointLog
-import com.ifanr.tangzhi.repository.baas.pointLog
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.ifanr.tangzhi.util.uuid
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Where
@@ -21,7 +21,7 @@ class PointLogDataSource (
     val userId: Long,
     val type: String? = ""
 ): BaseDataSource<PointLog>(
-    table = pointLog,
+    table = Tables.pointLog,
     clz = PointLog::class.java,
     initQuery = {
         put(Where().apply {

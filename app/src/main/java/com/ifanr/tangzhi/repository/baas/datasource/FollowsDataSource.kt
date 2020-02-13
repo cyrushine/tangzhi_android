@@ -3,7 +3,7 @@ package com.ifanr.tangzhi.repository.baas.datasource
 import com.ifanr.tangzhi.model.Favorite
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.repository.baas.BaasRepository
-import com.ifanr.tangzhi.repository.baas.favoriteTable
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Where
 
@@ -13,7 +13,7 @@ import com.minapp.android.sdk.database.query.Where
 class FollowsDataSource (
     private val repository: BaasRepository
 ): TransformerDataSource<Favorite, Product>(
-    table = favoriteTable,
+    table = Tables.favorite,
     clz = Favorite::class.java,
     initQuery = {
         put(Where().apply {

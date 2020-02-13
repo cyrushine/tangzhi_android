@@ -2,7 +2,7 @@ package com.ifanr.tangzhi.repository.baas.datasource
 
 import com.ifanr.tangzhi.model.Timeline
 import com.ifanr.tangzhi.repository.baas.BaasRepository
-import com.ifanr.tangzhi.repository.baas.timelineTable
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Where
 
@@ -12,7 +12,7 @@ import com.minapp.android.sdk.database.query.Where
 class TimelineDataSource(
     private val repository: BaasRepository
 ): BaseDataSource<Timeline>(
-    table = timelineTable,
+    table = Tables.timeline,
     clz = Timeline::class.java,
     initQuery = {
         put(Where().apply {

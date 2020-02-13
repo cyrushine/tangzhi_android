@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.repository.baas
 
+import com.ifanr.tangzhi.BuildConfig
 import com.ifanr.tangzhi.ext.query
 import com.ifanr.tangzhi.model.Settings
 import com.minapp.android.sdk.Global
@@ -8,62 +9,106 @@ import com.minapp.android.sdk.database.query.Where
 import io.reactivex.Single
 import java.lang.reflect.Type
 
-/**
- * 这里定义知晓云里所有的数据表
- */
+object Tables {
 
-val productTable = Table("product")                          // 产品表
+    private const val PRODUCT = "product"
+    private const val COMMENT = "comment"
+    private const val VOTE_LOG = "vote_log"
+    private const val TIME_LINE = "time_line"
+    private const val MESSAGE = "message"
+    private const val FAVORITE = "favorite"
+    private const val USER_PROFILE = "_userprofile"
+    private const val ITEM_LIST = "item_list"
+    private const val PRODUCT_PARAM = "product_param"
+    private const val POINT_LOG = "point_log"
+    private const val SEARCH_LOG = "search_log"
+    private const val SETTINGS = "settings"
 
-val commentTable = Table("comment")                   // 产品评论表
+    // 生产环境数据库
+    private val productionSchemaIds = mapOf(
+        PRODUCT to 66705,
+        COMMENT to 66743,
+        VOTE_LOG to 66750,
+        TIME_LINE to 66751,
+        MESSAGE to 66752,
+        FAVORITE to 66753,
+        USER_PROFILE to 40409,
+        ITEM_LIST to 83362,
+        PRODUCT_PARAM to 85585,
+        POINT_LOG to 88201,
+        SEARCH_LOG to 74743,
+        SETTINGS to 66754
+    )
 
-val productPost = Table("product_post")                 // 产品文章表
+    // 开发环境数据库
+    private val devSchemaIds = mapOf(
+        PRODUCT to 69479,
+        COMMENT to 69481,
+        VOTE_LOG to 69482,
+        TIME_LINE to 69474,
+        MESSAGE to 69478,
+        FAVORITE to 69480,
+        USER_PROFILE to 40409,
+        ITEM_LIST to 83364,
+        PRODUCT_PARAM to 85365,
+        POINT_LOG to 88200,
+        SEARCH_LOG to 74744,
+        SETTINGS to 69484
+    )
 
-val voteLog = Table("vote_log")                         // 投票和点赞记录表
+    private fun getSchemaId(key: String): String =
+        (if (BuildConfig.ENV == "dev") devSchemaIds else productionSchemaIds)[key].toString()
 
-val timelineTable = Table("timeline")                        // 动态表
+    private fun getTable(key: String): Table =
+        Table(getSchemaId(key))
 
-val messageTable = Table("message")                          // 消息表
+    // 产品
+    val product by lazy { getTable(PRODUCT) }
 
-// 收藏表
-val favoriteTable = Table("favorite")
+    // 评论
+    val comment by lazy { getTable(COMMENT) }
 
-val userprofileTable = Table("_userprofile")                 // 用户表
+    // 投票和点赞
+    val voteLog by lazy { getTable(VOTE_LOG) }
 
-val itemList = Table("item_list")                       // 清单
+    // 动态
+    val timeline by lazy { getTable(TIME_LINE) }
 
-val group = Table("group")                              // 圈子
+    // 消息
+    val message by lazy { getTable(MESSAGE) }
 
-val productParam = Table("product_param")               // 产品基础参数表
+    // 收藏和关注
+    val favorite by lazy { getTable(FAVORITE) }
 
-val pointLog = Table("point_log")                       // 积分记录表
+    // 用户
+    val userprofile by lazy { getTable(USER_PROFILE) }
 
-val tesetings = Table("tesettings")                     // 配置表
+    // 清单
+    val itemList by lazy { getTable(ITEM_LIST) }
 
-val searchLog = Table("search_log")                     // 搜索记录表
+    // 产品参数
+    val productParam by lazy { getTable(PRODUCT_PARAM) }
 
-val testing = Table("testing")                          // 众测活动表
+    // 积分记录
+    val pointLog by lazy { getTable(POINT_LOG) }
 
-val testing_topic = Table("testing_topic")              // 活动标签模板表
+    // 搜索历史
+    val searchLog by lazy { getTable(SEARCH_LOG) }
 
-val testingLog = Table("testing_log")                   // 众测记录表
+    // 配置
+    val setting by lazy { SettingsTable(getSchemaId(SETTINGS)) }
+}
 
-val atomCollectionLog = Table("atom_collection_log")    // 活动原子收集记录表
-
-val testingOrder = Table("testing_order")               // 订单表
-
-val setting = SettingsTable()                                      // 配置表
-
-
-class SettingsTable: Table("settings")
-
-inline fun <reified T> SettingsTable.getValue(key: String, type: Type): Single<T> =
-    setting.query<Settings>(
-        page = -1,
-        pageSize = -1,
-        where = Where().apply {
-            equalTo(Settings.COL_KEY, key)
+class SettingsTable(tableName: String) : Table(tableName) {
+    fun <T> getValue(key: String, type: Type): Single<T> =
+        query<Settings>(
+            page = -1,
+            pageSize = -1,
+            where = Where().apply {
+                equalTo(Settings.COL_KEY, key)
+            }
+        ).map {
+            val json = it.data.firstOrNull()?.value
+            Global.gson().fromJson<T>(json, type)
         }
-    ).map {
-        val json = it.data.firstOrNull()?.value
-        Global.gson().fromJson<T>(json, type)
-    }
+}

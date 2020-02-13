@@ -57,6 +57,20 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions "env"
+    productFlavors {
+
+        // 生产环境
+        production {
+            buildConfigField("String", "ENV", "\"production\"")
+        }
+
+        // 测试环境
+        dev {
+            buildConfigField("String", "ENV", "\"dev\"")
+        }
+    }
 }
 
 kapt {
