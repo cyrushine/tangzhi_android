@@ -165,6 +165,8 @@ class ReviewViewModel @Inject constructor (
      */
     fun addProductTag(content: String): Completable = Completable.fromAction {
         val productId = product.value?.id ?: throw IllegalStateException("productId 不存在")
+        if (tags.value?.map { it.content }?.contains(content) == true)
+            throw IllegalStateException("已有同名标签，请换个标签吧~")
         val tagCreated = repository.createProductTag(productId, content).blockingGet()
         tags.postValue((tags.value ?: emptyList()) + tagCreated) }
         .doOnError { toast.postValue(it.message) }

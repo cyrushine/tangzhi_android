@@ -47,7 +47,7 @@ class ProductTagDialog(
         list = findViewById(R.id.list)
         list?.onTagClick = { vm.onTagClick(it, showLoading = false) }
         input.onTextSend = {
-            vm.addProductTag(it)
+            vm.addProductTag(it.trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { input.isEnabled = false }
