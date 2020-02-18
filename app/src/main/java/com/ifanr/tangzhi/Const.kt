@@ -19,8 +19,6 @@ object Const {
     const val TANGZHI_PRODUCT_PATH =
         "packages/product/pages/product-hardware-detail/product-hardware-detail?id="
 
-    // 相关产品最多展示 6 个
-    const val PRODUCT_RELATED_MAX = 6
     const val PAGE_SIZE = 15
     const val WEIBO_APP_KEY = "677122627"
     val pagedListConfig = PagedList.Config.Builder()

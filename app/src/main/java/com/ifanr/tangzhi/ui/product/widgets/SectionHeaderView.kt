@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.airbnb.epoxy.EpoxyAttribute
-import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.ModelView
-import com.airbnb.epoxy.TextProp
+import com.airbnb.epoxy.*
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.dp2px
 import io.reactivex.Observable
@@ -25,6 +22,7 @@ class SectionHeaderView: ConstraintLayout {
 
     private val titleTv: TextView
     private val countTv: TextView
+    private val leftArrow: View
     val hotspot: View
 
     constructor(context: Context?) : super(context)
@@ -41,6 +39,7 @@ class SectionHeaderView: ConstraintLayout {
         titleTv = findViewById(R.id.titleTv)
         countTv = findViewById(R.id.totalTv)
         hotspot = findViewById(R.id.hotspot)
+        leftArrow = findViewById(R.id.leftArrow)
     }
 
     @TextProp
@@ -51,6 +50,17 @@ class SectionHeaderView: ConstraintLayout {
     @TextProp
     fun setCount(count: CharSequence) {
         countTv.text = count
+    }
+
+    @ModelProp
+    fun setCountVisible(visible: Boolean) {
+        if (visible) {
+            leftArrow.visibility = View.VISIBLE
+            countTv.visibility = View.VISIBLE
+        } else {
+            leftArrow.visibility = View.INVISIBLE
+            countTv.visibility = View.INVISIBLE
+        }
     }
 
 }

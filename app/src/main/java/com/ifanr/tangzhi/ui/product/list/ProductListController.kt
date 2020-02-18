@@ -10,15 +10,19 @@ import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
 import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderViewModel_
 
 class ProductListController (
-    val onHeaderClickListener: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView>
+    private val onHeaderClickListener: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView>
 ): BaseTypedController<Page<ProductList>>() {
 
     companion object {
         private const val TAG = "ProductListController"
+        private const val MAX = 5
     }
 
     @AutoModel
     lateinit var header: SectionHeaderViewModel_
+
+    private val emptyHeaderClick: OnModelClickListener<SectionHeaderViewModel_, SectionHeaderView> =
+        OnModelClickListener { _, _, _, _ ->  }
 
     override fun buildModels(data: Page<ProductList>?) {
         val total = data?.total ?: 0
@@ -28,11 +32,12 @@ class ProductListController (
             with(header) {
                 title(R.string.product_list_title)
                 count(R.string.product_list_size, total)
-                listener(onHeaderClickListener)
+                countVisible(total > MAX)
+                listener(if (total > MAX) onHeaderClickListener else emptyHeaderClick)
                 addTo(this@ProductListController)
             }
 
-            list.forEach {
+            list.take(MAX).forEach {
                 productList {
                     id(it.id)
                     data(it)

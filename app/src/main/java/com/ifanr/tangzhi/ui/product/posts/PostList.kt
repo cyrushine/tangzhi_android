@@ -35,6 +35,6 @@ class PostList: FlatVerticalEpoxyRV {
 
     fun setData(productId: String, posts: List<Product.CachedPost>, total: Int) {
         this.productId = productId
-        controller.setData(posts.take(5), total)
+        controller.setData(posts, total)
     }
 }

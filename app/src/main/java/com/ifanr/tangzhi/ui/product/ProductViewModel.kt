@@ -24,10 +24,6 @@ class ProductViewModel @Inject constructor (
     private val eventBus: EventBus
 ): BaseViewModel() {
 
-    companion object {
-        private const val PRODUCT_LIST_MAX = 6      // 产品清单最多显示 6 条
-    }
-
     val product = MutableLiveData<Product>()
     // 已发布的点评
     val review = MutableLiveData<Comment>()
@@ -58,7 +54,7 @@ class ProductViewModel @Inject constructor (
                 .subscribeOn(Schedulers.io())
                 .subscribe(Consumer {
                     liveData.postValue(RelatedProducts(
-                        products = it.take(PRODUCT_LIST_MAX),
+                        products = it,
                         total = it.size,
                         productId = product.id))
                 })
@@ -85,7 +81,7 @@ class ProductViewModel @Inject constructor (
         product.observeForever {
             val id = it?.id
             if (!id.isNullOrEmpty()) {
-                repository.getProductListByProductId(id, pageSize = PRODUCT_LIST_MAX)
+                repository.getProductListByProductId(id)
                     .subscribeOn(Schedulers.io())
                     .autoDispose(this)
                     .subscribe(Consumer { productList.postValue(it) })

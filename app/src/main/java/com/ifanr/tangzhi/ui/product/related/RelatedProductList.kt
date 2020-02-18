@@ -20,6 +20,10 @@ import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
  */
 class RelatedProductList: ConstraintLayout {
 
+    companion object {
+        const val MAX = 5
+    }
+
     private val header: SectionHeaderView
     private val list: EpoxyRecyclerView
     private val controller = RelatedProductController()
@@ -39,11 +43,6 @@ class RelatedProductList: ConstraintLayout {
         list = findViewById(R.id.list)
         list.setController(controller)
         list.addItemDecoration(Decoration())
-        header.hotspot.setOnClickListener {
-            ARouter.getInstance().build(Routes.relatedProducts)
-                .withString(Routes.relatedProductId, productId)
-                .navigation(context)
-        }
     }
 
     fun setData(data: RelatedProducts) {
@@ -53,6 +52,14 @@ class RelatedProductList: ConstraintLayout {
             visibility = View.VISIBLE
             header.setTitle(context.getString(R.string.product_related_product))
             header.setCount(context.getString(R.string.product_related_product_total, data.total))
+            header.setCountVisible(data.total > MAX)
+            if (data.total > MAX) {
+                header.hotspot.setOnClickListener {
+                    ARouter.getInstance().build(Routes.relatedProducts)
+                        .withString(Routes.relatedProductId, productId)
+                        .navigation(context)
+                }
+            }
             controller.setData(data.productId, data.products, data.total)
             productId = data.productId
         }

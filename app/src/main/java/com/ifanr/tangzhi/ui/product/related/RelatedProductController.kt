@@ -16,13 +16,13 @@ class RelatedProductController: BaseTyped3Controller<List<Product>, Int, String>
     override fun buildModels(products: List<Product>?, total: Int?, productId: String?) {
         val totalCount = total ?: 0
         if (products?.isNotEmpty() == true) {
-            products.forEach {
+            products.take(RelatedProductList.MAX).forEach {
                 relatedProduct {
                     id(it.id)
                     product(it)
                 }
             }
-            if (products.size == Const.PRODUCT_RELATED_MAX && totalCount >= Const.PRODUCT_RELATED_MAX) {
+            if (totalCount > RelatedProductList.MAX) {
                 more.productId(productId ?: "")
                 more.addTo(this)
             }
