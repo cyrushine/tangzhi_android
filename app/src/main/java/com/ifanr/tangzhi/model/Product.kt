@@ -343,7 +343,7 @@ data class Product (
         const val COL_ORG_RATING = "org_rating"
         const val COL_USER_RATING = "user_rating"
         const val COL_THEME = "theme"
-        const val COL_PARTICIPANT = "participant"
+        const val COL_PARTICIPANT = "participant_avatar"
         const val COL_PARTICIPANT_COUNT = "participant_count"
         const val COL_PARTICIPANT_ID = "participant_id"
         const val COL_NOTIFIED = "notified"
