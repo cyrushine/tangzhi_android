@@ -138,7 +138,7 @@ class ProductActivity : BaseViewModelActivity() {
     private fun invalidate(product: Product) {
         val themeColor = product.themeColor
         banner.setThemeColor(themeColor)
-        banner.setImages(product.image)
+        banner.setImages(product.allImages)
         root.setBackgroundColor(themeColor)
         nameTv.text = product.name
 

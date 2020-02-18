@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.JsonObject
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.ext.*
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.minapp.android.sdk.database.Record
 
 /**
@@ -67,6 +68,11 @@ data class Product (
      * ]
      */
     val recommendedImage: List<JsonObject> = emptyList(),
+
+    /**
+     * 包含平台上传的图片列表和用户评论中挑选的图片
+     */
+    var allImages: List<String> = emptyList(),
 
     /**
      * 一句话简介，eg："你的手机能拍月亮吗？"
@@ -306,7 +312,15 @@ data class Product (
         thirdPartyRating = record.getSafeArrayByConstruct(COL_THIRD_PARTY_RATING, ThirdPartyRating::class.java),
         cachedPost = record.getSafeArrayByConstruct(COL_CACHED_POST, CachedPost::class.java),
         similarProduct = record.getSafeStringArray(COL_SIMILAR_PRODUCT)
-    )
+    ) {
+        allImages = image + recommendedImage.flatMap {
+            try {
+                Comment(Record(Tables.comment, it.getAsJsonObject("comment"))).images
+            } catch (e: Exception) {
+                emptyList<String>()
+            }
+        }.toSet()
+    }
 
     companion object {
 
