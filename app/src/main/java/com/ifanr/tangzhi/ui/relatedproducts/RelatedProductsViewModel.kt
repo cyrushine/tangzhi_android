@@ -27,6 +27,6 @@ class RelatedProductsViewModel @Inject constructor (
 
     private fun loadRelatedProductsByProductId(productId: String) = Single.fromCallable {
         val product = repository.getProductById(productId).blockingGet()
-        repository.getProductsByIds(product.similarProduct).blockingGet()
+        repository.relatedProducts(product.similarProduct).blockingGet()
     }
 }

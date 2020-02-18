@@ -96,6 +96,11 @@ class ProfileFragment : BaseViewModelFragment() {
         profileFollow.setOnClickListener {
             ARouter.getInstance().build(Routes.follows).navigation(requireActivity())
         }
+
+        profileAvatar.setOnLongClickListener {
+            viewModel.logUserId()
+            false
+        }
     }
 
     override fun onResume() {

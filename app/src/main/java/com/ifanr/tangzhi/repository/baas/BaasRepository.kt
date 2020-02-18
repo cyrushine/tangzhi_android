@@ -15,6 +15,12 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 相关产品列表，过滤掉专题、已删除等非正常产品
+     * @param ids 相关产品 id 列表，[Product.similarProduct]
+     */
+    fun relatedProducts(ids: List<String>): Single<List<Product>>
+
+    /**
      * 我的动态
      */
     fun timelineList(): Single<PagedList<Timeline>>

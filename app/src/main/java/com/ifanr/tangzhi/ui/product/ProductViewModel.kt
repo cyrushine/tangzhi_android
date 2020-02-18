@@ -50,16 +50,17 @@ class ProductViewModel @Inject constructor (
      */
     val relatedProducts: LiveData<RelatedProducts> = Transformations.switchMap(product) { product ->
         val ids = product.similarProduct
-        val size = ids.size
         val liveData = MutableLiveData<RelatedProducts>()
-        liveData.value = RelatedProducts(products = emptyList(), total = size, productId = "")
+        liveData.value = RelatedProducts(products = emptyList(), total = 0, productId = "")
 
-        if (size > 0) {
-            repository.getProductsByIds(ids.take(PRODUCT_LIST_MAX))
+        if (ids.isNotEmpty()) {
+            repository.relatedProducts(ids)
                 .subscribeOn(Schedulers.io())
                 .subscribe(Consumer {
                     liveData.postValue(RelatedProducts(
-                        products = it, total = size, productId = product.id))
+                        products = it.take(PRODUCT_LIST_MAX),
+                        total = it.size,
+                        productId = product.id))
                 })
         }
         liveData

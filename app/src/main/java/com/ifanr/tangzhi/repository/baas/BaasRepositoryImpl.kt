@@ -58,6 +58,17 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun relatedProducts(ids: List<String>): Single<List<Product>> =
+        Tables.product.query(
+            clz = Product::class.java,
+            page = -1,
+            where = Where().apply {
+                containedIn(Record.ID, ids)
+                equalTo(Product.COL_STATUS, BaseModel.STATUS_APPROVED)
+                equalTo(Product.COL_TYPE, Product.TYPE_HARDWARE)
+            }
+        ).map { it.data }
+
     override fun timelineList(): Single<PagedList<Timeline>> = Single.fromCallable {
         assertSignIn()
         pagedList(dataSource = TimelineDataSource(this))

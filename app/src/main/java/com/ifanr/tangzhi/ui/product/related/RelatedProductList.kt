@@ -15,6 +15,9 @@ import com.ifanr.tangzhi.ext.dp2px
 import com.ifanr.tangzhi.ui.product.RelatedProducts
 import com.ifanr.tangzhi.ui.product.widgets.SectionHeaderView
 
+/**
+ * 相关产品
+ */
 class RelatedProductList: ConstraintLayout {
 
     private val header: SectionHeaderView

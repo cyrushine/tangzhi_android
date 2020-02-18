@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.ui.index.profile
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.ifanr.tangzhi.Event
@@ -61,6 +62,10 @@ class ProfileViewModel @Inject constructor(
         if (profile.value == null && repository.signedIn()) {
             loadProfile()
         }
+    }
+
+    fun logUserId() {
+        Log.d(TAG, "${repository.currentUserWithoutData()?.id}")
     }
 
     private fun loadProfile() {

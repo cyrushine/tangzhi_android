@@ -10,6 +10,9 @@ import com.ifanr.tangzhi.model.Page
 import com.ifanr.tangzhi.model.ProductList
 import com.ifanr.tangzhi.ui.base.widget.FlatVerticalEpoxyRV
 
+/**
+ * 糖纸清单
+ */
 class ProductLists: FlatVerticalEpoxyRV {
 
     private val controller = ProductListController(OnModelClickListener { _, _, _, _ ->
