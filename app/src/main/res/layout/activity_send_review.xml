@@ -44,7 +44,7 @@
                 android:textColorHint="@color/base_a8"
                 app:layout_constraintTop_toBottomOf="@id/textRatingBar"
                 android:layout_marginTop="40dp"
-                android:lines="8"
+                android:minLines="8"
                 android:background="@drawable/send_review_comment_bg"
                 android:gravity="start|top"
                 android:padding="10dp"
