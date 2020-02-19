@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.RequestManager
 import com.ifanr.tangzhi.AppConfig
+import com.ifanr.tangzhi.ext.addToMediaStore
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import io.reactivex.Single
@@ -21,7 +22,8 @@ private const val TAG = "GalleryViewModel"
 
 class GalleryViewModel @Inject constructor(
     private val requestManager: RequestManager,
-    private val config: AppConfig
+    private val config: AppConfig,
+    private val ctx: Context
 ): BaseViewModel() {
 
     val images = MutableLiveData<ArrayList<String>>()
@@ -39,7 +41,7 @@ class GalleryViewModel @Inject constructor(
     fun downloadImageInPosition() {
         val url = images.value?.getOrNull(position.value ?: 0)
         if (!url.isNullOrBlank()) {
-            DownloadTask(requestManager, url, config)
+            DownloadTask(requestManager, url, config, ctx)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this)
@@ -49,16 +51,14 @@ class GalleryViewModel @Inject constructor(
     }
 }
 
-private fun DownloadTask(requestManager: RequestManager, input: String, config: AppConfig) =
+private fun DownloadTask(requestManager: RequestManager, input: String, config: AppConfig, ctx: Context) =
     Single.fromCallable {
-        try {
-            val file = requestManager.download(input).submit().get()
-            file.copyTo(
-                target = File(config.imageFolderInDCIM, File(input).name),
-                overwrite = true
-            ).absolutePath
-        } catch (e: Exception) {
-            Log.e(TAG, e.message, e)
-            throw e
-        }
+        val file = requestManager.download(input).submit().get()
+        val path = file.copyTo(
+            target = File(config.imageFolderInDCIM, File(input).name),
+            overwrite = true
+        ).absolutePath
+
+        ctx.addToMediaStore(path)
+        path
     }
