@@ -19,6 +19,9 @@ class TextRatingBar: ConstraintLayout {
     private val ratingText by lazy {
         resources.getStringArray(R.array.ratingbar_text) }
 
+    /**
+     * [0, 100]
+     */
     var onProgressChanged: (Int) -> Unit = {}
 
     constructor(context: Context?) : super(context)

@@ -32,6 +32,8 @@ object Routes {
     const val sendReview = "/$DEFAULT_GROUP/send_review"
     const val sendReviewProductId = "product_id"        // string
     const val sendReviewProductName = "product_name"    // string
+    const val sendReviewScore = "score"                 // float, [0.0, 10.0]，产品的打分, optional
+
 
     const val share = "/$DEFAULT_GROUP/share"
     const val shareObject = "share_object"                    // Parcelable

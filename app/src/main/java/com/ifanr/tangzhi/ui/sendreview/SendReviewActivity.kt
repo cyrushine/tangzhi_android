@@ -50,6 +50,10 @@ class SendReviewActivity : BaseViewModelActivity() {
     @JvmField
     var productName: String = ""
 
+    @Autowired(name = Routes.sendReviewScore, required = false)
+    @JvmField
+    var score: Float? = 0f
+
     lateinit var vm: SendReviewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +111,8 @@ class SendReviewActivity : BaseViewModelActivity() {
             override fun onDeleteClick(position: Int) { vm.removeImage(position) }
             override fun onImageClick(position: Int) { previewImage(position) }
         })
+
+        score?.also { textRatingBar.setValue(it) }
     }
 
     /**

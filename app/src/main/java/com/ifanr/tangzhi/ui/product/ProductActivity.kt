@@ -52,7 +52,8 @@ class ProductActivity : BaseViewModelActivity() {
                 .navigation(this)
         }
 
-        listOf(approve, oppose).forEach { it.setOnClickListener { openCreateReviewPage() } }
+        approve.setOnClickListener { openCreateReviewPage(score = 10.0f) }
+        oppose.setOnClickListener { openCreateReviewPage(score = 4f) }
 
         vm.product.observe(this, Observer {
             it?.also { invalidate(it) }
@@ -162,13 +163,14 @@ class ProductActivity : BaseViewModelActivity() {
         }
     }
 
-    private fun openCreateReviewPage() {
+    private fun openCreateReviewPage(score: Float = 0f) {
         val productId = vm.product.value?.id
         val productName = vm.product.value?.name
         if (!productId.isNullOrEmpty()){
             ARouter.getInstance().build(Routes.sendReview)
                 .withString(Routes.sendReviewProductId, productId)
                 .withString(Routes.sendReviewProductName, productName)
+                .withFloat(Routes.sendReviewScore, score)
                 .navigation(this)
         }
     }
