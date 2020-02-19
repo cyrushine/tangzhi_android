@@ -2,6 +2,7 @@ package com.ifanr.tangzhi.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.AppCompatTextView
 import java.math.RoundingMode
@@ -13,9 +14,13 @@ import java.text.NumberFormat
  */
 class ScoreTextView: AppCompatTextView {
 
+    companion object {
+        private const val TAG = "ScoreTextView"
+    }
+
     private val formater by lazy {
         NumberFormat.getNumberInstance().apply {
-            roundingMode = RoundingMode.FLOOR
+            roundingMode = RoundingMode.UP
             maximumFractionDigits = 1
             maximumIntegerDigits = 1
             minimumFractionDigits = 1
@@ -33,6 +38,8 @@ class ScoreTextView: AppCompatTextView {
 
 
     fun setScore(@FloatRange(from = 0.0, to = 10.0) score: Float) {
+        Log.d(TAG, "$score")
         text = formater.format(score.coerceIn(0f, 10f))
+        Log.d(TAG, "$text")
     }
 }
