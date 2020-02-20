@@ -624,7 +624,7 @@ class BaasRepositoryImpl @Inject constructor(
             offset = offset,
             where = Where.and(baseCondition, profileCondition),
             query = Query().apply {
-                orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
+                orderBy(Record.CREATED_AT)
                 expand(listOf(Comment.COL_REPLY_TO, Record.CREATED_BY))
             })
             .doOnSuccess { setVoteProperty(it.data) }
@@ -691,7 +691,7 @@ class BaasRepositoryImpl @Inject constructor(
                 pageSize = comments.data.size * 10,
                 where = Where.and(baseCondition, profileCondition),
                 query = Query().apply {
-                    orderBy("-${Comment.COL_UPVOTE},-${Record.CREATED_AT}")
+                    orderBy(Record.CREATED_AT)
                     expand(listOf(Record.CREATED_BY, Comment.COL_REPLY_TO))
                 }
             ).blockingGet().data
