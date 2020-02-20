@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -96,11 +98,15 @@ class UpdateProfileActivity : BaseViewModelActivity() {
         phoneValue.doAfterTextChanged {
             vm.profileForm.value = vm.profileForm.value?.copy(phone = it?.toString() ?: "")
         }
+        addressValue.doAfterTextChanged {
+            vm.profileForm.value = vm.profileForm.value?.copy()
+        }
         vm.currentProfile.observe(this, Observer { it?.also {
             nicknameValue.setText(it.displayName)
             mottoValue.setText(it.motto)
             professionValue.setText(it.profession)
             phoneValue.setText(it.phone)
+            addressValue.setText(it.address)
         }})
 
 

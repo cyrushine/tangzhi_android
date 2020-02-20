@@ -62,10 +62,13 @@
                     style="@style/UpdateProfileKey"
                     android:text="@string/profile_item_nickname" />
 
-                <EditText
+                <com.ifanr.tangzhi.ui.widgets.CharLimitedEditText
                     android:id="@+id/nicknameValue"
                     style="@style/UpdateProfileValue"
-                    app:layout_constraintLeft_toRightOf="@id/nicknameKey" />
+                    app:layout_constraintLeft_toRightOf="@id/nicknameKey"
+                    android:hint="@string/update_profile_nickname_hint"
+                    app:charLimitedEditTextMaxChar="20"
+                    />
 
                 <View style="@style/UpdateProfileDivider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -81,10 +84,13 @@
                     style="@style/UpdateProfileKey"
                     android:text="@string/profile_item_motto" />
 
-                <EditText
+                <com.ifanr.tangzhi.ui.widgets.CharLimitedEditText
                     android:id="@+id/mottoValue"
                     style="@style/UpdateProfileValue"
-                    app:layout_constraintLeft_toRightOf="@id/mottoKey" />
+                    app:layout_constraintLeft_toRightOf="@id/mottoKey"
+                    android:hint="@string/update_profile_motto_hint"
+                    app:charLimitedEditTextMaxChar="40"
+                    />
 
                 <View style="@style/UpdateProfileDivider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,10 +106,13 @@
                     style="@style/UpdateProfileKey"
                     android:text="@string/profile_item_profession" />
 
-                <EditText
+                <com.ifanr.tangzhi.ui.widgets.CharLimitedEditText
                     android:id="@+id/professionValue"
                     style="@style/UpdateProfileValue"
-                    app:layout_constraintLeft_toRightOf="@id/professionKey" />
+                    app:layout_constraintLeft_toRightOf="@id/professionKey"
+                    android:hint="@string/update_profile_profession_hint"
+                    app:charLimitedEditTextMaxChar="10"
+                    />
 
                 <View style="@style/UpdateProfileDivider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -123,7 +132,9 @@
                     android:id="@+id/phoneValue"
                     style="@style/UpdateProfileValue"
                     android:enabled="false"
-                    app:layout_constraintLeft_toRightOf="@id/phoneKey" />
+                    app:layout_constraintLeft_toRightOf="@id/phoneKey"
+                    android:hint="@string/update_profile_phone_hint"
+                    />
 
                 <View style="@style/UpdateProfileDivider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,7 +153,13 @@
                 <EditText
                     android:id="@+id/addressValue"
                     style="@style/UpdateProfileValue"
-                    app:layout_constraintLeft_toRightOf="@id/addressKey" />
+                    android:lines="3"
+                    android:layout_marginStart="40dp"
+                    android:ellipsize="end"
+                    app:layout_constraintLeft_toRightOf="@id/addressKey"
+                    android:enabled="false"
+                    android:hint="@string/update_profile_address_hint"
+                    />
 
                 <View style="@style/UpdateProfileDivider" />
             </androidx.constraintlayout.widget.ConstraintLayout>

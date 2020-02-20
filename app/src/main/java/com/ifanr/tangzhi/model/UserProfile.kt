@@ -1,5 +1,6 @@
 package com.ifanr.tangzhi.model
 
+import com.google.gson.annotations.SerializedName
 import com.ifanr.tangzhi.ext.*
 import com.minapp.android.sdk.user.User
 
@@ -55,7 +56,10 @@ data class UserProfile(
     var nickname: String = "",
 
     // column "_phone" in table "_userprofile"
-    var userPhone: String = ""
+    var userPhone: String = "",
+
+    // 简化版本收货地址（与后端表结构对不上）
+    var address: String = ""
 ) {
 
 
@@ -79,7 +83,8 @@ data class UserProfile(
         wechatName = user.wechatName ?: "",
         id = user.userId ?: 0,
         nickname = user.nickname ?: "",
-        userPhone = user.phone ?: ""
+        userPhone = user.phone ?: "",
+        address = user.address ?: ""
     )
 
     companion object {
@@ -97,8 +102,43 @@ data class UserProfile(
         const val COL_FAVORITE_COUNT = "favorite_count"
         const val COL_FOLLOW_COUNT   = "follow_count"
         const val COL_TRACE_COUNT    = "trace_count"
+        const val COL_ADDRESS        = "address"
     }
 }
+
+/**
+ * {
+ *      "cityName": "广州市",
+ *      "countyName": "海珠区",
+ *      "detailInfo": "新港中路397号T.I.T创意园品牌街5号",
+ *      "errMsg": "chooseAddress:ok",
+ *      "nationalCode": "440105",
+ *      "postalCode": "510220",
+ *      "provinceName": "广东省",
+ *      "telNumber": "1366.....",
+ *      "userName": "XXX"
+ * }
+ */
+class Address {
+
+    @SerializedName("cityName")
+    var cityName: String? = null
+
+    @SerializedName("countyName")
+    var countyName: String? = null
+
+    @SerializedName("detailInfo")
+    var detailInfo: String? = null
+
+    @SerializedName("provinceName")
+    var provinceName: String? = null
+
+}
+
+private val User.address: String?
+    get() = getArray(UserProfile.COL_ADDRESS, Address::class.java)
+        ?.firstOrNull()
+        ?.let { "${it.provinceName}${it.cityName}${it.countyName}${it.detailInfo}" }
 
 private val User.wechatName: String?
     get() {
