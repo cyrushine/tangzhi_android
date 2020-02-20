@@ -106,13 +106,17 @@ class CommentViewModel @Inject constructor(
                         } else {
 
                             // 二级评论
-                            list.find { it.id == replaced.parentId }?.also { parent ->
-                                val updatedIndex = parent.children.indexOfFirst { it.id == replaced.id }
+                            val parentIndex = list.indexOfFirst { it.id == replaced.parentId }
+                            if (parentIndex >= 0) {
+                                val updatedIndex = list[parentIndex].children.indexOfFirst { it.id == replaced.id }
                                 if (updatedIndex >= 0) {
-                                    parent.children = parent.children.toMutableList().apply {
-                                        set(updatedIndex, replaced)
+                                    val parentReplaced = list[parentIndex].copy().apply {
+                                        children = children.toMutableList().apply {
+                                            set(updatedIndex, replaced)
+                                        }
                                     }
-                                    comments.value = comments.value
+                                    list[parentIndex] = parentReplaced
+                                    comments.value = list
                                 }
                             }
                         }
