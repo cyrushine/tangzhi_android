@@ -76,7 +76,7 @@ class CommentActivity : BaseViewModelActivity() {
              * 回复评论
              */
             override fun onReplyClick(id: String) {
-                vm.comments.value?.find { it.id == id }?.also { comment ->
+                vm.comments.value?.flatMap { it.children + it }?.find { it.id == id }?.also { comment ->
                     val postCard = ARouter.getInstance().build(Routes.sendComment)
                         .withString(Routes.sendCommentProductId, productId)
                         .withString(Routes.sendCommentProductName, productName)
