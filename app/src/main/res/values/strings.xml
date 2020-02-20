@@ -183,4 +183,5 @@
     <string name="update_profile_phone_hint">填写手机号码</string>
     <string name="update_profile_address_hint">填写收货地址</string>
     <string name="update_profile_nickname_hint">填写昵称</string>
+    <string name="blank_hint">暂无内容~</string>
 </resources>

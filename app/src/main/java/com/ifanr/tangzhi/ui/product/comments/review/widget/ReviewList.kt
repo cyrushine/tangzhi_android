@@ -18,6 +18,7 @@ import com.ifanr.tangzhi.ext.avatar
 import com.ifanr.tangzhi.model.Comment
 import com.ifanr.tangzhi.ui.base.epoxy.KotlinEpoxyHolder
 import com.ifanr.tangzhi.ui.base.model.BaseTypedController
+import com.ifanr.tangzhi.ui.base.model.BlankPlaceHolderModel_
 import com.ifanr.tangzhi.ui.base.model.LoadMoreAwaredController
 import com.ifanr.tangzhi.ui.base.widget.AppEpoxyRV
 import com.ifanr.tangzhi.ui.widgets.*
@@ -97,19 +98,27 @@ class ProductReviewController: LoadMoreAwaredController<List<Comment>>() {
 
     var listener: ReviewList.Listener = object: ReviewList.Listener {}
 
+    @AutoModel
+    lateinit var blankModel: BlankPlaceHolderModel_
+
     override fun buildModels(data: List<Comment>?) {
-        data?.forEach {
-            productReview {
-                id(it.id)
-                comment(it)
-                onReplyClick { _, _, _, position ->
-                    listener.onReplyClick(position)
-                }
-                onClick { _, _, _, position ->
-                    listener.onClick(position)
-                }
-                onVoteClick { _, _, _, position ->
-                    listener.onVoteClick(position)
+
+        if (data.isNullOrEmpty()) {
+            add(blankModel)
+        } else {
+            data.forEach {
+                productReview {
+                    id(it.id)
+                    comment(it)
+                    onReplyClick { _, _, _, position ->
+                        listener.onReplyClick(position)
+                    }
+                    onClick { _, _, _, position ->
+                        listener.onClick(position)
+                    }
+                    onVoteClick { _, _, _, position ->
+                        listener.onVoteClick(position)
+                    }
                 }
             }
         }
