@@ -4,15 +4,17 @@ import androidx.annotation.FloatRange
 import androidx.paging.PagedList
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.model.*
-import com.ifanr.tangzhi.repository.baas.datasource.MessageDataSource
-import com.ifanr.tangzhi.repository.baas.datasource.SystemMessageDataSource
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
-import com.minapp.android.sdk.auth.CurrentUser
 import com.minapp.android.sdk.storage.CloudFile
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface BaasRepository {
+
+    /**
+     * 举报评论
+     */
+    fun reportComment(id: String): Completable
 
     /**
      * 相关产品列表，过滤掉专题、已删除等非正常产品

@@ -154,4 +154,13 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/base_7d</item>
     </style>
+
+    <style name="CommentOption">
+        <item name="android:textColor">@color/base_3a</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
 </resources>

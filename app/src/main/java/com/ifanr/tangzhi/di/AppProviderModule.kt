@@ -1,11 +1,10 @@
 package com.ifanr.tangzhi.di
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.ifanr.tangzhi.Const
 import com.ifanr.tangzhi.EventBus
 import com.tencent.mm.opensdk.openapi.IWXAPI
@@ -30,8 +29,8 @@ class AppProviderModule {
     @Singleton
     fun provideWechatApi(ctx: Context): IWXAPI {
         Log.d(TAG, "provideWechatApi")
-        return WXAPIFactory.createWXAPI(ctx, Const.WECHAT_APP_ID, false).apply {
-            registerApp(Const.WECHAT_APP_ID)
+        return WXAPIFactory.createWXAPI(ctx, Const.wechatAppId, false).apply {
+            registerApp(Const.wechatAppId)
         }
     }
 
@@ -47,4 +46,9 @@ class AppProviderModule {
     @Provides
     @Singleton
     fun provideEventBus(): EventBus = EventBus()
+
+    @Provides
+    @Singleton
+    fun provideClipboardManager(ctx: Context) =
+        ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 }

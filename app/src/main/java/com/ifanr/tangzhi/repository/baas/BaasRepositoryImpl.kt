@@ -14,6 +14,7 @@ import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
 import com.ifanr.tangzhi.repository.baas.datasource.*
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
+import com.ifanr.tangzhi.util.AppGson
 import com.ifanr.tangzhi.util.uuid
 import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
@@ -56,6 +57,16 @@ class BaasRepositoryImpl @Inject constructor(
             .delay(10 * 1000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .subscribe()
+    }
+
+
+    override fun reportComment(id: String): Completable = Completable.fromAction {
+        assertSignIn()
+        val resp = BaaS.invokeCloudFunc("reportComment", id, true)
+        if (resp.code != 0) {
+            val errMsg = runCatching { AppGson.toJson(resp.error) }.getOrNull()
+            throw Exception("invoke baas cloud func fail, reportComment($id), $errMsg")
+        }
     }
 
     override fun relatedProducts(ids: List<String>): Single<List<Product>> =

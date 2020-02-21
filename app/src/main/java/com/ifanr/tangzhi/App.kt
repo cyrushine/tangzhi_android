@@ -6,7 +6,6 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import com.airbnb.epoxy.EpoxyController
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.GlideBuilder
 import com.ifanr.tangzhi.di.DaggerAppComponent
 import com.ifanr.tangzhi.glide.RoundedBitmapDrawableTranscoder
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -63,8 +62,8 @@ class App: DaggerApplication() {
     }
 
     private fun initBaas() {
-        BaaS.init(Const.BAAS_ID, this)
-        BaaS.initWechatComponent(Const.WECHAT_APP_ID, this)
+        BaaS.init(Const.baasId, this)
+        BaaS.initWechatComponent(Const.wechatAppId, this)
     }
 }
 

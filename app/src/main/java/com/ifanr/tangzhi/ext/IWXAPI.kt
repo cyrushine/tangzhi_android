@@ -2,9 +2,7 @@ package com.ifanr.tangzhi.ext
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.Const
-import com.ifanr.tangzhi.R
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
@@ -52,12 +50,34 @@ fun IWXAPI.shareProductByMinProgram(id: String, coverImage: Bitmap, title: Strin
         scene = SendMessageToWX.Req.WXSceneSession
         message = WXMediaMessage().apply {
             mediaObject = WXMiniProgramObject().apply {
-                userName = Const.TANGZHI_USER_NAME
-                path = "${Const.TANGZHI_PRODUCT_PATH}${id}"
+                userName = Const.miniProgramTangzhiUserName
+                path = "${Const.miniProgramProductPath}${id}"
                 webpageUrl = path
             }
             setCompressedThumbImage(coverImage)
             this.title = title
+        }
+    }
+    sendReq(req)
+}
+
+/**
+ * 微信分享点评
+ * @param reviewId 点评 id
+ * @param content 可以是点评内容（也可以是评论内容等其他内容），作为标题
+ * @param coverImg 取点评的第一张图片 or 产品图
+ */
+fun IWXAPI.shareReview(reviewId: String, content: String, coverImg: Bitmap) {
+    val req = SendMessageToWX.Req().apply {
+        scene = SendMessageToWX.Req.WXSceneSession
+        message = WXMediaMessage().apply {
+            mediaObject = WXMiniProgramObject().apply {
+                userName = Const.miniProgramTangzhiUserName
+                path = "${Const.miniProgramReviewPath}${reviewId}"
+                webpageUrl = path
+            }
+            setCompressedThumbImage(coverImg)
+            this.title = content
         }
     }
     sendReq(req)

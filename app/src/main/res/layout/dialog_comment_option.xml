@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/share"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/comment_option_share"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_f6"
+        app:layout_constraintBottom_toBottomOf="@id/share"
+        />
+
+    <TextView
+        android:id="@+id/copy"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/share"
+        android:text="@string/comment_option_copy"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_f6"
+        app:layout_constraintBottom_toBottomOf="@id/copy"
+        />
+
+    <TextView
+        android:id="@+id/update"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/copy"
+        android:text="@string/comment_option_update"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_f6"
+        app:layout_constraintBottom_toBottomOf="@id/update"
+        />
+
+    <TextView
+        android:id="@+id/delete"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/update"
+        android:text="@string/comment_option_delete"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_f6"
+        app:layout_constraintBottom_toBottomOf="@id/delete"
+        />
+
+    <TextView
+        android:id="@+id/catchUp"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/delete"
+        android:text="@string/comment_option_catch"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_f6"
+        app:layout_constraintBottom_toBottomOf="@id/catchUp"
+        />
+
+    <TextView
+        android:id="@+id/cancel"
+        style="@style/CommentOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/catchUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/comment_option_cancel"
+        android:textColor="@color/base_a8"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

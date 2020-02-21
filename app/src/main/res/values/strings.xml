@@ -184,4 +184,13 @@
     <string name="update_profile_address_hint">填写收货地址</string>
     <string name="update_profile_nickname_hint">填写昵称</string>
     <string name="blank_hint">暂无内容~</string>
+    <string name="comment_option_share">分享给好友</string>
+    <string name="comment_option_copy">复制</string>
+    <string name="comment_option_update">编辑</string>
+    <string name="comment_option_delete">删除</string>
+    <string name="comment_option_catch">举报</string>
+    <string name="comment_option_cancel">取消</string>
+    <string name="already_copy_into_clipboard">已复制至剪贴板</string>
+    <string name="report_comment_success">举报成功</string>
+    <string name="report_comment_fail">举报失败</string>
 </resources>

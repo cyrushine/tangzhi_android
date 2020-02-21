@@ -1,5 +1,7 @@
 package com.ifanr.tangzhi.ui.comment
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
@@ -8,14 +10,20 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.observeToast
+import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.model.Comment
+import com.ifanr.tangzhi.repository.baas.BaasRepository
 import com.ifanr.tangzhi.route.Routes
 import com.ifanr.tangzhi.ui.base.BaseViewModelActivity
 import com.ifanr.tangzhi.ui.base.viewModel
 import com.ifanr.tangzhi.ui.comment.widget.CommentList
 import com.ifanr.tangzhi.ui.statusBar
+import com.ifanr.tangzhi.ui.widgets.CommentOptionDialog
 import com.ifanr.tangzhi.ui.widgets.observeLoadingLiveData
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_comment.*
+import javax.inject.Inject
 
 /**
  * 评论列表
@@ -44,6 +52,12 @@ class CommentActivity : BaseViewModelActivity() {
     var reviewCreatedBy = 0L
 
     lateinit var vm: CommentViewModel
+
+    @Inject
+    lateinit var repository: BaasRepository
+
+    @Inject
+    lateinit var clipboardManager: ClipboardManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +117,47 @@ class CommentActivity : BaseViewModelActivity() {
              * 评论菜单
              */
             override fun onOptionClick(id: String) {
-                super.onOptionClick(id)
+                val comment = vm.comments.value
+                    ?.flatMap { it.children + it }
+                    ?.find { it.id == id }
+                if (comment != null) {
+                    val editMode = repository.signedIn() &&
+                            repository.currentUserWithoutData()?.id == comment.createdById
+                    val listener = object : CommentOptionDialog.Listener {
+
+                        // 分享当前点评而不是评论
+                        override fun onShare() {
+                            vm.shareComment(id)
+                        }
+
+                        // 复制评论内容
+                        override fun onCopy() {
+                            clipboardManager.setPrimaryClip(
+                                ClipData.newPlainText("", comment.content))
+                            toast(R.string.already_copy_into_clipboard)
+                        }
+
+                        override fun onUpdate() {
+                            super.onUpdate()
+                        }
+
+                        override fun onDelete() {
+                            super.onDelete()
+                        }
+
+                        // 举报评论
+                        override fun onCatchUp() {
+                            vm.reportComment(id)
+                                .subscribe({
+                                    toast(R.string.report_comment_success)
+                                }, {
+                                    toast("${getString(R.string.report_comment_fail)}(${it.message})")
+                                    Log.e(TAG, it.message, it)
+                                })
+                        }
+                    }
+                    CommentOptionDialog.show(this@CommentActivity, editMode, listener)
+                }
             }
 
             override fun onLoadMore() { vm.tryLoadNextPage() }
