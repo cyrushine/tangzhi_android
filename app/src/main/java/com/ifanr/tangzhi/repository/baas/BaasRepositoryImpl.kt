@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.repository.baas
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
@@ -339,7 +340,7 @@ class BaasRepositoryImpl @Inject constructor(
     ): Single<Comment> = Single.fromCallable {
         val imageUrls = images.map {
             try {
-                if (it.startsWith(prefix = "file", ignoreCase = true))
+                if (it.startsWith(prefix = "/", ignoreCase = true))
                     uploadCommentImage(it).blockingGet()
                 else
                     it
