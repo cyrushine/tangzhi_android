@@ -36,7 +36,7 @@
         android:id="@+id/tip"
         android:textSize="14sp"
         android:textColor="@color/base_88"
-        android:text="@string/sign_in_by_email_hint"
+        android:text="@string/sign_in_email_tip"
         android:layout_marginTop="40dp"
         app:layout_constraintLeft_toLeftOf="@id/left"
         app:layout_constraintTop_toBottomOf="@id/toolBar"
