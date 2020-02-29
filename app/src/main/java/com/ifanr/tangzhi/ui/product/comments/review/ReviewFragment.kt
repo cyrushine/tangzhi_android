@@ -96,11 +96,6 @@ class ReviewFragment : BaseViewModelFragment() {
                 reviewList.setData(it.first, it.second)
         })
 
-        // 点评总数
-        vm.reviewCount.observe(this, Observer {
-            reviewCountTv.text = (it ?: 0).toString()
-        })
-
         vm.refreshToLatest.observe(this, Observer {
             reviewSwitch.forceValue(CommentSwitch.Type.LATEST)
         })

@@ -41,9 +41,6 @@ class ReviewViewModel @Inject constructor (
     // 点评列表, boolean == true 表示 scroll to top
     val reviews = MediatorLiveData<Pair<List<Comment>, Boolean>>()
 
-    // 点评总数
-    val reviewCount = MutableLiveData<Int>()
-
     // 排序
     val orderBy = MutableLiveData<CommentSwitch.Type>()
 
@@ -195,8 +192,6 @@ class ReviewViewModel @Inject constructor (
                         val data = if (previous != null) previous + it.data else it.data
                         reviews.value = data to false
                     }
-                    if (it.total > reviewCount.value ?: 0)
-                        reviewCount.value = it.total
 
                     if (it.data.size < it.pageSize) {
                         end = true

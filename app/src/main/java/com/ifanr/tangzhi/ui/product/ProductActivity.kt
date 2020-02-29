@@ -114,11 +114,6 @@ class ProductActivity : BaseViewModelActivity() {
         }
 
         toolBar.close.setOnClickListener { onCloseClick() }
-
-        val reviewViewModel: ReviewViewModel = viewModel()
-        reviewViewModel.reviewCount.observe(this, Observer {
-            reviewIndicatorCount.text = it?.toString() ?: "0"
-        })
     }
 
     /**
@@ -161,6 +156,7 @@ class ProductActivity : BaseViewModelActivity() {
                     id = product.id, coverImage = product.coverImage, title = product.name))
                 .navigation(this)
         }
+        reviewIndicatorCount.text = product.reviewCount.toString()
     }
 
     private fun openCreateReviewPage(score: Float = 0f) {

@@ -61,6 +61,41 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
 
+    override fun getProductReviewCount(productId: String): Single<Long> = Single.fromCallable {
+        var where = Where().apply {
+            equalTo(Comment.COL_PRODUCT, productId)
+            equalTo(Comment.COL_TYPE, Comment.TYPE_REVIEW)
+        }
+
+        // 自己可以看到待审核的内容
+        if (signedIn()) {
+            where = Where.and(
+                where,
+                Where.or(
+                    Where().apply {
+                        equalTo(Record.CREATED_BY, userId()?.toLong())
+                        equalTo(Comment.COL_STATUS, BaseModel.STATUS_PENDING)
+                    },
+                    Where().apply {
+                        equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+                    }
+                )
+            )
+        } else {
+            where = Where.and(
+                where,
+                Where().apply {
+                    equalTo(Comment.COL_STATUS, BaseModel.STATUS_APPROVED)
+                }
+            )
+        }
+
+        val query = Query().apply {
+            put(where)
+        }
+        Tables.comment.count(query).toLong()
+    }
+
     override fun reportComment(id: String): Completable = Completable.fromAction {
         assertSignIn()
         val resp = BaaS.invokeCloudFunc("reportComment", id, true)

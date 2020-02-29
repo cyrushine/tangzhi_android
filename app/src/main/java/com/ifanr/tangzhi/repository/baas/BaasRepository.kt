@@ -258,6 +258,11 @@ interface BaasRepository {
     ): Single<Page<Comment>>
 
     /**
+     * 点评总数（包含没有点评内容）
+     */
+    fun getProductReviewCount(productId: String): Single<Long>
+
+    /**
      * 获取单个点评
      */
     fun getReviewById(reviewId: String): Single<Comment>
