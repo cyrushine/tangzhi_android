@@ -16,7 +16,11 @@ abstract class ItemModel: EpoxyModelWithHolder<ItemModel.Holder>() {
 
     override fun bind(holder: Holder) {
         holder.nameTv.text = data.name
-        holder.scoreTv.setScore(data.rating)
+        if (data.thirdParty) {
+            holder.scoreTv.text = data.rating.toString()
+        } else {
+            holder.scoreTv.setScore(data.rating)
+        }
     }
 
     class Holder: KotlinEpoxyHolder() {

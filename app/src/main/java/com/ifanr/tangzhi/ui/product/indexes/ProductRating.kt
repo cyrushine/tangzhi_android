@@ -18,7 +18,8 @@ data class ProductRating @ParcelConstructor constructor(
         rating = product.rating,
         usersRating = UsersRating (count = product.reviewCount, rating = product.userRating),
         orgRating = product.orgRating.map { RatingRecord (name = it.name, rating = it.rating) },
-        thirdPartyRating = product.thirdPartyRating.map { RatingRecord(name = it.name, rating = it.rating) }
+        thirdPartyRating = product.thirdPartyRating.map {
+            RatingRecord(name = it.name, rating = it.rating, thirdParty = true) }
     )
 
     @Parcel(Parcel.Serialization.BEAN)
@@ -30,6 +31,7 @@ data class ProductRating @ParcelConstructor constructor(
     @Parcel(Parcel.Serialization.BEAN)
     data class RatingRecord @ParcelConstructor constructor (
         val name: String,
-        val rating: Float
+        val rating: Float,
+        val thirdParty: Boolean = false
     )
 }
