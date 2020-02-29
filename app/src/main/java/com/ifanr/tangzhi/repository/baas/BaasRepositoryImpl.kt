@@ -602,7 +602,7 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Product.COL_STATUS, BaseModel.STATUS_APPROVED)
         },
         query = Query().apply {
-            orderBy("-${Record.CREATED_AT}")
+            orderBy("-${Product.COL_RELEASED_AT}")
         }
     ).map { it.data }
 
