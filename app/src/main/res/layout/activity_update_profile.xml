@@ -67,7 +67,7 @@
                     style="@style/UpdateProfileValue"
                     app:layout_constraintLeft_toRightOf="@id/nicknameKey"
                     android:hint="@string/update_profile_nickname_hint"
-                    app:charLimitedEditTextMaxChar="20"
+                    app:charLimitedEditTextMaxChar="10"
                     />
 
                 <View style="@style/UpdateProfileDivider" />
@@ -128,7 +128,7 @@
                     style="@style/UpdateProfileKey"
                     android:text="@string/profile_item_phone" />
 
-                <EditText
+                <com.ifanr.tangzhi.ui.widgets.PhoneTextView
                     android:id="@+id/phoneValue"
                     style="@style/UpdateProfileValue"
                     android:enabled="false"

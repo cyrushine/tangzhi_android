@@ -58,4 +58,9 @@ sealed class Event {
         val productId: String,  // 产品 id
         val follow: Boolean     // true - 关注事件，false - 取消关注
     ): Event()
+
+    // 用户的手机号码发送了改变
+    data class UserPhoneChanged(
+        val phone: String
+    ): Event()
 }

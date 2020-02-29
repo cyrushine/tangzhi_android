@@ -180,7 +180,7 @@
     <string name="review">点评</string>
     <string name="update_profile_motto_hint">糖纸，好产品说明书</string>
     <string name="update_profile_profession_hint">填写职业信息</string>
-    <string name="update_profile_phone_hint">填写手机号码</string>
+    <string name="update_profile_phone_hint">绑定手机号码</string>
     <string name="update_profile_address_hint">填写收货地址</string>
     <string name="update_profile_nickname_hint">填写昵称</string>
     <string name="blank_hint">暂无内容~</string>

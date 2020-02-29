@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.*
@@ -95,9 +96,6 @@ class UpdateProfileActivity : BaseViewModelActivity() {
         professionValue.doAfterTextChanged {
             vm.profileForm.value = vm.profileForm.value?.copy(profession = it?.toString() ?: "")
         }
-        phoneValue.doAfterTextChanged {
-            vm.profileForm.value = vm.profileForm.value?.copy(phone = it?.toString() ?: "")
-        }
         addressValue.doAfterTextChanged {
             vm.profileForm.value = vm.profileForm.value?.copy()
         }
@@ -105,9 +103,18 @@ class UpdateProfileActivity : BaseViewModelActivity() {
             nicknameValue.setText(it.displayName)
             mottoValue.setText(it.motto)
             professionValue.setText(it.profession)
-            phoneValue.setText(it.phone)
+            phoneValue.setPhone(it.phone)
             addressValue.setText(it.address)
         }})
+
+        // 如果没有绑定手机号，则进入绑定页面
+        phoneValue.setOnClickListener {
+            if (vm.currentProfile.value?.phone.isNullOrEmpty()) {
+                ARouter.getInstance().build(Routes.bindPhone)
+                    .withString(Routes.bindPhoneType, "wechat")
+                    .navigation(this)
+            }
+        }
 
 
         // 头像

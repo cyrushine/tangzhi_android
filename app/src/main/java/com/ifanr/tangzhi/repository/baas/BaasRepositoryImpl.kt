@@ -122,6 +122,7 @@ class BaasRepositoryImpl @Inject constructor(
         })
         currentUser.put(UserProfile.COL_PHONE, phone)
         currentUser.save()
+        bus.post(Event.UserPhoneChanged(phone = phone))
     }
 
     override fun signInByEmail(email: String, pwd: String): Completable = Completable.fromAction {

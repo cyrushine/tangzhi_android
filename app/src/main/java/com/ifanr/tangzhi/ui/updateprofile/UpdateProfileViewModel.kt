@@ -1,6 +1,8 @@
 package com.ifanr.tangzhi.ui.updateprofile
 
 import androidx.lifecycle.MutableLiveData
+import com.ifanr.tangzhi.Event
+import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.model.UserProfile
 import com.ifanr.tangzhi.repository.baas.BaasRepository
@@ -8,12 +10,14 @@ import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.minapp.android.sdk.auth.Auth
 import io.reactivex.Completable
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
-    private val repository: BaasRepository
+    private val repository: BaasRepository,
+    private val bus: EventBus
 ): BaseViewModel() {
 
     val currentProfile = MutableLiveData<UserProfile>()
@@ -58,6 +62,14 @@ class UpdateProfileViewModel @Inject constructor(
             }, {
                 toast.postValue(it?.message)
             })
+
+        bus.subscribe(vm = this, onNext = Consumer {
+            when (it) {
+                is Event.UserPhoneChanged -> {
+                    currentProfile.value = currentProfile.value?.copy(phone = it.phone)
+                }
+            }
+        })
     }
 
     /**
