@@ -50,6 +50,7 @@ class ProfileFragment : BaseViewModelFragment() {
                 if (!it?.motto.isNullOrEmpty()) it.motto
                 else getString(R.string.profile_motto_default)
             Glide.with(this).avatar().load(it?.displayAvatar).into(profileAvatar)
+            profilePointText.setPoint(it?.point?.toLong() ?: -1)
         })
 
         viewModel.banner.observe(this, Observer {

@@ -75,7 +75,7 @@
     <string name="search_category_hot">热门推荐</string>
     <string name="index_bottom_home">首页</string>
     <string name="index_bottom_profile">我的</string>
-    <string name="profile_point_text">糖纸积分&#160;\ue629</string>
+    <string name="profile_point_text">糖纸积分%s&#160;\ue629</string>
     <string name="profile_my_message">我的消息</string>
     <string name="profile_my_activities">我的动态</string>
     <string name="profile_my_follow">我的关注</string>

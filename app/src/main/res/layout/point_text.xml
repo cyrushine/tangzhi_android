@@ -23,6 +23,5 @@
         android:layout_marginStart="5dp"
         android:textSize="12sp"
         android:textColor="@color/base_gold"
-        android:text="@string/profile_point_text"
         />
 </merge>
