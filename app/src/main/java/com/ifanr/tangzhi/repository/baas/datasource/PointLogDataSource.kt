@@ -30,6 +30,7 @@ class PointLogDataSource (
                 equalTo(PointLog.COL_TYPE, type)
             }
         })
+        orderBy("-${Record.CREATED_AT}")
     }
 ) {
 
