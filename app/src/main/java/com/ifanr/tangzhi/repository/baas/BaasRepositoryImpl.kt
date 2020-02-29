@@ -317,6 +317,7 @@ class BaasRepositoryImpl @Inject constructor(
                 put(Favorite.COL_ACTION, Favorite.ACTION_FOLLOW)
                 put(Favorite.COL_SUBJECT_ID, productId)
             }.save()
+            bus.post(Event.FollowEvent(productId = productId, follow = true))
         }
     }
 
@@ -329,6 +330,7 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(Favorite.COL_SUBJECT_ID, productId)
         }
         Tables.favorite.query(Query().apply { put(where) }).objects?.firstOrNull()?.delete()
+        bus.post(Event.FollowEvent(productId = productId, follow = false))
     }
 
     override fun sendReview(

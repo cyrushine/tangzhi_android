@@ -52,4 +52,10 @@ sealed class Event {
     data class ReviewCreated(val review: Comment): Event()
     data class ReviewChanged(val review: Comment): Event()
     data class CommentCreated(val comment: Comment): Event()
+
+    // 关注产品/取消关注 事件
+    data class FollowEvent(
+        val productId: String,  // 产品 id
+        val follow: Boolean     // true - 关注事件，false - 取消关注
+    ): Event()
 }

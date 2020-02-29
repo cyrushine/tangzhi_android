@@ -2,9 +2,11 @@ package com.ifanr.tangzhi.ui.follows
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ifanr.tangzhi.R
 import com.ifanr.tangzhi.ext.ioTask
+import com.ifanr.tangzhi.ext.observeToast
 import com.ifanr.tangzhi.ext.toast
 import com.ifanr.tangzhi.route.Extra
 import com.ifanr.tangzhi.route.Routes
@@ -28,10 +30,9 @@ class FollowsActivity : BaseViewModelActivity() {
         toolBar.close.setOnClickListener { finish() }
 
         val vm: FollowsViewModel = viewModel()
-        vm.loadList().ioTask(this).subscribe({
+        observeToast(vm.toast)
+        vm.list.observe(this, Observer { it?.also {
             list.submitList(it)
-        }, {
-            toast(it.message ?: "load list fail")
-        })
+        } })
     }
 }
