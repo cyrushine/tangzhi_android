@@ -35,6 +35,16 @@ open class TextLinkSpan (
 
 }
 
-class UserAgreementSpan(ctx: Context): TextLinkSpan(uri = Uri.parse(Const.userAgreementUri), ctx = ctx)
+class UserAgreementSpan (
+    ctx: Context
+): TextLinkSpan(uri = Uri.parse(""), ctx = ctx) {
+
+    override fun onClick(widget: View) {
+        ARouter.getInstance().build(Routes.userContract)
+            .navigation(widget.context)
+        widget.playSoundEffect(SoundEffectConstants.CLICK)
+    }
+
+}
 
 class PrivacyPolicySpan(ctx: Context): TextLinkSpan(uri = Uri.parse(Const.privacyPolicyUri), ctx = ctx)
