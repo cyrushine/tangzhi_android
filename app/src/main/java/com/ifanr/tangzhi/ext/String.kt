@@ -15,7 +15,7 @@ import com.ifanr.tangzhi.Const
 }
 
 @ColorInt fun String.toSafeColorInt(): Int {
-    return runCatching { Color.parseColor(this) }.getOrDefault(Const.DEFAULT_PRODUCT_THEME)
+    return runCatching { Color.parseColor(this.trim()) }.getOrDefault(Const.DEFAULT_PRODUCT_THEME)
 }
 
 @Throws(IllegalArgumentException::class)
