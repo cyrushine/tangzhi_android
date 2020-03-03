@@ -12,6 +12,11 @@ import io.reactivex.Single
 interface BaasRepository {
 
     /**
+     * 取内容库
+     */
+    fun getContentById(id: String): Single<BaasContent>
+
+    /**
      * 举报评论
      */
     fun reportComment(id: String): Completable

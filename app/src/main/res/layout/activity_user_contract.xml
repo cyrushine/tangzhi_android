@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.UserContractActivity">
+    tools:context=".ui.usercontract.UserContractActivity">
 
     <com.ifanr.tangzhi.ui.widgets.AppToolbar
         android:id="@+id/toolbar"
@@ -16,35 +16,11 @@
         app:appToolbarTitle="@string/user_contract_title"
         />
 
-    <ScrollView
+    <com.ifanr.tangzhi.ui.widgets.AppWebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_contract_content"
-                android:textColor="@color/base_1c"
-                android:textSize="14sp"
-                android:breakStrategy="simple"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_contract_signature"
-                android:gravity="right"
-                android:textColor="@color/base_1c"
-                android:textSize="14sp"
-                android:breakStrategy="simple"
-                />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

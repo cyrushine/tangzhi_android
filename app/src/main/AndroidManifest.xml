@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.UserContractActivity"></activity>
+        <activity android:name=".ui.usercontract.UserContractActivity"></activity>
         <activity android:name=".ui.timeline.TimelineActivity" />
         <activity android:name=".ui.follows.FollowsActivity" />
         <activity android:name=".ui.message.MessageActivity" />

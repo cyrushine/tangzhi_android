@@ -243,7 +243,7 @@ class CommentViewModel @Inject constructor(
                     reviewId = reviewId.value ?: "",
                     parentId = parent.id,
                     offset = parent.children.size - 1)
-                    .ioTask(vm = this, loading = loading)
+                    .ioTask(vm = this, loadingState = loading)
                     .subscribe(Consumer {
                         val list = comments.value?.toMutableList()
                         if (!list.isNullOrEmpty()) {

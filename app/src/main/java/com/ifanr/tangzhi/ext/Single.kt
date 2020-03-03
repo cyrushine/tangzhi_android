@@ -8,16 +8,26 @@ import com.ifanr.tangzhi.ui.widgets.dismissLoading
 import com.ifanr.tangzhi.ui.widgets.showLoading
 import com.ifanr.tangzhi.util.LoadingState
 import com.uber.autodispose.android.lifecycle.autoDispose
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-fun <T> Single<T>.ioTask(vm: BaseViewModel, loading: MutableLiveData<LoadingState>? = null) =
-    subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnSubscribe { loading?.value = LoadingState.SHOW_DELAY }
-        .doAfterTerminate { loading?.value = LoadingState.DISMISS }
-        .autoDispose(vm)
+fun <T> Single<T>.ioTask(
+    vm: BaseViewModel,
+    loadingState: MutableLiveData<LoadingState>? = null,
+    loadingDelay: Boolean = true
+) = subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnSubscribe {
+        if (loadingState != null)
+            loadingState.value = if (loadingDelay) LoadingState.SHOW_DELAY else LoadingState.SHOW
+    }
+    .doAfterTerminate {
+        if (loadingState != null)
+            loadingState.value = LoadingState.DISMISS
+    }
+    .autoDispose(vm)
 
 fun <T> Single<T>.ioTask(activity: AppCompatActivity) =
     subscribeOn(Schedulers.io())

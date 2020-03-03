@@ -21,6 +21,8 @@ import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.auth.model.SignInByPhoneRequest
 import com.minapp.android.sdk.auth.model.UpdateUserReq
+import com.minapp.android.sdk.content.Content
+import com.minapp.android.sdk.content.Contents
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
 import com.minapp.android.sdk.database.query.Where
@@ -60,6 +62,9 @@ class BaasRepositoryImpl @Inject constructor(
             .subscribe()
     }
 
+    override fun getContentById(id: String): Single<BaasContent> = Single.fromCallable {
+        BaasContent(Contents.content(id))
+    }
 
     override fun getProductReviewCount(productId: String): Single<Long> = Single.fromCallable {
         var where = Where().apply {

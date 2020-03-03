@@ -2,6 +2,7 @@ package com.ifanr.tangzhi
 
 import android.graphics.Bitmap
 import android.util.Log
+import android.webkit.WebView
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import com.airbnb.epoxy.EpoxyController
 import com.alibaba.android.arouter.launcher.ARouter
@@ -29,6 +30,7 @@ class App: DaggerApplication() {
         initRxJava()
         initEpoxy()
         AndroidThreeTen.init(this)
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

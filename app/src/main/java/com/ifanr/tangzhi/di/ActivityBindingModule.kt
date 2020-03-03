@@ -59,11 +59,17 @@ import com.ifanr.tangzhi.ui.timeline.TimelineActivity
 import com.ifanr.tangzhi.ui.timeline.TimelineModule
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileActivity
 import com.ifanr.tangzhi.ui.updateprofile.UpdateProfileModule
+import com.ifanr.tangzhi.ui.usercontract.UserContractActivity
+import com.ifanr.tangzhi.ui.usercontract.UserContractModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [UserContractModule::class])
+    abstract fun userContractActivity(): UserContractActivity
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [TimelineModule::class])
