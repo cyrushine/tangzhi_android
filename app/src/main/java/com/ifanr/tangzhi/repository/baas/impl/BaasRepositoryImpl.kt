@@ -1,7 +1,6 @@
-package com.ifanr.tangzhi.repository.baas
+package com.ifanr.tangzhi.repository.baas.impl
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.PagedList
 import com.google.gson.reflect.TypeToken
 import com.ifanr.tangzhi.Const
@@ -13,6 +12,9 @@ import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.exceptions.UniqueRuleException
 import com.ifanr.tangzhi.ext.*
 import com.ifanr.tangzhi.model.*
+import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.repository.baas.SettingRepository
+import com.ifanr.tangzhi.repository.baas.Tables
 import com.ifanr.tangzhi.repository.baas.datasource.*
 import com.ifanr.tangzhi.ui.widgets.CommentSwitch
 import com.ifanr.tangzhi.util.AppGson
@@ -21,7 +23,6 @@ import com.minapp.android.sdk.BaaS
 import com.minapp.android.sdk.auth.Auth
 import com.minapp.android.sdk.auth.model.SignInByPhoneRequest
 import com.minapp.android.sdk.auth.model.UpdateUserReq
-import com.minapp.android.sdk.content.Content
 import com.minapp.android.sdk.content.Contents
 import com.minapp.android.sdk.database.Record
 import com.minapp.android.sdk.database.query.Query
@@ -38,15 +39,13 @@ import javax.inject.Inject
 
 class BaasRepositoryImpl @Inject constructor(
     private val bus: EventBus,
-    private val ctx: Context
+    private val ctx: Context,
+    private val setting: SettingRepository
 ): BaasRepository {
 
     companion object {
         private const val TAG = "BaasRepositoryImpl"
     }
-
-    private var cachedUserBanners: List<String>? = null
-    private val cachedUserBannersLock = ReentrantLock(true)
 
     // 标签颜色列表
     private val productTagThemes = listOf(
@@ -54,13 +53,6 @@ class BaasRepositoryImpl @Inject constructor(
         "#F9DBD9", "#E7DBEE", "#D6EAF7", "#D2F2EB", "#D5EEE0", "#FDEAD2", "#F6DDCE", "#E5E8E8",
         "#F7F5DD", "#ECE9D2", "#F9F1D4", "#F2EBE6", "#EFEFF5", "#EFF1EB", "#EFECF1", "#EDF4F8")
 
-
-    init {
-        cachedUserBanners()
-            .delay(10 * 1000, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-    }
 
     override fun getContentById(id: String): Single<BaasContent> = Single.fromCallable {
         BaasContent(Contents.content(id))
@@ -516,29 +508,6 @@ class BaasRepositoryImpl @Inject constructor(
     }
 
 
-
-    override fun cachedUserBanners(): Single<List<String>> = Single.fromCallable {
-        if (cachedUserBanners == null) {
-            cachedUserBannersLock.lock()
-            try {
-                if (cachedUserBanners == null) {
-                    cachedUserBanners = Tables.setting.getValue<List<String>>(
-                        "user_banner", object: TypeToken<List<String>>(){}.type).blockingGet()
-                }
-            }
-            catch (e: Exception) { throw e }
-            finally { cachedUserBannersLock.unlock() }
-        }
-        cachedUserBanners
-    }
-
-
-
-    override fun searchHotKeys(): Single<List<SearchKey>> =
-        Tables.setting.getValue("hot_search_key", object: TypeToken<List<SearchKey>>(){}.type)
-
-
-
     override fun searchHint(key: String): Single<List<Product>> = Tables.product.query<Product>(
         page = 0,
         pageSize = 10,
@@ -836,8 +805,33 @@ class BaasRepositoryImpl @Inject constructor(
             equalTo(ProductList.COL_STATUS, BaseModel.STATUS_APPROVED)
         })
 
-    override fun getProductParamsById(paramId: String): Single<ProductParams> =
-        Tables.productParam.getById(paramId)
+    override fun getProductParamsById(paramId: String): Single<ProductParams> {
+        val request: Single<ProductParams> = Tables.productParam.getById(paramId)
+        return request.map {
+            var groups = it.value
+
+            // 隐藏参数
+            val hiddens = setting.hiddenProductParams().blockingGet()
+            groups = groups.filter { !hiddens.contains(it.key) }
+
+            // 第一级参数名称映射
+            val mapping = setting.productParamMapping().blockingGet()
+            groups = groups.map {
+                val mappingKey = mapping[it.key]
+                if (mappingKey != null) it.copy(key = mappingKey) else it
+            }
+
+            // 第二级参数名称映射
+            groups = groups.map {
+                it.copy(children = it.children.map {
+                    val mappingKey = mapping[it.key]
+                    if (mappingKey != null) it.copy(key = mappingKey) else it
+                })
+            }
+
+            it.copy(value = groups)
+        }
+    }
 
 
     @Throws(NeedSignInException::class)

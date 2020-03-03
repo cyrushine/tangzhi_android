@@ -1,6 +1,7 @@
 package com.ifanr.tangzhi.di
 
 import com.ifanr.tangzhi.App
+import com.ifanr.tangzhi.repository.baas.BaasModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.*
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    RepositoryModule::class,
+    BaasModule::class,
     ViewModelFactoryModule::class,
     ActivityBindingModule::class,
     AppBindModule::class,

@@ -201,16 +201,6 @@ interface BaasRepository {
     fun loadUserProfile(): Single<UserProfile>
 
     /**
-     * 用户可选 banner 图列表
-     */
-    fun cachedUserBanners(): Single<List<String>>
-
-    /**
-     * 热门搜索列表
-     */
-    fun searchHotKeys(): Single<List<SearchKey>>
-
-    /**
      * 搜索的 autocomplete
      */
     fun searchHint(key: String): Single<List<Product>>

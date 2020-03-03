@@ -7,6 +7,7 @@ import com.ifanr.tangzhi.Event
 import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.model.UserProfile
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.repository.baas.SettingRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import io.reactivex.functions.Consumer
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val repository: BaasRepository,
+    private val settingRepository: SettingRepository,
     bus: EventBus
 ) : BaseViewModel() {
 
@@ -33,7 +35,7 @@ class ProfileViewModel @Inject constructor(
             if (!selected.isNullOrEmpty()) {
                 banner.value = selected
             } else {
-                repository.cachedUserBanners()
+                settingRepository.userBanners()
                     .subscribeOn(Schedulers.io())
                     .autoDispose(this)
                     .subscribe(Consumer {

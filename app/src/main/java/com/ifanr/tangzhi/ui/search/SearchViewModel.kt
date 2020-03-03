@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import com.ifanr.tangzhi.model.Product
 import com.ifanr.tangzhi.model.SearchKey
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.repository.baas.SettingRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.uber.autodispose.android.autoDispose
@@ -21,7 +22,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-    private val repository: BaasRepository
+    private val repository: BaasRepository,
+    private val settingRepository: SettingRepository
 ): BaseViewModel() {
 
     companion object {
@@ -50,7 +52,7 @@ class SearchViewModel @Inject constructor(
 
     // 加载搜索的首页
     fun loadIndexPage() {
-        repository.searchHotKeys()
+        settingRepository.hottestSearch()
             .map { it.map { it.name ?: "" } }
             .subscribeOn(Schedulers.io())
             .autoDispose(this)

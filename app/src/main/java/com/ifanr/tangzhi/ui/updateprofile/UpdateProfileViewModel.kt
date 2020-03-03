@@ -6,6 +6,7 @@ import com.ifanr.tangzhi.EventBus
 import com.ifanr.tangzhi.exceptions.NeedSignInException
 import com.ifanr.tangzhi.model.UserProfile
 import com.ifanr.tangzhi.repository.baas.BaasRepository
+import com.ifanr.tangzhi.repository.baas.SettingRepository
 import com.ifanr.tangzhi.ui.base.BaseViewModel
 import com.ifanr.tangzhi.ui.base.autoDispose
 import com.minapp.android.sdk.auth.Auth
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 class UpdateProfileViewModel @Inject constructor(
     private val repository: BaasRepository,
-    private val bus: EventBus
+    private val bus: EventBus,
+    private val settingRepository: SettingRepository
 ): BaseViewModel() {
 
     val currentProfile = MutableLiveData<UserProfile>()
@@ -42,7 +44,7 @@ class UpdateProfileViewModel @Inject constructor(
         }}
 
         // 加载 banners
-        repository.cachedUserBanners()
+        settingRepository.userBanners()
             .subscribeOn(Schedulers.io())
             .autoDispose(this)
             .subscribe({
