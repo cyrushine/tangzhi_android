@@ -11,6 +11,12 @@
         <item name="buttonBarNeutralButtonStyle">@style/AppButtonBarNeutralButtonStyle</item>
     </style>
 
+    <style name="AppTheme.Translucent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/AppAnimation.Translucent</item>
+    </style>
+
     <!-- app alert dialog style -->
     <style name="AppButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/base_red</item>
@@ -47,6 +53,13 @@
     </style>
 
     <style name="AppAnimation.ShareActivity">
+        <item name="android:activityOpenEnterAnimation">@anim/no_animation</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>
+        <item name="android:activityCloseExitAnimation">@anim/no_animation</item>
+    </style>
+
+    <style name="AppAnimation.Translucent">
         <item name="android:activityOpenEnterAnimation">@anim/no_animation</item>
         <item name="android:activityOpenExitAnimation">@anim/no_animation</item>
         <item name="android:activityCloseEnterAnimation">@anim/no_animation</item>

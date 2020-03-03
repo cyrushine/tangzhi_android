@@ -20,7 +20,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.usercontract.UserContractActivity"></activity>
+        <activity android:name=".ui.SchemeHandlerActivity"
+            android:theme="@style/AppTheme.Translucent"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tangzhi" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.usercontract.UserContractActivity" />
         <activity android:name=".ui.timeline.TimelineActivity" />
         <activity android:name=".ui.follows.FollowsActivity" />
         <activity android:name=".ui.message.MessageActivity" />
