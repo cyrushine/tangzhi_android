@@ -23,6 +23,6 @@ class SendReviewButton: ConstraintLayout {
         inflateInto(R.layout.send_review_button)
         setBackgroundResource(R.drawable.send_review_button_bg)
         setPadding(intArrayOf(21, 13, 21, 13))
-        elevation = context.dp2px(5f)
+        elevation = context.dp2px(2f)
     }
 }

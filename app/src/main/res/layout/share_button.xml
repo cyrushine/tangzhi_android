@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textColor="@color/base_12"
         android:textStyle="bold"
         android:text="@string/share"

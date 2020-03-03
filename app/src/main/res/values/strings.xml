@@ -41,7 +41,7 @@
     <string name="share">分享</string>
     <string name="product_review_indexes_org_count">%d评测机构</string>
     <string name="product_review_indexes_user_count">%s用户</string>
-    <string name="product_review_tag_title">大家都说</string>
+    <string name="product_review_tag_title">大家说</string>
     <string name="product_tag_dialog_add">添加标签</string>
     <string name="comment_type_editor_choice">精选</string>
     <string name="comment_type_hottest">最热</string>
